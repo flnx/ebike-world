@@ -1,0 +1,114 @@
+@use '../utilities/breakpoints.scss' as brp;
+
+:root {
+  --flow-space: 1em;
+  --size-300: 0.75rem;
+  --size-400: 1rem;
+  --size-500: 1.33rem;
+  --size-600: 1.77rem;
+  --size-700: 2.36rem;
+  --size-800: 3.15rem;
+  --size-900: 4.2rem;
+}
+
+.mb {
+  margin-bottom: 3rem;
+}
+
+.mb1 {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  padding: .8rem 1.5rem;
+  background-color: var(--heading-c);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+hr {
+  height: 3px;
+  border: none;
+  background-color: var(--border);
+}
+
+.bs {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+// ARTICLES AUTHOR + D
+.ar__footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  span > p {
+    color: var(--border);
+    font-size: 1rem;
+  }
+
+  .ar__author {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    @include brp.breakpoint-down(small) {
+      padding: 0.6rem;
+    }
+
+    img {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin-right: 1rem;
+    }
+
+    span {
+      color: var(--border);
+      display: block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .author__info {
+      &__name {
+        color: var(--letter-c);
+      }
+
+      hr {
+        margin: 2.5px 0;
+      }
+    }
+  }
+}
+
+.categories {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  span {
+    padding: 0rem 1rem;
+    background: var(--border);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.85rem;
+  }
+}
+
+.type {
+  padding: 0.2rem 1rem;
+  background: var(--border);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.95rem;
+}

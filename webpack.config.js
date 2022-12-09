@@ -2,8 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+let mode = 'development';
+// let target = 'web';
+
+if (process.env.NODE_ENV === 'production') {
+  mode = 'production';
+  // target = 'browserslist';
+}
+
 module.exports = {
-  mode: 'development',
+  mode: mode,
+  // watch: true,
   entry: {
     bundle: path.resolve(__dirname, 'src/index.js'),
   },
@@ -11,7 +20,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
-    assetModuleFilename: '[name][ext]',
+    assetModuleFilename: 'images/[hash][ext][query]',
   },
   devtool: 'source-map',
   devServer: {
@@ -29,14 +38,17 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: { publicPath: '' },
+          },
           'css-loader',
           'postcss-loader',
           'sass-loader',
         ],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
         type: 'asset/resource',
       },
     ],

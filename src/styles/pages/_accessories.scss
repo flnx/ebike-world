@@ -1,0 +1,75 @@
+.accessories {
+  .acc {
+    overflow: hidden;
+    color: #fff;
+    font-size: 1.6rem;
+    letter-spacing: 1.5px;
+    height: 18rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out 200ms;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .acc__1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist//images/resize/helmet3.jpg') no-repeat 50% 20% / cover;
+  }
+
+  .acc__2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/resize/jacket.jpg') no-repeat 50% 95% / cover;
+  }
+
+  .acc__3 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist//images/imagesz/mounted3.jpg') no-repeat 40% 50% / cover;
+  }
+
+  .acc__4 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/light3.jpg') no-repeat 50% 50% / cover;
+  }
+
+  .acc__5 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/bag.jpg') no-repeat 50% 50% / cover;
+  }
+
+  .acc__6 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/123.jpg') no-repeat 50% 75% / cover;
+  }
+
+  .acc__7 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/lock1.jpg') no-repeat 50% 75% / cover;
+  }
+
+  .acc__8 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/ebikeicon9.jpg') no-repeat 50% 30% / cover;
+  }
+
+  .acc__9 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/123.jpg') no-repeat 50% 75% / cover;
+  }
+
+  .acc__10 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/gear.jpg') no-repeat 50% 75% / cover;
+  }
+
+  .acc__11 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
+      url('/dist/images/imagesz/ebikeicon3.jpg') no-repeat 50% 75% / cover;
+  }
+}

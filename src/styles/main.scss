@@ -1,3 +1,6 @@
-body {
-  // background: red;
-}
+@use 'base';
+@use 'globals';
+@use 'utilities';
+@use 'pages';
+@use 'components';
+@use 'layouts';

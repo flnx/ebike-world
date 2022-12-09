@@ -1,0 +1,13 @@
+@use '../utilities/breakpoints.scss' as brp;
+.container {
+  margin: 0 auto;
+  width: clamp(14rem, 95vw, 85rem);
+
+  @include brp.breakpoint-down(small) {
+    // padding-left: clamp(1.09rem, 1rem + 0.47vw, 1.33rem);
+    // padding-right: clamp(1.09rem, 1rem + 0.47vw, 1.33rem);
+    padding-left: clamp(.75rem, .7rem + 0.34vw, 1rem);
+    padding-right: clamp(.75rem, .7rem + 0.34vw, 1rem);
+    
+  }
+}

@@ -1,0 +1,45 @@
+@use '../utilities/breakpoints.scss' as brp;
+
+.colorized {
+  background: rgba(255, 187, 0, 0.363);
+  background: linear-gradient(to right, #ff5f6cb0, #ffc371);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  li {
+    padding: 0.8rem;
+  }
+
+  a {
+    border-bottom: 2px solid transparent;
+    transition: all 100ms ease-in;
+
+    &:hover,
+    &:focus {
+      color: var(--border);
+      border-bottom: 2px solid;
+    }
+  }
+}
+
+.foot {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+
+  @include brp.breakpoint-up(large) {
+    flex: none;
+  }
+
+  &__50 {
+    flex: 46.5%;
+
+    @include brp.breakpoint-up(medium) {
+      @media (min-width: 735px) {
+        flex: none;
+      }
+    }
+  }
+}

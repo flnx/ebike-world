@@ -1,0 +1,237 @@
+@use '../utilities/breakpoints.scss' as brp;
+
+.article__wrapper {
+  padding-top: 1.225rem;
+
+  @media (min-width: 809px) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.9rem;
+  }
+
+  .article__img {
+    @media (min-width: 809px) {
+      flex: 1;
+    }
+
+    @include brp.breakpoint-up(prexl) {
+      flex: 1.5;
+    }
+
+    img {
+      min-height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+
+  .article__content {
+    flex: 1;
+
+    @media (max-width: 808px) {
+      margin-top: 1rem;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    p {
+      text-align: left;
+    }
+
+    .btn__rm {
+      margin-top: 2rem;
+      width: 100%;
+    }
+  }
+}
+
+.linebreak {
+  margin: 2rem 0;
+}
+
+// TRENDING
+
+.trending {
+  margin-bottom: 5rem;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .ar__wrapper {
+    article {
+      margin-bottom: 2rem;
+    }
+
+    @include brp.breakpoint-up(medium) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+
+      article {
+        flex: 1 1 28.5%;
+        margin-bottom: 0;
+      }
+    }
+
+    .ar {
+      border-radius: 5px;
+      padding: 1rem;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+
+      span {
+        color: var(--border);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-weight: 600;
+      }
+
+      h3 {
+        margin-top: 1rem;
+        // text-align: center;
+      }
+
+      img {
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+// LATEST
+
+.ar-flex-wrap {
+  article + article {
+    margin-top: 3rem;
+  }
+  // ! needs to be moved
+  form {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    margin-top: 4.813rem;
+    padding: 1.5rem;
+
+    p {
+      margin-bottom: 1.3rem;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    input {
+      border: none;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 5px;
+      background: rgb(235, 235, 235);
+      color: #222;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  @include brp.breakpoint-up(large) {
+    display: flex;
+    gap: 2rem;
+  }
+
+  @include brp.breakpoint-up(prexl) {
+    gap: 3.5rem;
+  }
+
+  @include brp.breakpoint-up(xlarge) {
+    gap: 5rem;
+  }
+
+  .flex__1 {
+    @include brp.breakpoint-up(large) {
+      flex: 3;
+    }
+  }
+
+  .flex__2 {
+    @include brp.breakpoint-up(large) {
+      flex: 1;
+    }
+
+    span {
+      background: var(--heading-c);
+    }
+  }
+}
+
+.latest {
+  overflow: hidden;
+  border-radius: 5px;
+
+  &__img {
+    @include brp.breakpoint-up(medium) {
+      flex: 1;
+    }
+
+    img {
+      @include brp.breakpoint-up(medium) {
+        min-height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .article__wrap {
+    padding: 1.625rem;
+
+    p {
+      padding: 11px 0px 4px 0px;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+
+    .ar__footer {
+      margin-top: 1rem;
+    }
+
+    .ar__author {
+      padding: 0.6rem;
+
+      img {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+      }
+    }
+    @include brp.breakpoint-up(medium) {
+      flex: 1.6;
+    }
+  }
+  @include brp.breakpoint-up(medium) {
+    display: flex;
+  }
+}
+
+.box {
+  padding: 1.3rem;
+  border-radius: 5px;
+
+  h4 {
+    margin-bottom: 1rem;
+  }
+
+  time,
+  p {
+    font-size: 15px;
+    color: var(--border);
+  }
+}

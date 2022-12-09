@@ -1,0 +1,111 @@
+@use '../utilities/breakpoints.scss' as brp;
+.main--image {
+  @include brp.breakpoint-down(medium) {
+    padding: 4rem 0 1rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)) border-box,
+      url('/dist/images/showcase.jpg') no-repeat 40% 100% / cover;
+
+    h1,
+    h2,
+    span,
+    p {
+      color: var(--main-c);
+    }
+  }
+}
+
+.showcase {
+  &__intro {
+    grid-column: 1/8;
+    margin-bottom: 5rem;
+    h1 {
+      margin-bottom: 3rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 3rem;
+    }
+    h1 span,
+    p span {
+      background-color: var(--heading-c);
+      background: linear-gradient(to right, #ff5f6d, #ffc371);
+      background-size: 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -moz-text-fill-color: transparent;
+    }
+    @include brp.breakpoint-up(medium) {
+      margin-bottom: 6.5rem;
+      max-width: 72%;
+      margin-left: 5rem;
+    }
+    @include brp.breakpoint-up(large) {
+      margin-bottom: 0;
+      max-width: 100%;
+      margin-left: 0;
+    }
+    @include brp.breakpoint-up(prexl) {
+      grid-column: 1/7;
+    }
+  }
+
+  &__buttons {
+    .showcase-btn,
+    .showcase-btn2 {
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      border-radius: 8px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      background: linear-gradient(to right, #f74b59, #ffc068);
+    }
+  }
+
+  .social--links {
+    grid-column: 10/-1;
+    text-align: right;
+    color: var(--border);
+    .fa-brands {
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+    }
+    @include brp.breakpoint-up(large) {
+      margin-top: -2rem;
+    }
+  }
+
+  &__img {
+    grid-column: 8/-1;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      content: '';
+      width: 100%;
+      height: 100%;
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      background: linear-gradient(to right, #ff5f6d, #ffc371);
+    }
+    // image media
+    @include brp.breakpoint-down(medium) {
+      display: none;
+    }
+    @include brp.breakpoint-up(prexl) {
+      grid-column: 7/-1;
+    }
+  }
+  // showcase media
+  @include brp.breakpoint-up(large) {
+    margin-top: 2rem;
+    gap: 3rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+  }
+}

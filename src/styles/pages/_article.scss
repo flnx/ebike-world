@@ -1,0 +1,38 @@
+@use '../utilities/breakpoints.scss' as brp;
+
+.rm__wrapper {
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  // max-width: 800px;
+
+  img {
+    height: 550px;
+    width: 100%;
+    object-fit: cover;
+    object-position: 30% 30%;
+  }
+
+  .ar__footer {
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+  }
+}
+
+.blog__flex {
+  display: flex;
+  gap: 5rem;
+}
+
+.flex__blog__1 {
+  @include brp.breakpoint-up(large) {
+    flex: 3;
+  }
+}
+
+.flex__blog__2 {
+  margin-top: 6.6rem;
+  @include brp.breakpoint-up(large) {
+    flex: 1.5;
+  }
+}
