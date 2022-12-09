@@ -1,16 +1,16 @@
-# Webpack App Starter
-
-Frontend environment for building JavaScript applications
+# ebike-world project
 
 Includes the following features...
 
-- Babel Loader
 - Sass Loader With Dart Sass
 - HTMLWebpackPlugin
 - WebpackDevServer
+- MiniCssExtractPlugin
 - Asset Resource Loader
 - Source Maps
 - Caching
+- LitHtml
+- PageJS
 
 ## Usage
 
@@ -27,8 +27,6 @@ npm run build
 ```
 
 ## Demo App
-
-The demo app is a very simple Joke generator. Replace with your own code and install other packages as needed
 
 - index.js (main javascript)
 - template.html (template)
