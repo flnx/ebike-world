@@ -3,8 +3,7 @@
   @include brp.breakpoint-down(medium) {
     padding: 4rem 0 1rem;
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)) border-box,
-      url('/dist/images/showcase.jpg') no-repeat 40% 100% / cover;
-
+      url('/src/assets/images/showcase/1.jpg') no-repeat 40% 100% / cover;
     h1,
     h2,
     span,

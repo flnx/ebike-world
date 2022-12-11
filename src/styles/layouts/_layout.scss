@@ -112,3 +112,13 @@ hr {
   border-radius: 5px;
   font-size: 0.95rem;
 }
+
+.error {
+  color: var(--border);
+}
+
+.border-error {
+  border: 1px solid var(--border) !important;
+  margin: -2px;
+}
+

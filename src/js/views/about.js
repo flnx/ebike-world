@@ -1,4 +1,6 @@
-import { html } from 'lit-html';
+import { html } from './lib.js'
+
+import showcaseImg from '/src/assets/images/showcase/1.jpg';
 
 export const aboutPage = (ctx) => {
   ctx.render(aboutPageTemplate());
@@ -12,7 +14,7 @@ const aboutPageTemplate = () => html`
         We are a small group of people who loves to talk about e-Cycling
       </p>
       <div class="about__img">
-        <img src="images/showcase.jpg" alt="" srcset="" />
+        <img src="${showcaseImg}" alt="" srcset="" />
       </div>
       <div class="about__description">
         <div>

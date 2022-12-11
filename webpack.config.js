@@ -6,13 +6,12 @@ let mode = 'development';
 // let target = 'web';
 
 if (process.env.NODE_ENV === 'production') {
-  mode = 'production';
+  mode = 'development';
   // target = 'browserslist';
 }
 
 module.exports = {
   mode: mode,
-  // watch: true,
   entry: {
     bundle: path.resolve(__dirname, 'src/index.js'),
   },

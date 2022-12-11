@@ -1,4 +1,8 @@
-import { html } from 'lit-html';
+import { html } from './lib.js';
+import showcaseImg from '/src/assets/images/showcase/3.png';
+import authorPic from '/src/assets/images/authors/Maria.jpg';
+import bikePic from '/src/assets/images/bikes/5.jpg';
+import bikePic2 from '/src/assets/images/bikes/6.webp';
 
 export const homePage = (ctx) => {
   ctx.render(homePageTemplate());
@@ -19,7 +23,7 @@ const homePageTemplate = () => html`
           </div>
         </section>
         <section class="showcase__img">
-          <img src="./images/showcase.png" alt="" srcset="">
+          <img src="${showcaseImg}" alt="" srcset="">
         </section>
         <section class="social--links">
           <i class="fa-brands fa-instagram"></i>
@@ -63,7 +67,7 @@ const homePageTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="images/bike2.jpg" alt="bike picture">
+                  <img src="${bikePic}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -84,7 +88,7 @@ const homePageTemplate = () => html`
                         <p>2 min read</p>
                       </span>
                       <section class="ar__author">
-                        <img src="./images/author__pic.jpg" class="author__img" alt="Author Picutre" srcset="">
+                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
                         <header class="author__info">
                           <span>Elena Malinova</span>
                           <hr>
@@ -104,7 +108,7 @@ const homePageTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="images/bike2.jpg" alt="bike picture">
+                  <img src="${bikePic}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -125,7 +129,7 @@ const homePageTemplate = () => html`
                         <p>2 min read</p>
                       </span>
                       <section class="ar__author">
-                        <img src="./images/author__pic.jpg" class="author__img" alt="Author Picutre" srcset="">
+                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
                         <header class="author__info">
                           <span>Elena Malinova</span>
                           <hr>
@@ -177,7 +181,7 @@ const homePageTemplate = () => html`
 
         <!-- PRODUCT 1 -->
         <div class="product-1">
-          <div class="bike__img"><img src="./images/3.png" alt="" srcset=""></div>
+          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
           <div class="product-1__info">
             <div class="flow front"><span>CUBE Hybrid One</span>
               <pre>$1499</pre>
@@ -185,9 +189,9 @@ const homePageTemplate = () => html`
             <a href="#"><i class="fas fa-cart-plus"></i></a>
           </div>
         </div>
-        <!-- PRODUCT 2 -->
+
         <div class="product-1">
-          <div class="bike__img"><img src="./images/3.png" alt="" srcset=""></div>
+          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
           <div class="product-1__info">
             <div class="flow front"><span>CUBE Hybrid One</span>
               <pre>$1499</pre>
@@ -195,9 +199,9 @@ const homePageTemplate = () => html`
             <a href="#"><i class="fas fa-cart-plus"></i></a>
           </div>
         </div>
-        <!-- PRODUCT 3 -->
+
         <div class="product-1">
-          <div class="bike__img"><img src="./images/3.png" alt="" srcset=""></div>
+          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
           <div class="product-1__info">
             <div class="flow front"><span>CUBE Hybrid One</span>
               <pre>$1499</pre>
@@ -205,9 +209,9 @@ const homePageTemplate = () => html`
             <a href="#"><i class="fas fa-cart-plus"></i></a>
           </div>
         </div>
-        <!-- PRODUCT 4 -->
+
         <div class="product-1">
-          <div class="bike__img"><img src="./images/3.png" alt="" srcset=""></div>
+          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
           <div class="product-1__info">
             <div class="flow front"><span>CUBE Hybrid One</span>
               <pre>$1499</pre>
@@ -215,9 +219,9 @@ const homePageTemplate = () => html`
             <a href="#"><i class="fas fa-cart-plus"></i></a>
           </div>
         </div>
-        <!-- PRODUCT 5 -->
-        <div class="product-1 product-hide">
-          <div class="bike__img"><img src="./images/3.png" alt="" srcset=""></div>
+
+        <div class="product-1">
+          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
           <div class="product-1__info">
             <div class="flow front"><span>CUBE Hybrid One</span>
               <pre>$1499</pre>
@@ -225,6 +229,8 @@ const homePageTemplate = () => html`
             <a href="#"><i class="fas fa-cart-plus"></i></a>
           </div>
         </div>
+
+
       </div>
     </section>
   </div>

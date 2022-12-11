@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from './lib.js'
 
 export const footer = () => html`
   <footer class="colorized">

@@ -1,4 +1,7 @@
-import { html } from 'lit-html';
+import { html } from './lib.js'
+
+import showcaseImg from '/src/assets/images/showcase/1.jpg';
+import authorPic from '/src/assets/images/authors/Maria.jpg';
 
 export const readmorePage = (ctx) => {
   ctx.render(readmorePageTemplate());
@@ -9,7 +12,7 @@ const readmorePageTemplate = () => html`
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
         <h1>What is an e-Bike</h1>
-        <img src="images/bike2.jpg" alt="" srcset="" />
+        <img src="${showcaseImg}" alt="showcase image" srcset="" />
         <div class="ar__footer">
           <span>
             <time>July 24, 2021</time>
@@ -18,7 +21,7 @@ const readmorePageTemplate = () => html`
 
           <div class="ar__author">
             <img
-              src="./images/author__pic.jpg"
+              src="${authorPic}"
               class="author__img"
               alt="Author Picutre"
               srcset=""

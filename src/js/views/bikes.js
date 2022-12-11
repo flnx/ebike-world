@@ -1,4 +1,6 @@
-import { html } from 'lit-html';
+import { html } from './lib.js'
+
+import showcaseImg from '/src/assets/images/showcase/1.jpg';
 
 export const bikesPage = (ctx) => {
   ctx.render(bikesPageTemplate());
@@ -12,7 +14,7 @@ const bikesPageTemplate = () => html`
         <a href="/details">
           <div class="bikes bike__1">
             <div class="bikes__header">
-              <img src="./images/showcase.jpg" alt="bikePic" srcset="" />
+              <img src="${showcaseImg}" alt="bikePic" srcset="" />
             </div>
             <div class="bikes__body">
               <h2>Cube Hybrid One</h2>

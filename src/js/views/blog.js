@@ -1,4 +1,8 @@
-import { html } from 'lit-html';
+import { html } from './lib.js'
+
+import authorPic from '/src/assets/images/authors/Maria.jpg'
+import bikePic from '/src/assets/images/authors/Maria.jpg'
+import bikePic2 from '/src/assets/images/authors/Maria.jpg'
 
 export const blogPage = (ctx) => {
   ctx.render(blogTemplate());
@@ -10,7 +14,7 @@ const blogTemplate = () => html`
     <main>
       <article>
         <div class="article__wrapper">
-          <div class="article__img"><img src="./images/bike2.jpg" alt="" srcset=""></div>
+          <div class="article__img"><img src="${bikePic}" alt="" srcset=""></div>
           <div class="article__content">
             <section class="article__text flow">
               <h1>What is an e-Bike</h1>
@@ -33,7 +37,7 @@ const blogTemplate = () => html`
                   <p class="readtime">5 min read</p>
                 </span>
                 <div class="ar__author">
-                  <img src="./images/author__pic.jpg" class="author__img" alt="Author Picutre" srcset="">
+                  <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
                   <div class="author__info">
                     <span>Elena Malinova</span>
                     <hr>
@@ -57,7 +61,7 @@ const blogTemplate = () => html`
         <!-- 1 -->
         <article>
           <div class="ar ar__1 bs">
-            <img src="./images/thomas.jpg" alt="" srcset="">
+            <img src="${bikePic2}" alt="" srcset="">
             <div>
               <span>Cycling</span>
               <span>3min read</span>
@@ -68,7 +72,7 @@ const blogTemplate = () => html`
         <!-- 2 -->
         <article>
           <div class="ar ar__1 bs">
-            <img src="./images/thomas.jpg" alt="" srcset="">
+            <img src="${bikePic2}" alt="" srcset="">
             <div>
               <span>Cycling</span>
               <span>3min read</span>
@@ -79,7 +83,7 @@ const blogTemplate = () => html`
         <!-- 3 -->
         <article>
           <div class="ar ar__1 bs">
-            <img src="./images/thomas.jpg" alt="" srcset="">
+            <img src="${bikePic2}" alt="" srcset="">
             <div>
               <span>Cycling</span>
               <span>3min read</span>
@@ -112,7 +116,7 @@ const blogTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="images/bike2.jpg" alt="bike picture">
+                  <img src="${bikePic}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -133,7 +137,7 @@ const blogTemplate = () => html`
                         <p>2 min read</p>
                       </span>
                       <section class="ar__author">
-                        <img src="./images/author__pic.jpg" class="author__img" alt="Author Picutre" srcset="">
+                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
                         <header class="author__info">
                           <span>Elena Malinova</span>
                           <hr>
@@ -153,7 +157,7 @@ const blogTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="images/bike2.jpg" alt="bike picture">
+                  <img src="${bikePic}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -174,7 +178,7 @@ const blogTemplate = () => html`
                         <p>2 min read</p>
                       </span>
                       <section class="ar__author">
-                        <img src="./images/author__pic.jpg" class="author__img" alt="Author Picutre" srcset="">
+                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
                         <header class="author__info">
                           <span>Elena Malinova</span>
                           <hr>
@@ -194,7 +198,7 @@ const blogTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="images/bike2.jpg" alt="bike picture">
+                  <img src="${bikePic}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -215,7 +219,7 @@ const blogTemplate = () => html`
                         <p>2 min read</p>
                       </span>
                       <section class="ar__author">
-                        <img src="./images/author__pic.jpg" class="author__img" alt="Author Picutre" srcset="">
+                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
                         <header class="author__info">
                           <span>Elena Malinova</span>
                           <hr>

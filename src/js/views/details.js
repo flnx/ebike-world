@@ -1,4 +1,12 @@
-import { html } from 'lit-html';
+import { html } from './lib.js';
+
+const importAll = (r) => {
+  let images = {};
+  r.keys().map((item, index) => { images[item.replace('./', '')] = r(item) });
+  return images;
+}
+
+const images = importAll(require.context('/src/assets/images/bikes', false, /\.(png|jpe?g|svg|webp)$/));
 
 export const detailsPage = (ctx) => {
   ctx.render(detailsPageTemplate());
@@ -10,26 +18,23 @@ const detailsPageTemplate = () => html`
       <div class="flex">
         <div class="left__img">
           <div>
-            <img src="images/thomas.jpg" class="main-img" alt="" srcset="" />
+            <img src="${images["1.webp"]}" class="main-img" alt="" srcset="" />
           </div>
           <div class="left__img__wrapper">
             <div class="left__img__images">
-              <img src="images/test1.jpg" alt="" srcset="" />
+              <img src="${images["2.webp"]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="images/test2.jpg" alt="" srcset="" />
+              <img src="${images["3.webp"]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="images/audibike.jpg" alt="" srcset="" />
+              <img src="${images["4.webp"]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="images/test1.jpg" alt="" srcset="" />
+              <img src="${images["5.jpg"]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="images/test3.webp" alt="" srcset="" />
-            </div>
-            <div class="left__img__images">
-              <img src="images/bike2.jpg" alt="" srcset="" />
+              <img src="${images["6.webp"]}" alt="" srcset="" />
             </div>
           </div>
         </div>

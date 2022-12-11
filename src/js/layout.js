@@ -1,4 +1,4 @@
-import { render } from 'lit-html';
+import { render } from './views/lib.js'
 import { footer } from './views/footer.js';
 import { nav } from './views/nav.js';
 
