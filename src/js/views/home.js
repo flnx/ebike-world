@@ -1,6 +1,7 @@
 import { html } from './lib.js';
 import showcaseImg from '/src/assets/images/showcase/3.png';
 import authorPic from '/src/assets/images/authors/Maria.jpg';
+import authorPic2 from '/src/assets/images/authors/Elena.jpg';
 import bikePic from '/src/assets/images/bikes/5.jpg';
 import bikePic2 from '/src/assets/images/bikes/6.webp';
 
@@ -39,11 +40,11 @@ const homePageTemplate = () => html`
     <!-- PRODUCTS INFO -->
     <section class="mb">
       <ul class="navcat">
-        <li class="navcat__1"><a href="/bikes">Best E-Bikes</a></li>
-        <li class="navcat__2"><a href="/bikes">Clothing tips</a></li>
+        <li class="navcat__1"><a href="/bikes">e-Bikes</a></li>
+        <li class="navcat__2"><a href="/bikes">Clothing</a></li>
         <li class="navcat__3"><a href="/bikes">Accessories</a></li>
         <li class="navcat__4"><a href="/bikes">Tips & Tricks</a></li>
-        <li class="navcat__5"><a href="/bikes">e-Cycling tips</a></li>
+        <li class="navcat__5"><a href="/bikes">Why e-Cycling</a></li>
         <li class="navcat__6"><a href="/bikes">Our Blog</a></li>
       </ul>
     </section>
@@ -88,7 +89,7 @@ const homePageTemplate = () => html`
                         <p>2 min read</p>
                       </span>
                       <section class="ar__author">
-                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
+                        <img src="${authorPic2}" class="author__img" alt="Author Picutre" srcset="">
                         <header class="author__info">
                           <span>Elena Malinova</span>
                           <hr>
