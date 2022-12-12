@@ -58,7 +58,7 @@
   }
 
   &__4 {
-    background-image: url('/src/assets/images/nav2/tipsandtricks.webp');
+    background-image: url('/src/assets/images/nav2/tipsandtricks.jpg');
   }
 
   &__5 {
@@ -73,73 +73,93 @@
 // PRODUCTS
 
 .products {
-  font-size: 1.1rem;
-
-  pre {
-    font-size: 1.3rem;
-  }
-
+  font-size: 1.4rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 1rem;
-
+  gap: 2rem;
+  
+  
   @include brp.breakpoint-down(small) {
   }
-
+  
   @include brp.breakpoint-up(medium) {
-    display: flex;
     gap: 1rem;
-    // background: orange;
   }
 
   @include brp.breakpoint-up(large) {
     gap: 2rem;
   }
 
-  .bike__img {
-    @include brp.breakpoint-up(large) {
-      padding: 0.5rem;
-    }
 
-    img {
-      transition: all 0.1s ease-in-out;
-    }
-  }
 
   .product-1 {
     overflow-y: visible;
     transition: all 0.1s ease-in-out;
-    // margin-right: 1rem;
     cursor: pointer;
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     outline: 2px none rgb(94, 79, 79);
     border-radius: 2px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
     @include brp.breakpoint-down(small) {
-      flex: 40%;
+      flex: 50%;
     }
 
     @include brp.breakpoint-up(medium) {
-      flex: 0 1 23%;
+      flex: 0 1 48%;
+
+      .bike__img {
+        img {
+          margin: 0 auto;
+          height: 13rem;
+          object-fit: cover;
+          transition: all 0.1s ease-in-out;
+        }
+      }
     }
 
     @include brp.breakpoint-up(large) {
+      flex: 30%;
+    }
+
+    @include brp.breakpoint-up(xlarge) {
       flex: 1;
     }
 
-    &__info {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-end;
+
+
+    &__title {
+      height: 4rem;
+    }
+
+    span {
+      display: block;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    pre {
+      color: var(--yellowColor);
+      font-weight: bold;
+      letter-spacing: 1px;
     }
 
     i {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       color: var(--border);
     }
+
+    .i-brand {
+      margin-bottom: .1em;
+    }
+    
+    .i-model {
+      color: var(--border);
+      font-style: italic;
+      font-size: 1.7rem;
+    }
+
 
     &:hover img {
       transform: translateY(-1.5rem);

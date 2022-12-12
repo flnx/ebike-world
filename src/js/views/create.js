@@ -1,8 +1,8 @@
-import * as api from '../api/api.js';
 import { html, nothing } from './lib.js';
+import { createBike } from '../api/data.js';
 
 export const createPage = (ctx) => {
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const formData = Object.fromEntries(new FormData(e.target));
@@ -16,9 +16,7 @@ export const createPage = (ctx) => {
       return ctx.render(createPageTemplate(onSubmit, fieldsData[0]));
     }
 
-    const data = await api.post('Bike', fieldsData);
-    console.log(data);
-
+    const bikeData = await createBike(fieldsData);
   };
 
   ctx.render(createPageTemplate(onSubmit));
@@ -37,149 +35,147 @@ const createPageTemplate = (onSubmit, errors) => html`
             type="text"
             class="${errors?.brand ? 'border-error' : ''}"
             name="brand"
-            id="c-bike-brand"
             placeholder="Brand"
           />
           <input
             type="text"
             class="${errors?.model ? 'border-error' : ''}"
             name="model"
-            id="c-bike-model"
             placeholder="Model"
           />
           <input
             type="number"
             class="${errors?.weightLimit ? 'border-error' : ''}"
             name="weightLimit"
-            id="c-bike-weight-limit"
             placeholder="Weight Limit"
           />
           <input
-            type="number"
+            type="text"
             class="${errors?.enginePower ? 'border-error' : ''}"
             name="enginePower"
-            id="c-bike-engine-power"
-            placeholder="Engine Power"
+            placeholder="Engine"
           />
           <input
             type="number"
             class="${errors?.batteryWeight ? 'border-error' : ''}"
             name="batteryWeight"
-            id="c-bike-battery-weight"
             placeholder="Battery Weight"
           />
           <input
             type="number"
             class="${errors?.weight ? 'border-error' : ''}"
             name="weight"
-            id="c-bike-weight"
             placeholder="Bike Total Weight"
           />
           <input
             type="text"
             class="${errors?.frame ? 'border-error' : ''}"
             name="frame"
-            id="c-bike-frame"
             placeholder="Frame"
           />
           <input
             type="text"
             class="${errors?.fork ? 'border-error' : ''}"
             name="fork"
-            id="c-bike-fork"
             placeholder="Fork"
           />
           <input
             type="text"
-            class="${errors?.driveUnit ? 'border-error' : ''}"
-            name="driveUnit"
-            id="c-bike-drive-unit"
-            placeholder="Drive Unit"
+            class="${errors?.charger ? 'border-error' : ''}"
+            name="charger"
+            placeholder="Charger"
           />
           <input
             type="text"
             class="${errors?.battery ? 'border-error' : ''}"
             name="battery"
-            id="c-bike-battery"
             placeholder="Battery"
           />
           <input
             type="text"
             class="${errors?.chain ? 'border-error' : ''}"
             name="chain"
-            id="c-bike-chain"
             placeholder="Chain"
+          />
+
+          <input
+            type="number"
+            class="${errors?.price ? 'border-error' : ''}"
+            name="price"
+            placeholder="Price"
           />
         </div>
         <div class="form-right">
+        <input
+            type="text"
+            class="${errors?.speed ? 'border-error' : ''}"
+            name="speed"
+            placeholder="Speed"
+          />
+          <input
+            type="number"
+            class="${errors?.range ? 'border-error' : ''}"
+            name="range"
+            placeholder="Range"
+          />
           <input
             type="text"
             class="${errors?.displayUnit ? 'border-error' : ''}"
             name="displayUnit"
-            id="c-bike-display"
             placeholder="Display Unit"
           />
           <input
             type="text"
             class="${errors?.brakes ? 'border-error' : ''}"
             name="brakes"
-            id="c-bike-brakes"
             placeholder="Brakes"
           />
           <input
             type="text"
             class="${errors?.rims ? 'border-error' : ''}"
             name="rims"
-            id="c-bike-rims"
             placeholder="Rims"
           />
           <input
             type="text"
             class="${errors?.tires ? 'border-error' : ''}"
             name="tires"
-            id="c-bike-tires"
             placeholder="Tires"
           />
           <input
             type="text"
             class="${errors?.imgName1 ? 'border-error' : ''}"
             name="imgName1"
-            id="c-bike-img1"
             placeholder="Image url"
           />
           <input
             type="text"
             class="${errors?.imgName2 ? 'border-error' : ''}"
             name="imgName2"
-            id="c-bike-img2"
             placeholder="Image url"
           />
           <input
             type="text"
             class="${errors?.imgName3 ? 'border-error' : ''}"
             name="imgName3"
-            id="c-bike-img3"
             placeholder="Image url"
           />
           <input
             type="text"
             class="${errors?.imgName4 ? 'border-error' : ''}"
             name="imgName4"
-            id="c-bike-img4"
             placeholder="Image url"
           />
           <input
             class="${errors?.imgName5 ? 'border-error' : ''}"
             type="text"
             name="imgName5"
-            id="c-bike-img5"
             placeholder="Image url"
           />
           <input
             type="text"
             class="${errors?.imgName6 ? 'border-error' : ''}"
             name="imgName6"
-            id="c-bike-img6"
             placeholder="Image url"
           />
         </div>
@@ -192,7 +188,7 @@ const createPageTemplate = (onSubmit, errors) => html`
 const validateData = (data) => {
   const validateFields = Object.values(data);
 
-  if (validateFields.length != 21) {
+  if (validateFields.length != 24) {
     return false;
   }
 
@@ -220,9 +216,10 @@ const validateData = (data) => {
   }, {});
 
   bikeData.weightLimit = Number(bikeData.weightLimit);
-  bikeData.enginePower = Number(bikeData.enginePower);
   bikeData.batteryWeight = Number(bikeData.batteryWeight);
   bikeData.weight = Number(bikeData.weight);
+  bikeData.range = Number(bikeData.range);
+  bikeData.price = Number(bikeData.price);
 
   return Object.assign({ posterUrls }, bikeData);
 };

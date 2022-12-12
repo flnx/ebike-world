@@ -1,21 +1,24 @@
 import { html } from './lib.js';
+import { getBikes } from '../api/data.js';
+import { images } from '../utils/images.js';
+
 import showcaseImg from '/src/assets/images/showcase/3.png';
 import authorPic from '/src/assets/images/authors/Maria.jpg';
 import authorPic2 from '/src/assets/images/authors/Elena.jpg';
-import bikePic from '/src/assets/images/bikes/5.jpg';
-import bikePic2 from '/src/assets/images/bikes/6.webp';
 
-export const homePage = (ctx) => {
-  ctx.render(homePageTemplate());
+export const homePage = async (ctx) => {
+  const bikesData = await getBikes();
+
+  ctx.render(homePageTemplate(bikesData));
 };
 
-const homePageTemplate = () => html`
+const homePageTemplate = (bikesData) => html`
   <!-- SHOWCASE -->
   <main class="main--image mb1">
     <div class="container">
       <section class="showcase">
         <section class="showcase__intro">
-          <h1>The Ultimate <span>e-Bike</span> portal of 2022 that covers all of your questions</h1>
+          <h1>The Ultimate <span>e-Bike</span> portal of 2022 that covers all of your needs</h1>
           <p>We love what we do and we'd love to share it with the world. <br> Check out <span>our blog</span> if you're
             interested in learning and exploring a whole new world of eBiking!</p>
           <div class="showcase__buttons">
@@ -68,7 +71,7 @@ const homePageTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="${bikePic}" alt="bike picture">
+                  <img src="${images['aventure1intro']}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -109,7 +112,7 @@ const homePageTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="${bikePic}" alt="bike picture">
+                  <img src="${images['abel1intro']}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -177,67 +180,26 @@ const homePageTemplate = () => html`
     <section>
       <!-- PRODUCTS WRAPPER-->
       <h2>Top Choices</h2>
-
       <div class="products mb">
-
-        <!-- PRODUCT 1 -->
-        <div class="product-1">
-          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
-          <div class="product-1__info">
-            <div class="flow front"><span>CUBE Hybrid One</span>
-              <pre>$1499</pre>
-            </div>
-            <a href="#"><i class="fas fa-cart-plus"></i></a>
-          </div>
-        </div>
-
-        <div class="product-1">
-          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
-          <div class="product-1__info">
-            <div class="flow front"><span>CUBE Hybrid One</span>
-              <pre>$1499</pre>
-            </div>
-            <a href="#"><i class="fas fa-cart-plus"></i></a>
-          </div>
-        </div>
-
-        <div class="product-1">
-          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
-          <div class="product-1__info">
-            <div class="flow front"><span>CUBE Hybrid One</span>
-              <pre>$1499</pre>
-            </div>
-            <a href="#"><i class="fas fa-cart-plus"></i></a>
-          </div>
-        </div>
-
-        <div class="product-1">
-          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
-          <div class="product-1__info">
-            <div class="flow front"><span>CUBE Hybrid One</span>
-              <pre>$1499</pre>
-            </div>
-            <a href="#"><i class="fas fa-cart-plus"></i></a>
-          </div>
-        </div>
-
-        <div class="product-1">
-          <div class="bike__img"><img src="${bikePic2}" alt="bikeImg" srcset=""></div>
-          <div class="product-1__info">
-            <div class="flow front"><span>CUBE Hybrid One</span>
-              <pre>$1499</pre>
-            </div>
-            <a href="#"><i class="fas fa-cart-plus"></i></a>
-          </div>
-        </div>
-
-
+         ${bikesData.results.map(bikeIntroTemplate)}
       </div>
     </section>
   </div>
+`;
 
-
-
-
-
+const bikeIntroTemplate = (bike) => html`
+  ${console.log(images)}
+  <div class="product-1">
+    <div class="bike__img">
+      <img src="${images[bike.posterUrls.imgName1 + 'intro']}" alt="bikeImg" srcset="" />
+    </div>
+    <div class="product-1__info">
+      <div class="product-1__title">
+        <span class="i-brand">${bike.brand}</span>
+        <span class="i-model">${bike.model}</span>
+      </div>
+      <pre>$${bike.price}</pre>
+      <!-- <a href="#"><i class="fas fa-cart-plus"></i></a> -->
+    </div>
+  </div>
 `;
