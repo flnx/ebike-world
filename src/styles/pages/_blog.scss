@@ -15,7 +15,7 @@
     }
 
     @include brp.breakpoint-up(prexl) {
-      flex: 1.5;
+      flex: 1;
     }
 
     img {
@@ -30,6 +30,23 @@
 
     @media (max-width: 808px) {
       margin-top: 1rem;
+    }
+
+    @include brp.breakpoint-up(medium) {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .ar__author {
+        font-weight: 700;
+        font-size: 1.125rem;
+        
+        img {
+          width: 80px;
+          height: 80px;
+        }
+      }
+   
     }
 
     h1 {
@@ -79,12 +96,19 @@
 
     .ar {
       border-radius: 5px;
-      padding: 1rem;
 
       div {
+        padding: 0 1rem 1rem 1rem;
+      }
+      
+      &__title h3 {
+        margin-top: 1rem;
+        font-weight: 900;
+      }
+
+      &__info {
         display: flex;
         justify-content: space-between;
-        margin-top: 1rem;
       }
 
       span {
@@ -94,10 +118,7 @@
         font-weight: 600;
       }
 
-      h3 {
-        margin-top: 1rem;
-        // text-align: center;
-      }
+    
 
       img {
         border-radius: 5px;
@@ -206,7 +227,7 @@
     .ar__author {
       padding: 0.6rem;
 
-      img {
+      .author__img {
         width: 45px;
         height: 45px;
         margin-right: 10px;

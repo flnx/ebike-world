@@ -1,8 +1,9 @@
-import { html } from './lib.js'
+import { html } from './lib.js';
+import { images } from '../utils/images.js';
 
-import authorPic from '/src/assets/images/authors/Maria.jpg'
-import bikePic from '/src/assets/images/authors/Maria.jpg'
-import bikePic2 from '/src/assets/images/authors/Maria.jpg'
+import authorPic from '/src/assets/images/authors/Elena.jpg';
+import bikePic from '/src/assets/images/authors/Maria.jpg';
+import bikePic2 from '/src/assets/images/authors/Maria.jpg';
 
 export const blogPage = (ctx) => {
   ctx.render(blogTemplate());
@@ -14,7 +15,7 @@ const blogTemplate = () => html`
     <main>
       <article>
         <div class="article__wrapper">
-          <div class="article__img"><img src="${bikePic}" alt="" srcset=""></div>
+          <div class="article__img"><img src="${images['aventure5']}" alt="" srcset=""></div>
           <div class="article__content">
             <section class="article__text flow">
               <h1>What is an e-Bike</h1>
@@ -41,7 +42,7 @@ const blogTemplate = () => html`
                   <div class="author__info">
                     <span>Elena Malinova</span>
                     <hr>
-                    <span class="author__info__name">Author</span>
+                    <span>Author</span>
                   </div>
                 </div>
               </div>
@@ -57,38 +58,43 @@ const blogTemplate = () => html`
     <section class="trending">
       <h2>Trending</h2>
       <div class="ar__wrapper">
-
         <!-- 1 -->
         <article>
           <div class="ar ar__1 bs">
-            <img src="${bikePic2}" alt="" srcset="">
-            <div>
+            <img src="${images['aventure6']}" alt="" srcset="">
+            <div class="ar__title">
+              <h3>Best Mountain E-Bikes 2021</h3>
+            </div>
+            <div class="ar__info">
               <span>Cycling</span>
               <span>3min read</span>
             </div>
-            <h3>Best Mountain E-Bikes 2021</h3>
           </div>
         </article>
         <!-- 2 -->
         <article>
           <div class="ar ar__1 bs">
-            <img src="${bikePic2}" alt="" srcset="">
-            <div>
+            <img src="${images['aventure5']}" alt="" srcset="">
+            <div class="ar__title">
+              <h3>Best Mountain E-Bikes 2021</h3>
+            </div>
+            <div class="ar__info">
               <span>Cycling</span>
               <span>3min read</span>
-            </div>
-            <h3>Best Mountain E-Bikes 2021</h3>
+            </div>         
           </div>
         </article>
         <!-- 3 -->
         <article>
           <div class="ar ar__1 bs">
-            <img src="${bikePic2}" alt="" srcset="">
-            <div>
+            <img src="${images['sinch6']}" alt="" srcset="">
+            <div class="ar__title">
+              <h3>Best Mountain E-Bikes 2021</h3>
+            </div>
+            <div class="ar__info">
               <span>Cycling</span>
               <span>3min read</span>
             </div>
-            <h3>Best Mountain E-Bikes 2021</h3>
           </div>
         </article>
 
@@ -116,7 +122,7 @@ const blogTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="${bikePic}" alt="bike picture">
+                  <img src="${images['sinch6']}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -157,7 +163,7 @@ const blogTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="${bikePic}" alt="bike picture">
+                  <img src="${images['rover5']}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
@@ -198,7 +204,7 @@ const blogTemplate = () => html`
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
-                  <img src="${bikePic}" alt="bike picture">
+                  <img src="${images['aventure6']}" alt="bike picture">
                 </section>
                 <!-- wrapper -->
                 <section class="article__wrap">
