@@ -13,9 +13,10 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   mode: mode,
   entry: {
-    bundle: path.resolve(__dirname, 'src/index.js'),
+    bundle: path.resolve(__dirname, './src/js/index.js'),
   },
   output: {
+    publicPath: "/",
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
@@ -56,7 +57,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Webpack App',
       filename: 'index.html',
-      template: 'src/template.html',
+      template: './src/template.html',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',

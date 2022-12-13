@@ -188,11 +188,12 @@ const homePageTemplate = (bikesData) => html`
 `;
 
 const bikeIntroTemplate = (bike) => html`
-  ${console.log(images)}
   <div class="product-1">
-    <div class="bike__img">
-      <img src="${images[bike.posterUrls.imgName1 + 'intro']}" alt="bikeImg" srcset="" />
-    </div>
+    <a href="/details/${bike.objectId}">
+      <div class="bike__img">
+        <img src="${images[bike.posterUrls.imgName1 + 'intro']}" alt="bikeImg" srcset="" />
+      </div>
+    </a>
     <div class="product-1__info">
       <div class="product-1__title">
         <span class="i-brand">${bike.brand}</span>

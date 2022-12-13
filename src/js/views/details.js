@@ -1,70 +1,61 @@
 import { html } from './lib.js';
 import { images } from '../utils/images.js';
+import { getBike } from '../api/data.js';
 
-export const detailsPage = (ctx) => {
-  ctx.render(detailsPageTemplate());
+export const detailsPage = async (ctx) => {
+  const data = await getBike(ctx.params.id);
+
+  console.log(data);
+
+  ctx.render(detailsPageTemplate(data));
 };
 
-const detailsPageTemplate = () => html`
+const detailsPageTemplate = (data) => html`
   <div class="container">
     <section class="mb">
       <div class="flex">
         <div class="left__img">
           <div>
-            <img src="${images['aventure1']}" class="main-img" alt="" srcset="" />
+            <img
+              src="${images[data.posterUrls.imgName1 + 'intro']}"
+              class="main-img"
+              alt="ebike image"
+              srcset=""
+            />
           </div>
           <div class="left__img__wrapper">
             <div class="left__img__images">
-              <img src="${images['aventure2']}" alt="" srcset="" />
+              <img src="${images[data.posterUrls.imgName2]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images['aventure3']}" alt="" srcset="" />
+              <img src="${images[data.posterUrls.imgName3]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images['aventure4']}" alt="" srcset="" />
+              <img src="${images[data.posterUrls.imgName4]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images['aventure5']}" alt="" srcset="" />
+              <img src="${images[data.posterUrls.imgName5]}" alt="" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images['aventure6']}" alt="" srcset="" />
+              <img src="${images[data.posterUrls.imgName6]}" alt="" srcset="" />
             </div>
           </div>
         </div>
         <div class="right__content">
-          <span class="right__content__intro redC">Electric Bike</span>
-          <h1>Cube</h1>
-          <span class="bikes__pricetag ar__pricetag">$2399</span>
-          <p>
-            The RadRunner made waves as the first moped-style electric bike designed to
-            ride like a utility, cargo, or a traditional bike with just a quick adjustment
-            of the seat. We’ve updated this fan-favourite ride with enhanced handling, a
-            cushier saddle, and protective fenders. Plus, you can customize your ride with
-            more than 330 accessory combinations.
+        <span class="right__content__intro redC">${data.brand}</span>
+          <h1>${data.model}</h1>
+          <span class="bikes__pricetag ar__pricetag">$${data.price}</span>
+          <p class="right__content__description">
+                He do subjects prepared bachelor juvenile ye oh. He feelings removing informed he as ignorant we prepared. Evening do forming observe spirits is in. Country hearted be of justice sending. On so they as with room cold ye. Be call four my went mean. Celebrated if remarkably especially an. Going eat set she books found met aware.  
           </p>
-          <table>
-            <thead>
-              <tr>
-                <th>Weight</th>
-                <th>Max Weight</th>
-                <th>Engine Power</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Total: 24 kg</td>
-                <td>150 kg</td>
-                <td>250W</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>Battery: 4kg</td>
-                <td>75 lbs</td>
-                <td>Folded</td>
-              </tr>
-            </tfoot>
-          </table>
+
+          <div class="right__content__specs">
+            <p><span>Engine:  </span>${data.enginePower}</p>
+            <p><span>Max Speed:  </span>${data.speed}</p>
+            <p><span>Average Range:  </span>${data.range}</p>
+            <p><span>Weight:  </span> ${data.weight}</p>
+            <p><span>Weight Limit:  </span>${data.weightLimit}</p>
+          </div>
           <div class="right__content__buttons">
             <button class="btn">Buy</button>
             <div class="article__icons">
@@ -81,54 +72,64 @@ const detailsPageTemplate = () => html`
         <table class="spec">
           <tbody>
             <tr>
-              <th>Frame</th>
-              <td>
-                Aluminium Superlite, Gravity Casting Technology, Efficient Comfort
-                Geometry, Tapered Headtube, Full Integrated Battery, Semi-Integrated
-                Carrier | Men: S (50cm), M (54cm), L (58cm), XL (62cm); Trapeze: XS
-                (46cm), S (50cm), M (54cm); Easy Entry: XS (46cm), S (50cm), M (54cm), L
-                (58cm)
-              </td>
+              <th>Engine</th>
+              <td>${data.enginePower}</td>
+            </tr>
+            <th>Max Speed</th>
+              <td>${data.speed}</td>
             </tr>
             <tr>
-              <th>Fork</th>
-              <td>SR Suntour NVX30 Coil, 100mm</td>
-            </tr>
-            <tr>
-              <th>Drive Unit</th>
-              <td>Bosch Drive Unit Performance Generation 3 (65Nm) Cruise (250Watt)</td>
-            </tr>
-            <tr>
-              <th>Battery</th>
-              <td>Bosch PowerTube 625</td>
-            </tr>
-            <tr>
-              <th>Chain</th>
-              <td>KMC X9</td>
-            </tr>
-            <tr>
-              <th>Display Unit</th>
-              <td>Bosch Purion</td>
-            </tr>
-            <tr>
-              <th>Brake System</th>
-              <td>Shimano BR-MT200, Hydr. Disc Brake (180/180)</td>
-            </tr>
-            <tr>
-              <th>Rims</th>
-              <td>CUBE EX23, 36H, Disc, Tubeless Ready</td>
-            </tr>
-            <tr>
-              <th>Tyres</th>
-              <td>Schwalbe Big Ben, Active, K-Guard, 55-622</td>
+              <th>Average Range</th>
+              <td>${data.range} km</td>
             </tr>
             <tr>
               <th>Weight</th>
-              <td>25,7 kg</td>
+              <td>${data.weight} kg</td>
             </tr>
             <tr>
               <th>Weight Limit</th>
-              <td>140 kg</td>
+              <td>${data.weightLimit} kg</td>
+            </tr>
+            <tr>
+              <th>Frame</th>
+              <td>${data.frame}</td>
+            </tr>
+            <tr>
+              <th>Fork</th>
+              <td>${data.fork}</td>
+            </tr>
+            <tr>
+            <tr>
+              <th>Battery</th>
+              <td>${data.battery}</td>
+            </tr>
+            <tr>
+              <th>Battery Weight</th>
+              <td>${data.batteryWeight} kg</td>
+            </tr>
+            <tr>
+              <th>Charger</th>
+              <td>${data.charger}</td>
+            </tr>
+            <tr>
+              <th>Chain</th>
+              <td>${data.chain}</td>
+            </tr>
+            <tr>
+              <th>Display Unit</th>
+              <td>${data.displayUnit}</td>
+            </tr>
+            <tr>
+              <th>Brake System</th>
+              <td>${data.brakes}</td>
+            </tr>
+            <tr>
+              <th>Rims</th>
+              <td>${data.rims}</td>
+            </tr>
+            <tr>
+              <th>Tires</th>
+              <td>${data.tires}</td>
             </tr>
           </tbody>
         </table>

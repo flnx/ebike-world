@@ -197,12 +197,32 @@
   border-radius: 5px;
 
   &__img {
+
+    @include brp.breakpoint-up(large) {
+    }
+    
     @include brp.breakpoint-up(medium) {
+      flex: 1.5;
+      height: 21rem;
+    }
+
+    @include brp.breakpoint-up(large) {
+      flex: 1.2;
+      min-height: 90%;
+    }
+
+    @include brp.breakpoint-up(xlarge) {
       flex: 1;
+      min-height: 100%;
     }
 
     img {
       @include brp.breakpoint-up(medium) {
+        min-height: 100%;
+        object-fit: contain;
+      }
+
+      @include brp.breakpoint-up(large) {
         min-height: 100%;
         object-fit: cover;
       }
