@@ -1,8 +1,8 @@
 import { html } from './lib.js'
 
 export const footer = () => html`
-  <footer class="colorized">
-    <div class="foot container">
+  <footer class="main-footer">
+    <div class="foot">
       <ul class="foot__one foot__50">
         <li><a href="#">Contact</a></li>
         <li><a href="#">About</a></li>

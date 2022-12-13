@@ -1,10 +1,12 @@
 @use '../utilities/breakpoints.scss' as brp;
 
-.colorized {
+.main-footer {
+  width: 100%;
   background: rgba(255, 187, 0, 0.363);
   background: linear-gradient(to right, #ff5f6cb0, #ffc371);
   padding-top: 2rem;
   padding-bottom: 2rem;
+  margin-top: auto;
 
   li {
     padding: 0.8rem;
@@ -23,11 +25,18 @@
 }
 
 .foot {
+  margin: 0 auto;
+  width: clamp(14rem, 95vw, 85rem);
   text-align: center;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: space-between;
+
+  @include brp.breakpoint-down(small) {
+    padding-left: clamp(0.75rem, 0.7rem + 0.34vw, 1rem);
+    padding-right: clamp(0.75rem, 0.7rem + 0.34vw, 1rem);
+  }
 
   @include brp.breakpoint-up(large) {
     flex: none;

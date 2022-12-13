@@ -10,6 +10,7 @@ import { homePage } from './views/home.js';
 import { readmorePage } from './views/readmore.js';
 
 import '../styles/main.scss';
+import { loginPage } from './views/login.js';
 
 page(ctxDecorator);
 page('/', homePage);
@@ -22,4 +23,6 @@ page('/details/:id', detailsPage);
 page('/readmore', readmorePage);
 page('/readmore/:id', readmorePage);
 page('/create', createPage);
+page('/login', loginPage);
+// page('/register', registerPage);
 page.start();
