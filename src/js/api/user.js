@@ -1,14 +1,41 @@
-import * as api from './api.js'
+import { clearUserData, setUserData } from '../utils/userData.js';
+import * as api from './api.js';
 
 const endpoints = {
   register: 'users',
   login: 'login',
-}
+  logout: 'users/logout',
+};
 
-export const register = async(data) => {
-  return await api.post(endpoints.register(id), data);
-}
+// data: username, email, password
+export const register = async (data) => {
+  const { sessionToken, objectId } = await api.post(endpoints.register, data);
 
-export const login = async(data) => {
-  return await api.post(endpoints.login(id), data);
+  const userData = {
+    email: data.email,
+    username: data.username,
+    objectId,
+    sessionToken,
+  };
+
+  setUserData(userData);
+};
+
+// data: email, password
+export const login = async (data) => {
+  const { username, objectId, sessionToken } = await api.post(endpoints.login, data);
+
+  const userData = {
+    email: data.email,
+    username,
+    objectId,
+    sessionToken,
+  };
+
+  setUserData(userData);
+};
+
+export const logout = async() => {
+  // const result = api.get('/users/logout');
+  clearUserData()
 }

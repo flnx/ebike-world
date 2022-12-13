@@ -8,9 +8,11 @@ import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
 import { homePage } from './views/home.js';
 import { readmorePage } from './views/readmore.js';
+import { loginPage } from './views/login.js';
+import { registerPage } from './views/register.js';
+import { logoutAction } from './views/logout.js';
 
 import '../styles/main.scss';
-import { loginPage } from './views/login.js';
 
 page(ctxDecorator);
 page('/', homePage);
@@ -24,5 +26,6 @@ page('/readmore', readmorePage);
 page('/readmore/:id', readmorePage);
 page('/create', createPage);
 page('/login', loginPage);
-// page('/register', registerPage);
+page('/register', registerPage);
+page('/logout', logoutAction);
 page.start();

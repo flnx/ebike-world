@@ -1,19 +1,34 @@
+import { login } from '../api/user.js';
 import { html } from './lib.js';
 
 export const loginPage = (ctx) => {
-  const onLogin = (e) => {
+  const onLogin = async(e) => {
     e.preventDefault();
+  
+    const formData = new FormData(e.target);
+    let { email, password } = Object.fromEntries(formData);
+  
+    email = email.trim();
+  
+    if (email.length < 6 || password.length < 6) {
+      return alert('Email and password must be at least 6 characters');
+    }
+  
+    await login({ email: email.trim(), password });
+  
+    ctx.page.redirect('/');
   };
-  ctx.render(loginPageTemplate(onLogin));
+
+  ctx.render(registerPageTemplate(onLogin));
 };
 
-const loginPageTemplate = (onLogin) => html`
+
+
+const registerPageTemplate = (onLoginFn) => html`
   <div class="container">
-    <form action="" class="login-form" @submit=${onLogin}>
+    <form action="" class="login-form" @submit=${onLoginFn}>
       <input type="email" name="email" placeholder="email address" required />
-      <input type="text" name="username" placeholder="username" required />
       <input type="password" name="password" placeholder="password" required />
-      <input type="password" name="repass" placeholder="repeat password" required />
       <button class="btn login-btn">Login</button>
     </form>
   </div>

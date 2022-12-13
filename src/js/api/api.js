@@ -23,7 +23,7 @@ const request = async (method, url = '/', data) => {
   const user = getUserData();
 
   if (user) {
-    options.headers['X-Parse-Session-Token'] = userData.sessionToken;
+    config.headers['X-Parse-Session-Token'] = user.sessionToken;
   }
 
   try {
