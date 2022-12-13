@@ -45,9 +45,7 @@ const detailsPageTemplate = (data) => html`
         <span class="right__content__intro redC">${data.brand}</span>
           <h1>${data.model}</h1>
           <span class="bikes__pricetag ar__pricetag">$${data.price}</span>
-          <p class="right__content__description">
-                He do subjects prepared bachelor juvenile ye oh. He feelings removing informed he as ignorant we prepared. Evening do forming observe spirits is in. Country hearted be of justice sending. On so they as with room cold ye. Be call four my went mean. Celebrated if remarkably especially an. Going eat set she books found met aware.  
-          </p>
+          <p class="right__content__description">${data.description}</p>
 
           <div class="right__content__specs">
             <p><span>Engine:  </span>${data.enginePower}</p>

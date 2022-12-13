@@ -31,6 +31,12 @@ const createPageTemplate = (onSubmit, errors) => html`
       </div>
       <div class="form-control">
         <div class="form-left">
+        <input
+            type="text"
+            class="${errors?.description ? 'border-error' : ''}"
+            name="description"
+            placeholder="Description"
+          />
           <input
             type="text"
             class="${errors?.brand ? 'border-error' : ''}"
