@@ -17,7 +17,7 @@ const detailsPageTemplate = (data) => html`
         <div class="left__img">
           <div>
             <img
-              src="${images[data.posterUrls.imgName1 + 'intro']}"
+              src="${images[data.posterUrls.imgName1]}"
               class="main-img"
               alt="ebike image"
               srcset=""

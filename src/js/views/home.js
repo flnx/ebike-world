@@ -191,7 +191,7 @@ const bikeIntroTemplate = (bike) => html`
   <div class="product-1">
     <a href="/details/${bike.objectId}">
       <div class="bike__img">
-        <img src="${images[bike.posterUrls.imgName1 + 'intro']}" alt="bikeImg" srcset="" />
+        <img src="${images[bike.posterUrls.imgName1]}" alt="bikeImg" srcset="" />
       </div>
     </a>
     <div class="product-1__info">

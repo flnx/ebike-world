@@ -1,9 +1,9 @@
 import * as api from './api.js'
 
 const endpoints = {
-  create: 'Bike',
-  getAll: 'Bike',
-  getOne: (id) => `Bike/${id}`
+  create: 'classes/Bike',
+  getAll: 'classes/Bike',
+  getOne: (id) => `classes/Bike/${id}`
 }
 
 export const getBike = async(id) => {
