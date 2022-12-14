@@ -67,7 +67,7 @@ const homePageTemplate = (bikesData) => html`
           </section>
 
           <article>
-            <a href="/readmore">
+            <a href="/article">
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
@@ -108,7 +108,7 @@ const homePageTemplate = (bikesData) => html`
           </article>
 
           <article>
-            <a href="/readmore">
+            <a href="/article">
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
@@ -189,7 +189,7 @@ const homePageTemplate = (bikesData) => html`
 
 const bikeIntroTemplate = (bike) => html`
   <div class="product-1">
-    <a href="/details/${bike.objectId}">
+    <a href="/bike-details/${bike.objectId}">
       <div class="bike__img">
         <img src="${images[bike.posterUrls.imgName1]}" alt="bikeImg" srcset="" />
       </div>

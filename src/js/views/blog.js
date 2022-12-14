@@ -27,7 +27,7 @@ const blogTemplate = () => html`
               <p><span class="bold redC">The Pedal Assist</span> one is more common. It basically activates a small
                 motor that gives you a boost when pushing on the pedal. The motor assists you up to 25 km/h - 32 km/h,
                 depending on the country you live in and the law...</p>
-              <a href="/readmore">
+              <a href="/article">
                 <button class="btn btn__rm">Read More</button>
               </a>
             </section>
@@ -118,7 +118,7 @@ const blogTemplate = () => html`
           </div>
 
           <article>
-            <a href="/readmore">
+            <a href="/article">
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
@@ -159,7 +159,7 @@ const blogTemplate = () => html`
           </article>
 
           <article>
-            <a href="/readmore">
+            <a href="/article">
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">
@@ -200,7 +200,7 @@ const blogTemplate = () => html`
           </article>
 
           <article>
-            <a href="/readmore">
+            <a href="/article">
               <div class="latest bs">
                 <!-- image -->
                 <section class="latest__img">

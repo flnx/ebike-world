@@ -16,7 +16,7 @@ export const createPage = (ctx) => {
       return ctx.render(createPageTemplate(onSubmit, fieldsData[0]));
     }
 
-    const bikeData = await createBike(fieldsData);
+    await createBike(fieldsData);
   };
 
   ctx.render(createPageTemplate(onSubmit));

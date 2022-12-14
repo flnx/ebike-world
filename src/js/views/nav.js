@@ -17,7 +17,8 @@ export const nav = () => html`
           <li class="navbar__item"><a href="/about">About</a></li>
           ${getUserData()
             ? html`
-                <li class="navbar__item"><a href="/create">Create</a></li>
+                <li class="navbar__item"><a href="/create">Add Bike</a></li>
+                <li class="navbar__item"><a href="/add-post">Create Post</a></li>
                 <li class="navbar__item"><a href="/logout">Logout</a></li>`
             : html`
                 <li class="navbar__item"><a href="/login">Log In</a></li>

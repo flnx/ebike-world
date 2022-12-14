@@ -2,10 +2,8 @@ import { html } from './lib.js';
 import { images } from '../utils/images.js';
 import { getBike } from '../api/data.js';
 
-export const detailsPage = async (ctx) => {
+export const bikeDetailsPage = async (ctx) => {
   const data = await getBike(ctx.params.id);
-
-  console.log(data);
 
   ctx.render(detailsPageTemplate(data));
 };
@@ -16,12 +14,7 @@ const detailsPageTemplate = (data) => html`
       <div class="flex">
         <div class="left__img">
           <div>
-            <img
-              src="${images[data.posterUrls.imgName1]}"
-              class="main-img"
-              alt="ebike image"
-              srcset=""
-            />
+            <img src="${images[data.posterUrls.imgName1]}" class="main-img" alt="ebike image" srcset="" />
           </div>
           <div class="left__img__wrapper">
             <div class="left__img__images">

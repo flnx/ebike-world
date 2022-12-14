@@ -11,7 +11,7 @@ const bikesPageTemplate = () => html`
     <section>
       <div class="bikesWrapper">
         <!-- Card Example -->
-        <a href="/details">
+        <a href="/bike-details">
           <div class="bikes bike__1">
             <div class="bikes__header">
               <img src="${showcaseImg}" alt="bikePic" srcset="" />

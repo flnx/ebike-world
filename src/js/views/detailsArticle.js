@@ -1,18 +1,17 @@
-import { html } from './lib.js'
+import { html } from './lib.js';
 
-import showcaseImg from '/src/assets/images/showcase/1.jpg';
-import authorPic from '/src/assets/images/authors/Maria.jpg';
+export const articleDetailsPage = async (ctx) => {
+  // const data = await getBike(ctx.params.id);
 
-export const readmorePage = (ctx) => {
-  ctx.render(readmorePageTemplate());
+  ctx.render(articleDetailsTemplate());
 };
 
-const readmorePageTemplate = () => html`
+const articleDetailsTemplate = () => html`
   <div class="container ar-flex-wrap">
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
         <h1>What is an e-Bike</h1>
-        <img src="${showcaseImg}" alt="showcase image" srcset="" />
+        <img src="" alt="showcase image" srcset="" />
         <div class="ar__footer">
           <span>
             <time>July 24, 2021</time>
@@ -21,7 +20,7 @@ const readmorePageTemplate = () => html`
 
           <div class="ar__author">
             <img
-              src="${authorPic}"
+              src=""
               class="author__img"
               alt="Author Picutre"
               srcset=""
