@@ -6,6 +6,8 @@ const endpoints = {
   getAll: 'classes/Bike',
   getOne: (id) => `classes/Bike/${id}`,
   publish: 'classes/Blog',
+  article: (id) => `classes/Blog/${id}`,
+  articles: 'classes/Blog',
 };
 
 export const getBike = async (id) => {
@@ -25,8 +27,17 @@ export const createBlogPost = async (data) => {
 
   const blogData = {
     ...data,
+    author: user.username,
     owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
   };
 
   return await api.post(endpoints.publish, blogData);
+};
+
+export const getArticle = async (id) => {
+  return await api.get(endpoints.article(id));
+};
+
+export const getArticles = async () => {
+  return await api.get(endpoints.articles);
 };

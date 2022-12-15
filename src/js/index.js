@@ -11,9 +11,9 @@ import { registerPage } from './views/register.js';
 import { logoutAction } from './views/logout.js';
 import { articleDetailsPage } from './views/detailsArticle.js';
 import { bikeDetailsPage } from './views/detailsBike.js';
+import { addPost } from './views/addPost.js';
 
 import '../styles/main.scss';
-import { addPost } from './views/addPost.js';
 
 page(ctxDecorator);
 page('/', homePage);

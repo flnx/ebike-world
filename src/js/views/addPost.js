@@ -7,10 +7,14 @@ export const addPost = (ctx) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    let { title, readTime, content } = Object.fromEntries(formData);
+    let { title, readTime, content, imageUrl } = Object.fromEntries(formData);
     
     if (title.length < 8) {
       return alert('Title must be at least 8 characters');
+    }
+
+    if (imageUrl.length < 3) {
+      return alert('Image url must be at least 3 characters');
     }
     
     if (readTime < 1 || readTime > 15) {
@@ -21,12 +25,12 @@ export const addPost = (ctx) => {
       return alert('The content must consist at least 50 characters');
     }
     
-    const processedFormData = spaceTrimmer({ title, readTime, content });
+    const processedFormData = spaceTrimmer({ title, readTime, content, imageUrl });
     processedFormData.readTime = Number(processedFormData.readTime);
 
     const blogData = await createBlogPost(processedFormData);
     
-    ctx.page.redirect(`/details/${blogData.objectId}`);
+    ctx.page.redirect(`/article/${blogData.objectId}`);
   };
 
   ctx.render(addPostTemplate(onPublish));
@@ -36,6 +40,7 @@ const addPostTemplate = (onPublishFn) => html`
   <div class="container">
     <form action="" class="login-form" @submit=${onPublishFn}>
       <input type="text" name="title" placeholder="Post title" required />
+      <input type="text" name="imageUrl" placeholder="Image url" required />
       <input
         type="number"
         name="readTime"

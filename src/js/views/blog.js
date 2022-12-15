@@ -1,103 +1,33 @@
 import { html } from './lib.js';
-import { images } from '../utils/images.js';
+import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
+import { getArticles } from '../api/data.js';
 
-import authorPic from '/src/assets/images/authors/Elena.jpg';
-import bikePic from '/src/assets/images/authors/Maria.jpg';
-import bikePic2 from '/src/assets/images/authors/Maria.jpg';
 
-export const blogPage = (ctx) => {
-  ctx.render(blogTemplate());
+export const blogPage = async (ctx) => {
+  const articlesData = await getArticles();
+
+  const mainArticle = articlesData.results[0];
+  const articles = articlesData.results.slice(1);
+
+  console.log(mainArticle);
+  console.log(articles);
+
+  ctx.render(blogTemplate(mainArticle, articles));
 };
 
-const blogTemplate = () => html`
+const blogTemplate = (mainArticle, articles) => html`
 
 <div class="container">
     <main>
-      <article>
-        <div class="article__wrapper">
-          <div class="article__img"><img src="${images['aventure5']}" alt="" srcset=""></div>
-          <div class="article__content">
-            <section class="article__text flow">
-              <h1>What is an e-Bike</h1>
-              <p><span class="bold">e-Bikes</span> have a motor with a rechargeable battery attached to them which makes
-                propulsion easier. <br>
-                There’s two types of e-Bikes: <span class="bold redC">Pedal Assist (Pedalec)</span> and <span
-                  class="bold yellowC">Throttle (Twist and Go).</span> <br>
-              </p>
-              <p><span class="bold redC">The Pedal Assist</span> one is more common. It basically activates a small
-                motor that gives you a boost when pushing on the pedal. The motor assists you up to 25 km/h - 32 km/h,
-                depending on the country you live in and the law...</p>
-              <a href="/article">
-                <button class="btn btn__rm">Read More</button>
-              </a>
-            </section>
-            <footer>
-              <div class="ar__footer">
-                <span>
-                  <time>July 24, 2021</time>
-                  <p class="readtime">5 min read</p>
-                </span>
-                <div class="ar__author">
-                  <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
-                  <div class="author__info">
-                    <span>Elena Malinova</span>
-                    <hr>
-                    <span>Author</span>
-                  </div>
-                </div>
-              </div>
-            </footer>
-          </div>
-        </div> <!-- WRAPPER-->
-      </article>
-
+      ${mainArticleTemplate(mainArticle)}
     </main>
 
     <hr class="linebreak">
 
     <section class="trending">
       <h2>Trending</h2>
-      <div class="ar__wrapper">
-        <!-- 1 -->
-        <article>
-          <div class="ar ar__1 bs">
-            <img src="${images['aventure6']}" alt="" srcset="">
-            <div class="ar__title">
-              <h3>Best Mountain E-Bikes 2021</h3>
-            </div>
-            <div class="ar__info">
-              <span>Cycling</span>
-              <span>3min read</span>
-            </div>
-          </div>
-        </article>
-        <!-- 2 -->
-        <article>
-          <div class="ar ar__1 bs">
-            <img src="${images['aventure5']}" alt="" srcset="">
-            <div class="ar__title">
-              <h3>Best Mountain E-Bikes 2021</h3>
-            </div>
-            <div class="ar__info">
-              <span>Cycling</span>
-              <span>3min read</span>
-            </div>         
-          </div>
-        </article>
-        <!-- 3 -->
-        <article>
-          <div class="ar ar__1 bs">
-            <img src="${images['sinch6']}" alt="" srcset="">
-            <div class="ar__title">
-              <h3>Best Mountain E-Bikes 2021</h3>
-            </div>
-            <div class="ar__info">
-              <span>Cycling</span>
-              <span>3min read</span>
-            </div>
-          </div>
-        </article>
-
+      <div class="articles__wrapper">
+        ${articles.slice(0, 3).map(trendingArticlesTemplate)}
       </div>
     </section>
 
@@ -108,7 +38,6 @@ const blogTemplate = () => html`
         <section class="flex__1 mb">
           <h3 class="mb1">Latest Articles</h3>
           <div class="categories mb1">
-
             <span>Workouts</span>
             <span>Bikes</span>
             <span>News</span>
@@ -116,129 +45,7 @@ const blogTemplate = () => html`
             <span>Parts</span>
             <span>Teach Me</span>
           </div>
-
-          <article>
-            <a href="/article">
-              <div class="latest bs">
-                <!-- image -->
-                <section class="latest__img">
-                  <img src="${images['sinch6']}" alt="bike picture">
-                </section>
-                <!-- wrapper -->
-                <section class="article__wrap">
-                  <header>
-                    <h2>What is an e-Bike</h2>
-                    <p><span class="bold">e-Bikes</span> have a motor with a rechargeable battery attached to them which
-                      makes
-                      propulsion easier. <br>
-                      There’s two types of e-Bikes: <span class="bold redC">Pedal Assist (Pedalec)</span> and <span
-                        class="bold yellowC">Throttle (Twist and Go)...</span></span> <br>
-                    </p>
-                  </header>
-
-                  <footer>
-                    <div class="ar__footer">
-                      <span>
-                        <time>July 24, 2021</time>
-                        <p>2 min read</p>
-                      </span>
-                      <section class="ar__author">
-                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
-                        <header class="author__info">
-                          <span>Elena Malinova</span>
-                          <hr>
-                          <span class="author__info__name">Author</span>
-                        </header>
-                      </section>
-                    </div>
-                  </footer>
-
-                </section>
-              </div>
-            </a>
-          </article>
-
-          <article>
-            <a href="/article">
-              <div class="latest bs">
-                <!-- image -->
-                <section class="latest__img">
-                  <img src="${images['rover5']}" alt="bike picture">
-                </section>
-                <!-- wrapper -->
-                <section class="article__wrap">
-                  <header>
-                    <h2>What is an e-Bike</h2>
-                    <p><span class="bold">e-Bikes</span> have a motor with a rechargeable battery attached to them which
-                      makes
-                      propulsion easier. <br>
-                      There’s two types of e-Bikes: <span class="bold redC">Pedal Assist (Pedalec)</span> and <span
-                        class="bold yellowC">Throttle (Twist and Go)...</span></span> <br>
-                    </p>
-                  </header>
-
-                  <footer>
-                    <div class="ar__footer">
-                      <span>
-                        <time>July 24, 2021</time>
-                        <p>2 min read</p>
-                      </span>
-                      <section class="ar__author">
-                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
-                        <header class="author__info">
-                          <span>Elena Malinova</span>
-                          <hr>
-                          <span class="author__info__name">Author</span>
-                        </header>
-                      </section>
-                    </div>
-                  </footer>
-
-                </section>
-              </div>
-            </a>
-          </article>
-
-          <article>
-            <a href="/article">
-              <div class="latest bs">
-                <!-- image -->
-                <section class="latest__img">
-                  <img src="${images['aventure6']}" alt="bike picture">
-                </section>
-                <!-- wrapper -->
-                <section class="article__wrap">
-                  <header>
-                    <h2>What is an e-Bike</h2>
-                    <p><span class="bold">e-Bikes</span> have a motor with a rechargeable battery attached to them which
-                      makes
-                      propulsion easier. <br>
-                      There’s two types of e-Bikes: <span class="bold redC">Pedal Assist (Pedalec)</span> and <span
-                        class="bold yellowC">Throttle (Twist and Go)...</span></span> <br>
-                    </p>
-                  </header>
-
-                  <footer>
-                    <div class="ar__footer">
-                      <span>
-                        <time>July 24, 2021</time>
-                        <p>2 min read</p>
-                      </span>
-                      <section class="ar__author">
-                        <img src="${authorPic}" class="author__img" alt="Author Picutre" srcset="">
-                        <header class="author__info">
-                          <span>Elena Malinova</span>
-                          <hr>
-                          <span class="author__info__name">Author</span>
-                        </header>
-                      </section>
-                    </div>
-                  </footer>
-
-                </section>
-              </div>
-            </a>
-          </article>
+        ${articles.map(latestArticlesTemplate)}
         </section>
 
         <!-- Aside -->
@@ -270,19 +77,126 @@ const blogTemplate = () => html`
             <h4>How to protect yourself from heat (reccommendations)</h4>
             <time>November 3, 2021</time>
           </section>
-
-          <form action="" method="post" class="sub__menu bs">
-            <p>Our weekly letters</p>
-            <input aria-label="first name" type="text" id="fname" placeholder="First Name" required>
-            <input aria-label="email" type="email" id="email" placeholder="Email Adress" required>
-            <button class="btn" type="submit">Lets go!</button>
-          </form>
         </aside>
   </div>
   </section>
 
 
   </div>
-
-
 `;
+
+const mainArticleTemplate = (mainArticle) => html`
+  <article>
+    <div class="article__wrapper">
+      <div class="article__img">
+        <img
+          src="${mainArticle.imageUrl.includes('.')
+            ? mainArticle.imageUrl
+            : images[mainArticle.imageUrl]}"
+          alt=""
+          srcset=""
+        />
+      </div>
+      <div class="article__content">
+        <section class="article__text flow">
+          <h1>${mainArticle.title}</h1>
+          <p>${mainArticle.content.substring(0, 500) + '...'}</p>
+          <a href="/article/${mainArticle.objectId}">
+            <button class="btn btn__rm">Read More</button>
+          </a>
+        </section>
+        <footer>
+          <div class="ar__footer">
+            <span>
+              <time>July 24, 2021</time>
+              <p class="readtime">5 min read</p>
+            </span>
+            <div class="ar__author">
+              <img
+                src="${authorImages[mainArticle.author]}"
+                class="author__img"
+                alt="Author Picutre"
+                srcset=""
+              />
+              <div class="author__info">
+                <span>Elena Malinova</span>
+                <hr />
+                <span>Author</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <!-- WRAPPER-->
+  </article>
+`;
+
+const trendingArticlesTemplate = (article) => html`
+  <article>
+    <div class="trending-article bs">
+      <div class="trending-article__image">
+        <img
+          src="${article.imageUrl.includes('.')
+            ? article.imageUrl
+            : images[article.imageUrl]}"
+          alt=""
+          srcset=""
+        />
+      </div>
+      <div class="trending-article__title">
+        <h3>${article.title}</h3>
+      </div>
+      <div class="trending-article__body">
+        <span>Cycling</span>
+        <span>${article.readTime} min read</span>
+      </div>
+    </div>
+  </article>
+`;
+
+const latestArticlesTemplate = (article) => html` <article>
+<a href="/article/${article.objectId}">
+  <div class="latest bs">
+    <!-- image -->
+    <section class="latest__img">
+    <img src="${article.imageUrl.includes('.')
+            ? article.imageUrl
+            : images[article.imageUrl]}"
+          alt="article image"
+        srcset=""
+        />
+    </section>
+    <!-- wrapper -->
+    <section class="article__wrap">
+      <header>
+        <h2>${article.title}</h2>
+        <p>${article.content.substring(0, 200) + '...'}</p>
+      </header>
+
+      <footer>
+        <div class="ar__footer">
+          <span>
+            <time>${article.createdAt}</time>
+            <p>${article.readTime} min read</p>
+          </span>
+          <section class="ar__author">
+          <img
+              src="${authorImages[article.author]}"
+              class="author__img"
+              alt="Author Picutre"
+              srcset=""
+            />
+            <header class="author__info">
+              <span>${article.author}</span>
+              <hr>
+              <span class="author__info__name">Author</span>
+            </header>
+          </section>
+        </div>
+      </footer>
+
+    </section>
+  </div>
+</a>
+</article>`;

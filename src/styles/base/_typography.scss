@@ -38,7 +38,7 @@ h2 {
 
 h3 {
   color: var(--heading-c);
-  font-size: clamp(1.4rem, 1.3rem + 1.8vw, 1.4rem);
+  font-size: clamp(1rem, 1rem + 1.8vw, 1.2rem);
   font-weight: 100;
 }
 
@@ -52,8 +52,8 @@ h4 {
 
 p {
   color: var(--letter-c);
-  font-size: clamp(1.125rem, 1.125rem + 0.6vw, 1.1rem);
-  font-size: clamp(1rem, 1rem + 0.5vw, 1.085rem);
+  font-size: clamp(1rem, 1rem + 0.6vw, 1.2rem);
+  // font-size: clamp(1rem, 1rem + 0.5vw, 1.085rem);
 
   @include brp.breakpoint-down(small) {
     // font-size: 1.2rem;

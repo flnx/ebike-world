@@ -1,5 +1,5 @@
 import { html } from './lib.js';
-import { images } from '../utils/images.js';
+import { BIKE_IMAGES as images } from '../utils/images.js';
 import { getBike } from '../api/data.js';
 
 export const bikeDetailsPage = async (ctx) => {

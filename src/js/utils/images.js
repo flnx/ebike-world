@@ -8,6 +8,14 @@ const importAll = (r) => {
   return images;
 };
 
-export const images = importAll(
+export const BIKE_IMAGES = importAll(
   require.context('/src/assets/images/bikes', false, /\.(png|jpe?g|svg|webp)$/)
+);
+
+export const BLOG_IMAGES = importAll(
+  require.context('/src/assets/images/blog', false, /\.(png|jpe?g|svg|webp)$/)
+);
+
+export const AUTHOR_IMAGES = importAll(
+  require.context('/src/assets/images/authors', false, /\.(png|jpe?g|svg|webp)$/)
 );

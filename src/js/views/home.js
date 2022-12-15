@@ -1,6 +1,6 @@
 import { html } from './lib.js';
 import { getBikes } from '../api/data.js';
-import { images } from '../utils/images.js';
+import { BIKE_IMAGES as images, BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 import showcaseImg from '/src/assets/images/showcase/3.png';
 import authorPic from '/src/assets/images/authors/Maria.jpg';
@@ -166,13 +166,6 @@ const homePageTemplate = (bikesData) => html`
             <h4>How to imrpove your stamina and why cycling is one of the best ways</h4>
             <time>November 3, 2021</time>
           </section>
-          <!-- form -->
-          <form action="" method="post" class="sub__menu bs">
-            <p>Our weekly letters</p>
-            <input aria-label="first name" type="text" id="fname" placeholder="First Name" required>
-            <input aria-label="email" type="email" id="email" placeholder="Email Adress" required>
-            <button class="btn" type="submit">Lets go!</button>
-          </form>
         </aside>
 
       </div>

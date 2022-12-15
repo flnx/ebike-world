@@ -1,5 +1,24 @@
 @use '../utilities/breakpoints.scss' as brp;
 
+.article-wrapper {
+  article + article {
+    margin-top: 3rem;
+  }
+ 
+  @include brp.breakpoint-up(large) {
+    display: flex;
+    gap: 2rem;
+  }
+
+  @include brp.breakpoint-up(prexl) {
+    gap: 3.5rem;
+  }
+
+  @include brp.breakpoint-up(xlarge) {
+    gap: 5rem;
+  }
+}
+
 .rm__wrapper {
   margin: 0 auto;
   margin-bottom: 2rem;
