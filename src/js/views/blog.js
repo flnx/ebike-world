@@ -2,7 +2,6 @@ import { html } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
 import { getArticles } from '../api/data.js';
 
-
 export const blogPage = async (ctx) => {
   const articlesData = await getArticles();
 
@@ -156,47 +155,47 @@ const trendingArticlesTemplate = (article) => html`
 `;
 
 const latestArticlesTemplate = (article) => html` <article>
-<a href="/article/${article.objectId}">
-  <div class="latest bs">
-    <!-- image -->
-    <section class="latest__img">
-    <img src="${article.imageUrl.includes('.')
+  <a href="/article/${article.objectId}">
+    <div class="latest bs">
+      <!-- image -->
+      <section class="latest__img">
+        <img
+          src="${article.imageUrl.includes('.')
             ? article.imageUrl
             : images[article.imageUrl]}"
           alt="article image"
-        srcset=""
+          srcset=""
         />
-    </section>
-    <!-- wrapper -->
-    <section class="article__wrap">
-      <header>
-        <h2>${article.title}</h2>
-        <p>${article.content.substring(0, 200) + '...'}</p>
-      </header>
+      </section>
+      <!-- wrapper -->
+      <section class="article__wrap">
+        <header>
+          <h2>${article.title}</h2>
+          <p>${article.content.substring(0, 200) + '...'}</p>
+        </header>
 
-      <footer>
-        <div class="ar__footer">
-          <span>
-            <time>${article.createdAt}</time>
-            <p>${article.readTime} min read</p>
-          </span>
-          <section class="ar__author">
-          <img
-              src="${authorImages[article.author]}"
-              class="author__img"
-              alt="Author Picutre"
-              srcset=""
-            />
-            <header class="author__info">
-              <span>${article.author}</span>
-              <hr>
-              <span class="author__info__name">Author</span>
-            </header>
-          </section>
-        </div>
-      </footer>
-
-    </section>
-  </div>
-</a>
+        <footer>
+          <div class="ar__footer">
+            <span>
+              <time>${article.createdAt}</time>
+              <p>${article.readTime} min read</p>
+            </span>
+            <section class="ar__author">
+              <img
+                src="${authorImages[article.author]}"
+                class="author__img"
+                alt="Author Picutre"
+                srcset=""
+              />
+              <header class="author__info">
+                <span>${article.author}</span>
+                <hr />
+                <span class="author__info__name">Author</span>
+              </header>
+            </section>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </a>
 </article>`;

@@ -21,8 +21,8 @@ export const nav = () => html`
                 <li class="navbar__item"><a href="/add-post">Create Post</a></li>
                 <li class="navbar__item"><a href="/logout">Logout</a></li>`
             : html`
-                <li class="navbar__item"><a href="/login">Log In</a></li>
-                <li class="navbar__item"><a href="/register">Sign Up</a></li>`}
+                <li class="navbar__guest"><a href="/login">Log In</a></li>
+                <li class="navbar__guest"><a href="/register">Sign Up</a></li>`}
         </ul>
       </nav>
       <div class="menu-wrapper">

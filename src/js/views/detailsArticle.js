@@ -1,12 +1,9 @@
 import { html } from './lib.js';
 import { getArticle } from '../api/data.js';
-import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
+import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 export const articleDetailsPage = async (ctx) => {
   const data = await getArticle(ctx.params.id);
-
-  console.log(data);
-
   ctx.render(articleDetailsTemplate(data));
 };
 
@@ -15,7 +12,13 @@ const articleDetailsTemplate = (article) => html`
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
         <h1>${article.title}</h1>
-        <img src="${images[article.imageUrl]}" alt="showcase image" srcset="" />
+        <img
+          src="${article.imageUrl.includes('.')
+            ? article.imageUrl
+            : blogImages[article.imageUrl]}"
+          alt=""
+          srcset=""
+        />
         <div class="ar__footer">
           <span>
             <time>${article.createdAt}</time>
@@ -37,7 +40,7 @@ const articleDetailsTemplate = (article) => html`
           </div>
         </div>
         <div class="rm__text flow">
-        <p>${article.content}</p>
+          <p>${article.content}</p>
         </div>
       </div>
     </article>

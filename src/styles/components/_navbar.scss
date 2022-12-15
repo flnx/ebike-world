@@ -38,6 +38,8 @@ nav {
 .navbar {
   @include brp.breakpoint-up(medium) {
     display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   @include brp.breakpoint-down(small) {
@@ -50,24 +52,45 @@ nav {
     text-align: center;
 
     @include brp.breakpoint-up(medium) {
-      margin-left: 0.95rem;
+      margin-right: 1rem;
     }
 
-    @include brp.breakpoint-up(large) {
-      margin-left: 2rem;
+    a {
+      border-bottom: 2px solid transparent;
+      padding: 0.2em 0;
     }
   }
 
   a {
     text-transform: uppercase;
-    padding: 0.2em 0;
-    border-bottom: 2px solid transparent;
     transition: all 100ms ease-in;
 
     &:hover,
     &:focus {
       color: var(--border);
       border-bottom: 2px solid;
+    }
+  }
+
+  &__guest {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background: var(--border);
+    transition: all 100ms ease-in-out;
+
+    a {
+      color: #fff;
+
+      &:hover,
+      &:focus {
+        color: #fff;
+        border-bottom: none;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      transform: scale(1.03);
     }
   }
 }
