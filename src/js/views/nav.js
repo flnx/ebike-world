@@ -10,20 +10,6 @@ export const state = {
 
 let context = null;
 
-// const onClick = (e) => {
-//   if (e.target.classList.contains('on-toggle')) {
-//     if (!e.target.classList.contains('toggle-item')) {
-//       state.toggle = state.toggle ? false : true;
-//       context.renderNav(context);
-//     }
-//   } else {
-//     state.toggle = false;
-//     context.renderNav(context);
-//   }
-// };
-
-// document.querySelector('body').addEventListener('mousedown', onClick);
-
 const onClick = (e) => {
   if (e.target.classList.contains('on-toggle')) {
     if (!e.target.classList.contains('toggle-item')) {
