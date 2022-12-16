@@ -51,7 +51,7 @@ nav {
     padding: 0.8rem;
     text-align: center;
 
-    @include brp.breakpoint-up(medium) {
+    @include brp.breakpoint-up(large) {
       margin-right: 1rem;
     }
 
@@ -112,10 +112,17 @@ nav {
   }
 
   &__guest {
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1rem;
     border-radius: 5px;
     background: var(--border);
     transition: all 100ms ease-in-out;
+    margin-top: .3rem;
+    text-align: center;
+
+    @include brp.breakpoint-up(small) {
+      padding: 0.5rem 1rem;
+      margin-top: 0;
+    }
 
     a {
       color: #fff;
