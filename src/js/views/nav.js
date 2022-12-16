@@ -6,37 +6,25 @@ import logoImg from '/src/assets/images/logo/2.png';
 
 export const state = {
   toggle: false,
+  hamburger: false
 };
-
-let context = null;
-
-const onClick = (e) => {
-  if (e.target.classList.contains('on-toggle')) {
-    if (!e.target.classList.contains('toggle-item')) {
-      state.toggle = state.toggle ? false : true;
-      context.renderNav(context);
-    }
-  } else {
-    state.toggle = false;
-    context.renderNav(context);
-  }
-};
-
-document.querySelector('body').addEventListener('click', onClick);
-
-
 
 export const nav = (ctx) => {
-  context = ctx;
-  return navTemplate(ctx);
+  const onHamburgerClick = (e) => {
+    e.stopPropagation();
+    state.hamburger = state.hamburger ? false : true;
+    ctx.renderNav(ctx, onHamburgerClick)
+  }
+
+  return navTemplate(ctx, onHamburgerClick);
 };
 
-const navTemplate = () => html`
-  <div class="container-nav nav-wrapper" }>
+const navTemplate = (ctx, onClick) => html`
+  <div class="container-nav nav-wrapper"}>
     <div class="logo">
       <a href="/" class="logo-t"><img src="${logoImg}" /></a>
     </div>
-    <nav class="main-nav mobile-hide mobile-show">
+    <nav class="main-nav ${state.hamburger ? 'mobile-show' : 'mobile-hide'}">
       <ul class="navbar">
         <li class="navbar__item"><a href="/blog">Blog</a></li>
         <li class="navbar__item"><a href="/bikes">Bikes</a></li>
@@ -78,8 +66,8 @@ const navTemplate = () => html`
               <li class="navbar__guest"><a href="/register">Sign Up</a></li>`}
       </ul>
     </nav>
-    <div class="menu-wrapper">
-      <div class="hamburger-menu"></div>
+    <div class="menu-wrapper" @click=${onClick}>
+      <div class="hamburger-menu ${state.hamburger ? "animate" : null}"></div>
     </div>
   </div>
 `;
