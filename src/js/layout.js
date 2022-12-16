@@ -6,6 +6,7 @@ const navWrapper = document.querySelector('.nav__header');
 const mainWrapper = document.querySelector('.main-content');
 const footerWrapper = document.querySelector('.main-footer');
 
+
 export const ctxDecorator = (ctx, next) => {
     ctx.renderNav = renderNav;
     ctx.render = renderSection;
