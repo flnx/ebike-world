@@ -11,6 +11,8 @@ import showcaseImg from '/src/assets/images/showcase/3.png';
 export const homePage = async (ctx) => {
   const [bikesData, articlesData] = await Promise.all([getBikes(), getArticles()]);
 
+  console.log('hi');
+
   ctx.render(homePageTemplate(bikesData, articlesData));
 };
 

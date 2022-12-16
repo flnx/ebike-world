@@ -72,6 +72,44 @@ nav {
     }
   }
 
+
+  &__dropdown {
+    position: relative;
+    &__toggle {
+      display: flex;
+      cursor: pointer;
+
+      .navbar__user-image {
+        border: 1px solid var(--border);
+        border-radius: 50%;
+      }
+    }
+
+    &__arrow {
+      align-self: end;
+    }
+
+    &__menu {
+      z-index: 1;
+      position: absolute;
+      background: var(--heading-c);
+      top: 3.325rem;
+      right: 0;
+      width: 200px;
+      li {
+        padding: 1rem;
+
+        a {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .nav-toggle-hidden {
+    display: none;
+  }
+
   &__guest {
     padding: 0.5rem 1rem;
     border-radius: 5px;

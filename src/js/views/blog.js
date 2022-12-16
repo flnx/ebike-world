@@ -8,9 +8,6 @@ export const blogPage = async (ctx) => {
   const mainArticle = articlesData.results[0];
   const articles = articlesData.results.slice(1);
 
-  console.log(mainArticle);
-  console.log(articles);
-
   ctx.render(blogTemplate(mainArticle, articles));
 };
 

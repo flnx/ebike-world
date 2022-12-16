@@ -12,10 +12,15 @@ import { logoutAction } from './views/logout.js';
 import { articleDetailsPage } from './views/detailsArticle.js';
 import { bikeDetailsPage } from './views/detailsBike.js';
 import { addPost } from './views/addPost.js';
+import { showNav } from './middlewares/showNav.js';
+import { showFooter } from './middlewares/showFooter.js';
+
 
 import '../styles/main.scss';
 
 page(ctxDecorator);
+page(showNav);
+page(showFooter);
 page('/', homePage);
 page('/index.html', '/');
 page('/blog', blogPage);

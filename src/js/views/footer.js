@@ -1,7 +1,6 @@
 import { html } from './lib.js'
 
 export const footer = () => html`
-  <footer class="main-footer">
     <div class="foot">
       <ul class="foot__one foot__50">
         <li><a href="#">Contact</a></li>
@@ -24,5 +23,4 @@ export const footer = () => html`
         <li><a href="#">Promotions</a></li>
       </ul>
     </div>
-  </footer>
 `;
