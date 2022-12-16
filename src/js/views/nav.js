@@ -20,7 +20,7 @@ export const nav = (ctx) => {
 };
 
 const navTemplate = (ctx, onClick) => html`
-  <div class="container-nav nav-wrapper"}>
+  <div class="container-nav nav-wrapper">
     <div class="logo">
       <a href="/" class="logo-t"><img src="${logoImg}" /></a>
     </div>
