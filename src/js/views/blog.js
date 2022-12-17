@@ -4,9 +4,10 @@ import { getArticles } from '../api/data.js';
 
 export const blogPage = async (ctx) => {
   const articlesData = await getArticles();
-
   const mainArticle = articlesData.results[0];
   const articles = articlesData.results.slice(1);
+
+
 
   ctx.render(blogTemplate(mainArticle, articles));
 };
