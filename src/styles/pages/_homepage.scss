@@ -72,6 +72,7 @@
 // PRODUCTS
 
 .products {
+  margin-top: 1rem;
   font-size: 1.4rem;
   display: flex;
   flex-wrap: wrap;
@@ -79,11 +80,7 @@
   gap: 2rem;
 
   @include brp.breakpoint-up(medium) {
-    gap: 1rem;
-  }
-
-  @include brp.breakpoint-up(large) {
-    gap: 2rem;
+    gap: 1.125rem;
   }
 
   .product-1 {
@@ -121,8 +118,12 @@
       }
     }
 
+    @include brp.breakpoint-up(medium) {
+      flex: 48%;
+    }
+
     @include brp.breakpoint-up(large) {
-      flex: 30%;
+      flex: 23%;
     }
 
     @include brp.breakpoint-up(xlarge) {

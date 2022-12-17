@@ -7,8 +7,6 @@ export const blogPage = async (ctx) => {
   const mainArticle = articlesData.results[0];
   const articles = articlesData.results.slice(1);
 
-
-
   ctx.render(blogTemplate(mainArticle, articles));
 };
 
@@ -43,6 +41,7 @@ const blogTemplate = (mainArticle, articles) => html`
             <span>Teach Me</span>
           </div>
         ${articles.map(latestArticlesTemplate)}
+        ${paginatorTemplate([1, 2, 3, 4, 5])}
         </section>
 
         <!-- Aside -->
@@ -197,3 +196,12 @@ const latestArticlesTemplate = (article) => html` <article>
     </div>
   </a>
 </article>`;
+
+
+export const paginatorTemplate = (pages) => html`
+  <div class="pages">
+    <ul class="pages__nav">
+      ${pages.map(page => html`<li class="pages__page"><a>${page}</a></li>`)}
+    </ul>
+  </div>
+`;

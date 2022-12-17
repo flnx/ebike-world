@@ -1,16 +1,18 @@
-const PAGE_SIZE = 5;
-const FORWARD_LIMIT = PAGE_SIZE - 1;
+const PAGINATOR_SIZE = 5;
+const FORWARD_LIMIT = PAGINATOR_SIZE - 1;
 
 // calculates how many pages to show back and forward
-const ADD_PAGES = Math.floor(PAGE_SIZE / 2);
+const ADD_PAGES = Math.floor(PAGINATOR_SIZE / 2);
 
   const paginator = (currentPage, totalResults) => {
   currentPage = Number(currentPage);
   totalResults = Number(totalResults);
 
-  const totalPages = Math.ceil(totalResults / PAGE_SIZE);
+  const totalPages = Math.ceil(totalResults / PAGINATOR_SIZE);
 
-  if (totalPages <= PAGE_SIZE) {
+  // returns array with all the pages that can be generated if they are less than paginator size;
+
+  if (totalPages <= PAGINATOR_SIZE) {
     let pages = [];
 
     for (let i = 1; i <= totalPages; i++) {
@@ -20,10 +22,11 @@ const ADD_PAGES = Math.floor(PAGE_SIZE / 2);
     return pages;
   }
 
-  if (currentPage < PAGE_SIZE - 1) {
+  // returns the default paginator size if the current page is at the beginning of the array
+  if (currentPage < PAGINATOR_SIZE - 1) {
     let pages = [];
 
-    for (let i = 1; i <= PAGE_SIZE; i++) {
+    for (let i = 1; i <= PAGINATOR_SIZE; i++) {
       pages.push(i);
     }
 

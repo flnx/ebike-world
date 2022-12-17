@@ -1,5 +1,5 @@
 import { html } from './lib.js';
-import { getArticles, getBikes } from '../api/data.js';
+import { getArticlesByPage, getBikes, getBikesByPage, getTrendingBikes } from '../api/data.js';
 import {
   AUTHOR_IMAGES as authorImages,
   BIKE_IMAGES as bikeImages,
@@ -8,8 +8,14 @@ import {
 
 import showcaseImg from '/src/assets/images/showcase/3.png';
 
+const ARTICLES_CAP = 2;
+const BIKES_CAP = 4;
+
 export const homePage = async (ctx) => {
-  const [bikesData, articlesData] = await Promise.all([getBikes(), getArticles()]);
+  const [bikesData, articlesData] = await Promise.all([
+    getTrendingBikes(BIKES_CAP),
+    getArticlesByPage(ARTICLES_CAP, 2),
+  ]);
   ctx.render(homePageTemplate(bikesData, articlesData));
 };
 
@@ -31,6 +37,12 @@ const homePageTemplate = (bikesData, articlesData) => html`
       </ul>
     </section>
 
+    <!-- Top Choices-->
+    <section>
+      <h2>Top Choices</h2>
+      <div class="products mb">${bikesData.results.map(bikeIntroTemplate)}</div>
+    </section>
+
     <!-- Latest Articles -->
     <section>
       <div class="ar-flex-wrap mb">
@@ -39,7 +51,6 @@ const homePageTemplate = (bikesData, articlesData) => html`
           <h3 class="mb1">Latest Articles</h3>
           ${articlesData.results.map(latestArticlesTemplate)}
         </section>
-
         <!-- Aside -->
         <aside class="flex__2">
           <h3 class="mb1">Most Viewed</h3>
@@ -61,11 +72,6 @@ const homePageTemplate = (bikesData, articlesData) => html`
       </div>
     </section>
 
-    <!-- Top Choices-->
-    <section>
-      <h2>Top Choices</h2>
-      <div class="products mb">${bikesData.results.map(bikeIntroTemplate)}</div>
-    </section>
   </div>
 `;
 

@@ -1,0 +1,29 @@
+@use '../utilities/breakpoints.scss' as brp;
+
+.pages {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+
+  &__nav {
+    display: flex;
+    gap: 0.3em;
+  }
+
+  &__page {
+    a {
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      background: var(--border);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  }
+
+  @include brp.breakpoint-up(large) {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -1.75rem;
+  }
+}
