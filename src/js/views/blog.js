@@ -7,7 +7,6 @@ import { hasOneHourPassed } from '../utils/utils.js';
 const ARTICLES_CAP = 3;
 let _mainArticle = null;
 
-
 export const blogPage = async (ctx) => {
   const query = new URLSearchParams(ctx.querystring);
   const currentPage = +query?.get('page') || 1;
@@ -21,16 +20,26 @@ export const blogPage = async (ctx) => {
 
   const [{ count }, articles, allArticles] = await Promise.all(data);
 
-  if (allArticles != undefined) {
+  // If 1 hour has passed and there's articles: (not needed but double check to make sure)
+  if (hourHasPassed && allArticles != undefined) {
+    // getting random index from 0 to "count"(all articles counter)
     const randomIndex = Math.round(Math.random() * count);
+
+    
+    // setting _mainArticle with random article
     _mainArticle = allArticles.results[randomIndex];
   }
 
+
+  // sets a default article from getArticlesPage (in case code has been refreshed)
   if (_mainArticle == null) {
     _mainArticle = articles.results[0];
   }
 
+  // getting an array with the correct pages
   const paginationArray = paginator(currentPage, count);
+
+  
   ctx.render(blogTemplate(_mainArticle, articles, paginationArray));
 };
 
@@ -40,9 +49,7 @@ const blogTemplate = (mainArticle, articles, paginationArr) => html`
     <main>
        ${mainArticleTemplate(mainArticle)} 
     </main>
-
     <hr class="linebreak">
-
     <section class="trending">
       <h2>Trending</h2>
       <div class="articles__wrapper">
