@@ -1,14 +1,15 @@
 const PAGINATOR_SIZE = 5;
 const FORWARD_LIMIT = PAGINATOR_SIZE - 1;
+const PAGE_SIZE = 3;
 
 // calculates how many pages to show back and forward
 const ADD_PAGES = Math.floor(PAGINATOR_SIZE / 2);
 
-  const paginator = (currentPage, totalResults) => {
+export const paginator = (currentPage, totalResults) => {
   currentPage = Number(currentPage);
   totalResults = Number(totalResults);
 
-  const totalPages = Math.ceil(totalResults / PAGINATOR_SIZE);
+  const totalPages = Math.ceil(totalResults / PAGE_SIZE);
 
   // returns array with all the pages that can be generated if they are less than paginator size;
 

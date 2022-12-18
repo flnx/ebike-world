@@ -1,16 +1,26 @@
 import { html } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
-import { getArticles } from '../api/data.js';
+import { getArticlesByPage, getTotalBlogs } from '../api/data.js';
+import { paginator } from '../utils/paginator.js';
+
+const ARTICLES_CAP = 3;
 
 export const blogPage = async (ctx) => {
-  const articlesData = await getArticles();
-  const mainArticle = articlesData.results[0];
-  const articles = articlesData.results.slice(1);
+  const query = new URLSearchParams(ctx.querystring);
+  const currentPage = +query?.get('page') || 1;
 
-  ctx.render(blogTemplate(mainArticle, articles));
+  
+  
+  const { count } = await getTotalBlogs();
+  const articlesData = await getArticlesByPage(ARTICLES_CAP, currentPage);
+
+  const mainArticle = articlesData.results[0];
+  const paginationArray = paginator(currentPage, count);
+
+  ctx.render(blogTemplate(mainArticle, articlesData, paginationArray));
 };
 
-const blogTemplate = (mainArticle, articles) => html`
+const blogTemplate = (mainArticle, articles, paginationArr) => html`
 
 <div class="container">
     <main>
@@ -22,7 +32,7 @@ const blogTemplate = (mainArticle, articles) => html`
     <section class="trending">
       <h2>Trending</h2>
       <div class="articles__wrapper">
-        ${articles.slice(0, 3).map(trendingArticlesTemplate)}
+        ${articles.results.map(trendingArticlesTemplate)}
       </div>
     </section>
 
@@ -40,8 +50,8 @@ const blogTemplate = (mainArticle, articles) => html`
             <span>Parts</span>
             <span>Teach Me</span>
           </div>
-        ${articles.map(latestArticlesTemplate)}
-        ${paginatorTemplate([1, 2, 3, 4, 5])}
+        ${articles.results.map(latestArticlesTemplate)}
+        ${paginatorTemplate(paginationArr)}
         </section>
 
         <!-- Aside -->
@@ -201,7 +211,7 @@ const latestArticlesTemplate = (article) => html` <article>
 export const paginatorTemplate = (pages) => html`
   <div class="pages">
     <ul class="pages__nav">
-      ${pages.map(page => html`<li class="pages__page"><a>${page}</a></li>`)}
+      ${pages.map(page => html`<li class="pages__page"><a href="/blog?page=${page}">${page}</a></li>`)}
     </ul>
   </div>
 `;
