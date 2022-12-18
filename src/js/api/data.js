@@ -9,7 +9,7 @@ const endpoints = {
   article: (id) => `classes/Blog/${id}`,
   articles: 'classes/Blog',
   count: (path) => `classes/${path}?count=1&limit=0`,
-  getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}`,
+  getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}&order=-createdAt`,
 };
 
 export const getBike = async (id) => {
