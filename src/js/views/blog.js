@@ -1,30 +1,44 @@
-import { html } from './lib.js';
+import { html, nothing } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
-import { getArticlesByPage, getTotalBlogs } from '../api/data.js';
+import { getArticles, getArticlesByPage, getTotalBlogs } from '../api/data.js';
 import { paginator } from '../utils/paginator.js';
+import { hasOneHourPassed } from '../utils/utils.js';
 
 const ARTICLES_CAP = 3;
+let _mainArticle = null;
+
 
 export const blogPage = async (ctx) => {
   const query = new URLSearchParams(ctx.querystring);
   const currentPage = +query?.get('page') || 1;
+  const hourHasPassed = hasOneHourPassed();
 
-  
-  
-  const { count } = await getTotalBlogs();
-  const articlesData = await getArticlesByPage(ARTICLES_CAP, currentPage);
+  const data = [getTotalBlogs(), getArticlesByPage(ARTICLES_CAP, currentPage)];
 
-  const mainArticle = articlesData.results[0];
+  if (hourHasPassed) {
+    data.push(getArticles());
+  }
+
+  const [{ count }, articles, allArticles] = await Promise.all(data);
+
+  if (allArticles != undefined) {
+    const randomIndex = Math.round(Math.random() * count);
+    _mainArticle = allArticles.results[randomIndex];
+  }
+
+  if (_mainArticle == null) {
+    _mainArticle = articles.results[0];
+  }
+
   const paginationArray = paginator(currentPage, count);
-
-  ctx.render(blogTemplate(mainArticle, articlesData, paginationArray));
+  ctx.render(blogTemplate(_mainArticle, articles, paginationArray));
 };
 
 const blogTemplate = (mainArticle, articles, paginationArr) => html`
 
 <div class="container">
     <main>
-      ${mainArticleTemplate(mainArticle)}
+       ${mainArticleTemplate(mainArticle)} 
     </main>
 
     <hr class="linebreak">
@@ -207,11 +221,13 @@ const latestArticlesTemplate = (article) => html` <article>
   </a>
 </article>`;
 
-
 export const paginatorTemplate = (pages) => html`
   <div class="pages">
     <ul class="pages__nav">
-      ${pages.map(page => html`<li class="pages__page"><a href="/blog?page=${page}">${page}</a></li>`)}
+      ${pages.map(
+        (page) =>
+          html`<li class="pages__page"><a href="/blog?page=${page}">${page}</a></li>`
+      )}
     </ul>
   </div>
 `;

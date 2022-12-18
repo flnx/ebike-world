@@ -17,3 +17,17 @@ export const spaceTrimmer = (data) => {
   let result = Object.entries(newData).map(([key, value]) => [key, trimSpace(value)]);
   return Object.fromEntries(result);
 };
+
+let start = Date.now();
+
+export const hasOneHourPassed = () => {
+  const ONE_HOUR = 60 * 60 * 1000;
+  let current = Date.now();
+
+  if (current - start >= ONE_HOUR) {
+    start = current;
+    return true;
+  } else {
+    return false;
+  }
+};
