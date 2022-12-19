@@ -4,7 +4,7 @@
   article + article {
     margin-top: 3rem;
   }
- 
+
   @include brp.breakpoint-up(large) {
     display: flex;
     gap: 2rem;
@@ -35,6 +35,32 @@
     align-items: center;
     margin-top: 1rem;
     margin-bottom: 3rem;
+    
+    .like {
+      color: var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      span {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      a {
+        color: var(--border);
+        cursor: pointer;
+      }
+
+      i {
+        font-size: 2rem;
+        transition: all 0.5s ease-in-out;
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
   }
 }
 

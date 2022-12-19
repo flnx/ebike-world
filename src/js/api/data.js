@@ -10,13 +10,23 @@ const endpoints = {
   articles: 'classes/Blog',
   count: (path) => `classes/${path}?count=1&limit=0`,
   getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}&order=-createdAt`,
+  like: "classes/Like",
+  dislike: (id) => `classes/Like/${id}`,
+  articleLikes: (blogId) => `classes/Like?where={"blogId":{"__type":"Pointer","className":"Blog","objectId":"${blogId}"}}`
 };
 
 export const getBike = async (id) => {
   return await api.get(endpoints.getOne(id));
 };
 
-export const createBike = async (bikeData) => {
+export const createBike = async (data) => {
+  const user = getUserData();
+
+  const bikeData = {
+    ...data,
+    author: user.username,
+    owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
+  }
   return await api.post(endpoints.create, bikeData);
 };
 
@@ -63,3 +73,24 @@ export const getTotalBlogs = async () => {
 export const getTotalBikes = async () => {
   return await api.get(endpoints.count('Bike'));
 };
+
+export const getArticleLikes = async (blogId) => {
+  return await api.get(endpoints.articleLikes(blogId));
+}
+
+export const sendLike = async (blogId) => {
+  const user = getUserData();
+
+  const data = {
+    "blogId": { "__type": "Pointer", "className": "Blog", "objectId": blogId },
+    "ownerId": { "__type": "Pointer", "className": "_User", "objectId": user.objectId }
+  }
+
+  return await api.post(endpoints.like, data);
+}
+
+export const removeLike = async (blogId) => {
+  const user = getUserData();
+
+  return await api.del(endpoints.dislike(blogId));
+}

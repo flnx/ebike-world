@@ -25,11 +25,9 @@ export const blogPage = async (ctx) => {
     // getting random index from 0 to "count"(all articles counter)
     const randomIndex = Math.round(Math.random() * count);
 
-    
     // setting _mainArticle with random article
     _mainArticle = allArticles.results[randomIndex];
   }
-
 
   // sets a default article from getArticlesPage (in case code has been refreshed)
   if (_mainArticle == null) {
@@ -39,7 +37,6 @@ export const blogPage = async (ctx) => {
   // getting an array with the correct pages
   const paginationArray = paginator(currentPage, count);
 
-  
   ctx.render(blogTemplate(_mainArticle, articles, paginationArray));
 };
 
@@ -135,7 +132,7 @@ const mainArticleTemplate = (mainArticle) => html`
         <footer>
           <div class="ar__footer">
             <span>
-              <time>July 24, 2021</time>
+              <time>${mainArticle.createdAt.substring(0, 10)}</time>
               <p class="readtime">5 min read</p>
             </span>
             <div class="ar__author">
@@ -146,7 +143,7 @@ const mainArticleTemplate = (mainArticle) => html`
                 srcset=""
               />
               <div class="author__info">
-                <span>Elena Malinova</span>
+                <span>${mainArticle.author}</span>
                 <hr />
                 <span>Author</span>
               </div>
@@ -205,7 +202,7 @@ const latestArticlesTemplate = (article) => html` <article>
         <footer>
           <div class="ar__footer">
             <span>
-              <time>${article.createdAt}</time>
+              <time>${article.createdAt.substring(0, 10)}</time>
               <p>${article.readTime} min read</p>
             </span>
             <section class="ar__author">

@@ -1,13 +1,27 @@
 import { html } from './lib.js';
-import { getArticle } from '../api/data.js';
-import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
+import { getArticle, getArticleLikes } from '../api/data.js';
+import {
+  AUTHOR_IMAGES as authorImages,
+  BLOG_IMAGES as blogImages,
+} from '../utils/images.js';
 
 export const articleDetailsPage = async (ctx) => {
-  const data = await getArticle(ctx.params.id);
-  ctx.render(articleDetailsTemplate(data));
+  const onLike = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+
+  }
+
+  const [articleData, likesData] = await Promise.all([
+    getArticle(ctx.params.id),
+    getArticleLikes(ctx.params.id),
+  ]);
+
+  ctx.render(articleDetailsTemplate(articleData, likesData, onLike));
 };
 
-const articleDetailsTemplate = (article) => html`
+const articleDetailsTemplate = (article, likes, onLike) => html`
   <div class="container article-wrapper">
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
@@ -21,10 +35,16 @@ const articleDetailsTemplate = (article) => html`
         />
         <div class="ar__footer">
           <span>
-            <time>${article.createdAt}</time>
+            <time>${article.createdAt.substring(0, 10)}</time>
             <p>${article.readTime} min read</p>
           </span>
-
+          <div class="like">
+            <a href="" @click=${onLike}>
+              <!-- <i class="fa-sharp fa-solid fa-heart"></i> -->
+              <i class="fa-regular fa-heart"></i>
+            </a>
+            <span>Likes: ${likes.results.length}</span>
+          </div>
           <div class="ar__author">
             <img
               src="${authorImages[article.author]}"

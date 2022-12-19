@@ -4,7 +4,7 @@ import * as api from './api.js';
 const endpoints = {
   register: 'users',
   login: 'login',
-  logout: 'users/logout',
+  logout: 'logout',
 };
 
 // data: username, email, password
@@ -36,6 +36,6 @@ export const login = async (data) => {
 };
 
 export const logout = async() => {
-  // const result = api.get('/users/logout');
+  api.post(endpoints.logout);
   clearUserData()
 }

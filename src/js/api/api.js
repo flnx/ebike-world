@@ -1,4 +1,4 @@
-import { getUserData } from "../utils/userData";
+import { clearUserData, getUserData } from "../utils/userData";
 
 
 const host = 'https://parseapi.back4app.com/'
@@ -36,6 +36,10 @@ const request = async (method, url = '/', data) => {
     const result = await response.json();
 
     if (!response.ok) {
+      if (result.code == 209) {
+        clearUserData();
+      }
+
       throw new Error(result.message || result.error);
     }
 
