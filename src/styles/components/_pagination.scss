@@ -11,6 +11,7 @@
   }
 
   &__page {
+    transition: all 0.1s ease-in-out;
     a {
       padding: 0.5rem 1rem;
       font-weight: 700;
@@ -26,4 +27,14 @@
     right: 50%;
     bottom: -1.75rem;
   }
+}
+
+.current-page {
+  transform: scale(1.14)
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.8;
 }

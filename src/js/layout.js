@@ -25,7 +25,6 @@ const renderFooter = () => render(footer(), footerWrapper);
 body.addEventListener('click', onClick);
 
 function onClick(e) {
-  console.log('yeee claw');
   if (e.target.classList.contains('on-toggle')) {
     if (!e.target.classList.contains('toggle-item')) {
       state.toggle = state.toggle ? false : true;

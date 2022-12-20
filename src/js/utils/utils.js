@@ -31,3 +31,7 @@ export const hasOneHourPassed = () => {
     return false;
   }
 };
+
+export const createPointer = (className, id) => {
+  return `{ "__type": "Pointer", "className": "${className}", "objectId": "${id}" }`
+}

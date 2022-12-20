@@ -1,27 +1,70 @@
 import { html } from './lib.js';
-import { getArticle, getArticleLikes } from '../api/data.js';
-import {
-  AUTHOR_IMAGES as authorImages,
-  BLOG_IMAGES as blogImages,
-} from '../utils/images.js';
+import { getArticle, getArticleLikes, getArticleUserLike, removeLike, sendLike } from '../api/data.js';
+import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
+
+let isAnimating = false;
 
 export const articleDetailsPage = async (ctx) => {
-  const onLike = (e) => {
+  const articleId = ctx.params.id;
+  let isLiked = null;
+  let totalLikes = null;
+
+  const onLike = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (isAnimating) {
+      return;
+    }
 
-  }
+    isAnimating = true;
+    // prevents spam clicks
+    setTimeout(() => {
+      isAnimating = false;
+    }, 750);
 
-  const [articleData, likesData] = await Promise.all([
-    getArticle(ctx.params.id),
-    getArticleLikes(ctx.params.id),
+    instantLike(articleData, totalLikes, isLiked, onLike, ctx);
+
+    const user_like = await getArticleUserLike(articleId);
+
+    isLiked = user_like.results.length > 0 ? true : false;
+
+    if (isLiked) {
+      isLiked = false;
+      totalLikes--;
+      await removeLike(user_like.results[0].objectId);
+    } else {
+      isLiked = true;
+      totalLikes++;
+      await sendLike(articleId);
+    }
+  };
+
+  const [articleData, likesData, userLike] = await Promise.all([
+    getArticle(articleId),
+    getArticleLikes(articleId),
+    getArticleUserLike(articleId),
   ]);
 
-  ctx.render(articleDetailsTemplate(articleData, likesData, onLike));
+  isLiked = userLike.results.length > 0 ? true : false;
+  totalLikes = likesData.results.length;
+
+  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike));
 };
 
-const articleDetailsTemplate = (article, likes, onLike) => html`
+const instantLike = (articleData, totalLikes, isLiked, onLike, ctx) => {
+  if (isLiked) {
+    isLiked = false;
+    totalLikes--;
+  } else {
+    isLiked = true;
+    totalLikes++;
+  }
+
+  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike));
+};
+
+const articleDetailsTemplate = (article, likes, isLiked, onLike) => html`
   <div class="container article-wrapper">
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
@@ -40,10 +83,11 @@ const articleDetailsTemplate = (article, likes, onLike) => html`
           </span>
           <div class="like">
             <a href="" @click=${onLike}>
-              <!-- <i class="fa-sharp fa-solid fa-heart"></i> -->
-              <i class="fa-regular fa-heart"></i>
+              <i
+                class="fa-heart ${isLiked ? 'fa-sharp fa-solid rotate' : 'fa-regular'}"
+              ></i>
             </a>
-            <span>Likes: ${likes.results.length}</span>
+            <span>Likes: ${likes}</span>
           </div>
           <div class="ar__author">
             <img

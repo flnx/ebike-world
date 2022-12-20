@@ -1,24 +1,36 @@
 import { html, nothing } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
-import { getArticles, getArticlesByPage, getTotalBlogs } from '../api/data.js';
+import {
+  getArticles,
+  getArticlesByPage,
+  countAllArticles,
+  getTrendingArticles,
+} from '../api/data.js';
 import { paginator } from '../utils/paginator.js';
 import { hasOneHourPassed } from '../utils/utils.js';
 
 const ARTICLES_CAP = 3;
+
 let _mainArticle = null;
+let currentPage = null;
+let totalPages = null;
 
 export const blogPage = async (ctx) => {
   const query = new URLSearchParams(ctx.querystring);
-  const currentPage = +query?.get('page') || 1;
+  currentPage = +query?.get('page') || 1;
   const hourHasPassed = hasOneHourPassed();
 
-  const data = [getTotalBlogs(), getArticlesByPage(ARTICLES_CAP, currentPage)];
+  const data = [
+    countAllArticles(),
+    getArticlesByPage(ARTICLES_CAP, currentPage),
+    getTrendingArticles(),
+  ];
 
   if (hourHasPassed) {
     data.push(getArticles());
   }
 
-  const [{ count }, articles, allArticles] = await Promise.all(data);
+  const [{ count }, articles, trendingArticles, allArticles] = await Promise.all(data);
 
   // If 1 hour has passed and there's articles: (not needed but double check to make sure)
   if (hourHasPassed && allArticles != undefined) {
@@ -36,11 +48,12 @@ export const blogPage = async (ctx) => {
 
   // getting an array with the correct pages
   const paginationArray = paginator(currentPage, count);
+  totalPages = Math.ceil(count / ARTICLES_CAP);
 
-  ctx.render(blogTemplate(_mainArticle, articles, paginationArray));
+  ctx.render(blogTemplate(_mainArticle, articles, trendingArticles, paginationArray));
 };
 
-const blogTemplate = (mainArticle, articles, paginationArr) => html`
+const blogTemplate = (mainArticle, articles, trendingArticles, paginationArr) => html`
 
 <div class="container">
     <main>
@@ -50,7 +63,7 @@ const blogTemplate = (mainArticle, articles, paginationArr) => html`
     <section class="trending">
       <h2>Trending</h2>
       <div class="articles__wrapper">
-        ${articles.results.map(trendingArticlesTemplate)}
+        ${trendingArticles.results.map(trendingArticlesTemplate)}
       </div>
     </section>
 
@@ -113,13 +126,14 @@ const mainArticleTemplate = (mainArticle) => html`
   <article>
     <div class="article__wrapper">
       <div class="article__img">
-        <img
-          src="${mainArticle.imageUrl.includes('.')
-            ? mainArticle.imageUrl
-            : images[mainArticle.imageUrl]}"
-          alt=""
-          srcset=""
-        />
+        <a href="/article/${mainArticle.objectId}">
+          <img
+            src="${mainArticle.imageUrl.includes('.')
+              ? mainArticle.imageUrl
+              : images[mainArticle.imageUrl]}"
+            alt=""
+            srcset=""
+        /></a>
       </div>
       <div class="article__content">
         <section class="article__text flow">
@@ -158,24 +172,26 @@ const mainArticleTemplate = (mainArticle) => html`
 
 const trendingArticlesTemplate = (article) => html`
   <article>
-    <div class="trending-article bs">
-      <div class="trending-article__image">
-        <img
-          src="${article.imageUrl.includes('.')
-            ? article.imageUrl
-            : images[article.imageUrl]}"
-          alt=""
-          srcset=""
-        />
+    <a href="/article/${article.objectId}">
+      <div class="trending-article bs">
+        <div class="trending-article__image">
+          <img
+            src="${article.imageUrl.includes('.')
+              ? article.imageUrl
+              : images[article.imageUrl]}"
+            alt=""
+            srcset=""
+          />
+        </div>
+        <div class="trending-article__title">
+          <h3>${article.title}</h3>
+        </div>
+        <div class="trending-article__body">
+          <span>Cycling</span>
+          <span>${article.readTime} min read</span>
+        </div>
       </div>
-      <div class="trending-article__title">
-        <h3>${article.title}</h3>
-      </div>
-      <div class="trending-article__body">
-        <span>Cycling</span>
-        <span>${article.readTime} min read</span>
-      </div>
-    </div>
+    </a>
   </article>
 `;
 
@@ -226,12 +242,15 @@ const latestArticlesTemplate = (article) => html` <article>
 </article>`;
 
 export const paginatorTemplate = (pages) => html`
+${console.log(totalPages)}
   <div class="pages">
     <ul class="pages__nav">
+    <li class="pages__page"><a href="/blog?page=${currentPage - 1}" class="${currentPage == 1 ? "disabled" : ""}">Prev</a></li>
       ${pages.map(
         (page) =>
-          html`<li class="pages__page"><a href="/blog?page=${page}">${page}</a></li>`
+          html`<li class="pages__page ${page == currentPage ? "current-page" : ""}"><a href="/blog?page=${page}">${page}</a></li>`
       )}
+    <li class="pages__page"><a href="/blog?page=${currentPage + 1}" class="${currentPage >= totalPages ? "disabled" : ""}">Prev</a></li>
     </ul>
   </div>
 `;

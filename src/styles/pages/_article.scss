@@ -35,7 +35,7 @@
     align-items: center;
     margin-top: 1rem;
     margin-bottom: 3rem;
-    
+
     .like {
       color: var(--border);
       display: flex;
@@ -51,14 +51,20 @@
       a {
         color: var(--border);
         cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          transform: scale(1.2);
+        }
       }
 
       i {
         font-size: 2rem;
         transition: all 0.5s ease-in-out;
-        &:hover {
-          transform: scale(1.2);
-        }
+      }
+
+      .rotate {
+        transform: rotate(360deg);
       }
     }
   }
