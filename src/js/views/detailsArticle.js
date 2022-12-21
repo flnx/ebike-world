@@ -6,6 +6,8 @@ let isAnimating = false;
 
 export const articleDetailsPage = async (ctx) => {
   const articleId = ctx.params.id;
+  const userSession = ctx.user;
+
   let isLiked = null;
   let totalLikes = null;
 
@@ -40,16 +42,22 @@ export const articleDetailsPage = async (ctx) => {
     }
   };
 
-  const [articleData, likesData, userLike] = await Promise.all([
+  const data = [
     getArticle(articleId),
     getArticleLikes(articleId),
-    getArticleUserLike(articleId),
-  ]);
+  ]
 
-  isLiked = userLike.results.length > 0 ? true : false;
+  
+  if (userSession) {
+    data.push(getArticleUserLike(articleId));
+  }
+  
+  const [articleData, likesData, userLike] = await Promise.all(data);
+
   totalLikes = likesData.results.length;
+  isLiked = userLike?.results.length > 0 ? true : false || null;
 
-  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike));
+  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike, userSession));
 };
 
 const instantLike = (articleData, totalLikes, isLiked, onLike, ctx) => {
@@ -61,10 +69,11 @@ const instantLike = (articleData, totalLikes, isLiked, onLike, ctx) => {
     totalLikes++;
   }
 
-  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike));
+  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike, ctx.user));
 };
 
-const articleDetailsTemplate = (article, likes, isLiked, onLike) => html`
+
+const articleDetailsTemplate = (article, likes, isLiked, onLike, userSession) => html`
   <div class="container article-wrapper">
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
@@ -82,11 +91,17 @@ const articleDetailsTemplate = (article, likes, isLiked, onLike) => html`
             <p>${article.readTime} min read</p>
           </span>
           <div class="like">
-            <a href="" @click=${onLike}>
-              <i
-                class="fa-heart ${isLiked ? 'fa-sharp fa-solid rotate' : 'fa-regular'}"
-              ></i>
-            </a>
+            ${userSession 
+              ? html`
+              <a href="" @click=${onLike}>
+                 <i class="fa-heart ${isLiked ? 'fa-sharp fa-solid rotate' : 'fa-regular'}"></i>
+              </a>
+              ` 
+              : html`
+              <a href="/login">
+                 <i class="fa-heart fa-regular"></i>
+              </a>`}
+            
             <span>Likes: ${likes}</span>
           </div>
           <div class="ar__author">

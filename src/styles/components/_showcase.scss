@@ -26,6 +26,7 @@
     }
     h1 span,
     p span {
+      font-weight: 700;
       background-color: var(--heading-c);
       background: linear-gradient(to right, #ff5f6d, #ffc371);
       background-size: 100%;
@@ -53,6 +54,7 @@
   &__buttons {
     .showcase-btn,
     .showcase-btn2 {
+      display: inline-block;
       font-size: 0.8rem;
       margin-right: 0.5rem;
       border-radius: 8px;
@@ -60,6 +62,11 @@
       letter-spacing: 1px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
       background: linear-gradient(to right, #f74b59, #ffc068);
+      transition: all 0.2s ease-in-out;
+
+      &:hover{
+        transform: scale(1.05);
+      }
     }
   }
 

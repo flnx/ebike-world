@@ -14,6 +14,9 @@ import { bikeDetailsPage } from './views/detailsBike.js';
 import { addPost } from './views/addPost.js';
 import { showNav } from './middlewares/showNav.js';
 import { showFooter } from './middlewares/showFooter.js';
+import { userSession } from './middlewares/session.js';
+import { getUserData } from './utils/userData.js';
+import { hasUser, isNotGuest } from './middlewares/guards.js';
 
 
 import '../styles/main.scss';
@@ -21,6 +24,7 @@ import '../styles/main.scss';
 page(ctxDecorator);
 page(showNav);
 page(showFooter);
+page(userSession(getUserData))
 page('/', homePage);
 page('/index.html', '/');
 page('/blog', blogPage);
@@ -30,9 +34,9 @@ page('/about', aboutPage);
 page('/article', articleDetailsPage);
 page('/article/:id', articleDetailsPage);
 page('/bike-details/:id', bikeDetailsPage);
-page('/create', createPage);
-page('/add-post', addPost);
-page('/login', loginPage);
-page('/register', registerPage);
+page('/create', hasUser(), createPage);
+page('/add-post', hasUser(), addPost);
+page('/login', isNotGuest(), loginPage);
+page('/register', isNotGuest(), registerPage);
 page('/logout', logoutAction);
 page.start();

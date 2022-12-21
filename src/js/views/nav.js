@@ -6,15 +6,15 @@ import logoImg from '/src/assets/images/logo/2.png';
 
 export const state = {
   toggle: false,
-  hamburger: false
+  hamburger: false,
 };
 
 export const nav = (ctx) => {
   const onHamburgerClick = (e) => {
     e.stopPropagation();
     state.hamburger = state.hamburger ? false : true;
-    ctx.renderNav(ctx, onHamburgerClick)
-  }
+    ctx.renderNav(ctx, onHamburgerClick);
+  };
 
   return navTemplate(ctx, onHamburgerClick);
 };
@@ -24,12 +24,12 @@ const navTemplate = (ctx, onClick) => html`
     <div class="logo">
       <a href="/" class="logo-t"><img src="${logoImg}" /></a>
     </div>
-    <nav class="main-nav ${state.hamburger ? 'mobile-show' : 'mobile-hide'}">
-      <ul class="navbar">
-        <li class="navbar__item"><a href="/blog">Blog</a></li>
-        <li class="navbar__item"><a href="/bikes">Bikes</a></li>
-        <li class="navbar__item"><a href="/accessories">accessories</a></li>
-        <li class="navbar__item"><a href="/about">About</a></li>
+    <nav class="main-nav on-toggle ${state.hamburger ? 'mobile-show' : 'mobile-hide'}">
+      <ul class="navbar on-toggle">
+        <li class="navbar__item on-toggle"><a href="/blog">Blog</a></li>
+        <li class="navbar__item on-toggle"><a href="/bikes">Bikes</a></li>
+        <li class="navbar__item on-toggle"><a href="/accessories">accessories</a></li>
+        <li class="navbar__item on-toggle"><a href="/about">About</a></li>
         ${getUserData()
           ? html`
               <div class="navbar__dropdown on-toggle">
@@ -44,22 +44,7 @@ const navTemplate = (ctx, onClick) => html`
                   />
                   <img src="${arrowDown}" class="navbar__dropdown__arrow on-toggle" />
                 </div>
-
-                <ul
-                  class="navbar__dropdown__menu ${state.toggle
-                    ? ''
-                    : 'nav-toggle-hidden'}"
-                >
-                  <li class="navbar__item on-toggle toggle-item">
-                    <a href="/create">Add Bike</a>
-                  </li>
-                  <li class="navbar__item on-toggle toggle-item">
-                    <a href="/add-post">Create Post</a>
-                  </li>
-                  <li class="navbar__item on-toggle toggle-item">
-                    <a href="/logout">Logout</a>
-                  </li>
-                </ul>
+                ${ctx.isDesktop.matches ? desktopDropdown() : mobileDropdown()}
               </div>
             `
           : html` <li class="navbar__guest"><a href="/login">Log In</a></li>
@@ -67,7 +52,32 @@ const navTemplate = (ctx, onClick) => html`
       </ul>
     </nav>
     <div class="menu-wrapper" @click=${onClick}>
-      <div class="hamburger-menu ${state.hamburger ? "animate" : null}"></div>
+      <div class="hamburger-menu ${state.hamburger ? 'animate' : null}"></div>
     </div>
   </div>
 `;
+
+const mobileDropdown = () => html` <ul class="navbar__dropdown__menu">
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/create">Add Bike</a>
+  </li>
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/add-post">Create Post</a>
+  </li>
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/logout">Logout</a>
+  </li>
+</ul>`;
+
+const desktopDropdown = () => html` 
+<div class="navbar__dropdown__menu ${state.toggle ? '' : 'nav-toggle-hidden'}">
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/create">Add Bike</a>
+  </li>
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/add-post">Create Post</a>
+  </li>
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/logout">Logout</a>
+  </li>
+</div>`;

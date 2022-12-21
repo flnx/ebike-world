@@ -1,11 +1,6 @@
 import { html, nothing } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
-import {
-  getArticles,
-  getArticlesByPage,
-  countAllArticles,
-  getTrendingArticles,
-} from '../api/data.js';
+import { getArticles, getArticlesByPage, countAllArticles, getTrendingArticles } from '../api/data.js';
 import { paginator } from '../utils/paginator.js';
 import { hasOneHourPassed } from '../utils/utils.js';
 
@@ -32,16 +27,15 @@ export const blogPage = async (ctx) => {
 
   const [{ count }, articles, trendingArticles, allArticles] = await Promise.all(data);
 
-  // If 1 hour has passed and there's articles: (not needed but double check to make sure)
+  // If 1 hour has passed - get all articles and set a random "Top" Article
   if (hourHasPassed && allArticles != undefined) {
-    // getting random index from 0 to "count"(all articles counter)
     const randomIndex = Math.round(Math.random() * count);
 
     // setting _mainArticle with random article
     _mainArticle = allArticles.results[randomIndex];
   }
 
-  // sets a default article from getArticlesPage (in case code has been refreshed)
+  // sets a default article from getArticlesPage (this is for dev mode when browser is refreshed)
   if (_mainArticle == null) {
     _mainArticle = articles.results[0];
   }

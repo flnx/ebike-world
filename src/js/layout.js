@@ -1,4 +1,4 @@
-import { render } from './views/lib.js'
+import { render } from './views/lib.js';
 import { footer } from './views/footer.js';
 import { nav, state } from './views/nav.js';
 
@@ -7,16 +7,20 @@ const navWrapper = document.querySelector('.nav__header');
 const mainWrapper = document.querySelector('.main-content');
 const footerWrapper = document.querySelector('.main-footer');
 
+let widthMatch = window.matchMedia('(min-width: 640px)');
+let widthMatchMobile = window.matchMedia('(max-width: 639px)');
+
 let context = null;
 
 export const ctxDecorator = (ctx, next) => {
-    ctx.renderNav = renderNav;
-    ctx.render = renderSection;
-    ctx.renderFooter = renderFooter;
-    context = ctx;
+  ctx.renderNav = renderNav;
+  ctx.isDesktop = widthMatch;
+  ctx.render = renderSection;
+  ctx.renderFooter = renderFooter;
+  context = ctx;
 
-    next();
-  }
+  next();
+};
 
 const renderNav = (ctx) => render(nav(ctx), navWrapper);
 const renderSection = (section) => render(section, mainWrapper);
@@ -32,7 +36,29 @@ function onClick(e) {
     }
   } else {
     state.toggle = false;
+    state.hamburger = false;
     context.renderNav(context);
   }
-};
+}
 
+let resizeTimer = null;
+
+window.addEventListener('resize', (e) => {
+  body.classList.add('resize-animation-stopper');
+
+  if (widthMatch.matches) {
+    context.renderNav(context);
+  }
+
+  if (widthMatchMobile.matches) {
+    context.renderNav(context);
+
+    
+    clearTimeout(resizeTimer);
+  
+    resizeTimer = setTimeout(() => {
+      body.classList.remove('resize-animation-stopper');
+    }, 400);
+  
+  }
+});

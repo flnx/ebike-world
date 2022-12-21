@@ -14,8 +14,9 @@ const BIKES_CAP = 4;
 export const homePage = async (ctx) => {
   const [bikesData, articlesData] = await Promise.all([
     getTrendingBikes(BIKES_CAP),
-    getArticlesByPage(ARTICLES_CAP, 2),
+    getArticlesByPage(ARTICLES_CAP, 1),
   ]);
+
   ctx.render(homePageTemplate(bikesData, articlesData));
 };
 
@@ -107,12 +108,12 @@ const showCaseTemplate = () => html`
       </h1>
       <p>
         We love what we do and we'd love to share it with the world. <br />
-        Check out <span>our blog</span> if you're interested in learning and exploring a
+        Check out <span><a href="/blog">our blog</a></span> if you're interested in learning and exploring a
         whole new world of eBiking!
       </p>
       <div class="showcase__buttons">
-        <button class="btn showcase-btn">EXPLORE</button>
-        <button class="btn showcase-btn2">ACTION</button>
+        <a class="btn showcase-btn" href="/bikes">OUR BIKES</a>
+        <a class="btn showcase-btn2" href="/">SHOPS</a>
       </div>
     </section>
     <section class="showcase__img">
@@ -149,7 +150,7 @@ const latestArticlesTemplate = (article) => html`
           <footer>
             <div class="ar__footer">
               <span>
-                <time>${article.createdAt}</time>
+                <time>${article.createdAt.substring(0, 10)}</time>
                 <p>${article.readTime} min read</p>
               </span>
               <section class="ar__author">
