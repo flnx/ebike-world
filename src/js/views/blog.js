@@ -4,7 +4,6 @@ import { getArticles, getArticlesByPage, countAllArticles, getTrendingArticles }
 import { paginator } from '../utils/paginator.js';
 import { hasOneHourPassed } from '../utils/utils.js';
 
-
 const blog = {
   ARTICLES_CAP: 3,
   mainArticle: null,
@@ -28,7 +27,6 @@ const blog = {
     this.totalPages = Math.ceil(count / this.ARTICLES_CAP)
   }
 }
-
 
 export const blogPage = async (ctx) => {
   const query = new URLSearchParams(ctx.querystring);
@@ -233,7 +231,7 @@ const latestArticlesTemplate = (article) => html`
   </a>
 </article>`;
 
-export const paginatorTemplate = () => html`
+const paginatorTemplate = () => html`
   <div class="pages">
     <ul class="pages__nav">
     <li class="pages__page">

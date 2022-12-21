@@ -1,21 +1,20 @@
 import { getUserData } from '../utils/userData.js';
-import { createPointer } from '../utils/utils.js';
+import { createPointer, createPointer2, encodeData } from '../utils/utils.js';
 import * as api from './api.js';
 
 const endpoints = {
   create: 'classes/Bike',
-  getAll: 'classes/Bike',
-  getOne: (id) => `classes/Bike/${id}`,
   publish: 'classes/Blog',
-  article: (id) => `classes/Blog/${id}`,
   articles: 'classes/Blog',
   trendingArticles: 'classes/Blog?skip=0&limit=3',
-  count: (path) => `classes/${path}?count=1&limit=0`,
-  getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}&order=-createdAt`,
   like: "classes/Like",
   dislike: (id) => `classes/Like/${id}`,
-  articleLikes: (blogId) => 'classes/Like?where=' + encodeURIComponent(`{"blogId":${createPointer('Blog', blogId)}}`),
-  articleUserLike: (blogId, userId) => 'classes/Like?where=' + encodeURIComponent(`{"$or":[{"blogId": ${createPointer('Blog', blogId)}}], "ownerId": ${createPointer('_User', userId)}}`),
+  count: (path) => `classes/${path}?count=1&limit=0`,
+  getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}&order=-createdAt`,
+  bikeDetails: (id) => `classes/Bike/${id}`,
+  article: (id) => `classes/Blog/${id}`,
+  articleLikes: (blogId) => 'classes/Like?where=' + encodeData({blogId: createPointer('Blog', blogId)}),
+  articleUserLike: (blogId, userId) => 'classes/Like?where=' + encodeData({"$or":[{"blogId": createPointer('Blog', blogId)}], "ownerId": createPointer('_User', userId)}),
 };
 
 export const getArticle = async (id) => {
@@ -56,7 +55,7 @@ export const createBlogPost = async (data) => {
   const blogData = {
     ...data,
     author: user.username,
-    owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
+    owner: createPointer('_User', user.objectId),
   };
 
   return await api.post(endpoints.publish, blogData);
@@ -67,8 +66,8 @@ export const sendLike = async (blogId) => {
   const user = getUserData();
 
   const data = {
-    "blogId": { "__type": "Pointer", "className": "Blog", "objectId": blogId },
-    "ownerId": { "__type": "Pointer", "className": "_User", "objectId": user.objectId }
+    blogId: createPointer('Blog', blogId),
+    ownerId: createPointer('_User', user.objectId),
   }
 
   return await api.post(endpoints.like, data);
@@ -79,7 +78,7 @@ export const removeLike = async (blogId) => {
 }
 
 export const getBike = async (id) => {
-  return await api.get(endpoints.getOne(id));
+  return await api.get(endpoints.bikeDetails(id));
 };
 
 export const createBike = async (data) => {
@@ -88,20 +87,21 @@ export const createBike = async (data) => {
   const bikeData = {
     ...data,
     author: user.username,
-    owner: { __type: 'Pointer', className: '_User', objectId: user.objectId },
+    owner: createPointer('_User', user.objectId),
   }
   return await api.post(endpoints.create, bikeData);
 };
 
-export const getBikes = async () => {
-  return await api.get(endpoints.getAll);
+export const getBikesByPage = async (pageSize, currentPage) => {
+  let skip = pageSize * (currentPage - 1);
+  return await api.get(endpoints.getByPage('Bike', 0, pageSize));
 };
 
-export const getTotalBikes = async () => {
+export const countAllBikes = async () => {
   return await api.get(endpoints.count('Bike'));
 };
 
-
+// ! needs to be changed when buy functionality is finished
 export const getTrendingBikes = async (pageSize, currentPage) => {
   // let skip = pageSize * (currentPage - 1);
 

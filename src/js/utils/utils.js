@@ -32,6 +32,10 @@ export const hasOneHourPassed = () => {
   }
 };
 
-export const createPointer = (className, id) => {
-  return `{ "__type": "Pointer", "className": "${className}", "objectId": "${id}" }`
-}
+export const createPointer = (className, objectId) => {
+  return { __type: 'Pointer', className, objectId };
+};
+
+export const encodeData = (data) => {
+  return encodeURIComponent(JSON.stringify(data));
+};

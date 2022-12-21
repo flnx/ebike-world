@@ -1,10 +1,6 @@
 import { html } from './lib.js';
-import { getArticlesByPage, getBikes, getBikesByPage, getTrendingBikes } from '../api/data.js';
-import {
-  AUTHOR_IMAGES as authorImages,
-  BIKE_IMAGES as bikeImages,
-  BLOG_IMAGES as blogImages,
-} from '../utils/images.js';
+import { getArticlesByPage, getTrendingBikes } from '../api/data.js';
+import { AUTHOR_IMAGES as authorImages, BIKE_IMAGES as bikeImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 import showcaseImg from '/src/assets/images/showcase/3.png';
 

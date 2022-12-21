@@ -12,6 +12,9 @@
 
   &__page {
     transition: all 0.1s ease-in-out;
+    &:hover {
+      opacity: .9;
+    }
     a {
       padding: 0.5rem 1rem;
       font-weight: 700;
