@@ -3,6 +3,7 @@ import { html } from './lib.js'
 import showcaseImg from '/src/assets/images/showcase/1.jpg';
 
 export const bikesPage = (ctx) => {
+  console.log(ctx.routePath);
   ctx.render(bikesPageTemplate());
 };
 

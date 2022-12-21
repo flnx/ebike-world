@@ -20,16 +20,16 @@ export const nav = (ctx) => {
 };
 
 const navTemplate = (ctx, onClick) => html`
-  <div class="container-nav nav-wrapper">
+  <div  class="container-nav nav-wrapper">
     <div class="logo">
       <a href="/" class="logo-t"><img src="${logoImg}" /></a>
     </div>
-    <nav class="main-nav on-toggle ${state.hamburger ? 'mobile-show' : 'mobile-hide'}">
-      <ul class="navbar on-toggle">
-        <li class="navbar__item on-toggle"><a href="/blog">Blog</a></li>
-        <li class="navbar__item on-toggle"><a href="/bikes">Bikes</a></li>
-        <li class="navbar__item on-toggle"><a href="/accessories">accessories</a></li>
-        <li class="navbar__item on-toggle"><a href="/about">About</a></li>
+    <nav class="main-nav ${ctx.isDesktop.matches ? "" : "on-toggle"} ${state.hamburger ? 'mobile-show' : 'mobile-hide'}">
+      <ul class="navbar ${ctx.isDesktop.matches ? "" : "on-toggle"}">
+        <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/blog">Blog</a></li>
+        <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/bikes">Bikes</a></li>
+        <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/accessories">accessories</a></li>
+        <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/about">About</a></li>
         ${getUserData()
           ? html`
               <div class="navbar__dropdown on-toggle">
@@ -81,3 +81,7 @@ const desktopDropdown = () => html`
     <a href="/logout">Logout</a>
   </li>
 </div>`;
+
+const onFalse = (e) => {
+  e.preventDefault();
+}

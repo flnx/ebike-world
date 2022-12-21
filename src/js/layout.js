@@ -1,6 +1,7 @@
 import { render } from './views/lib.js';
 import { footer } from './views/footer.js';
 import { nav, state } from './views/nav.js';
+import { loadingTemplate } from './middlewares/loadingTemplate.js';
 
 const body = document.querySelector('body');
 const navWrapper = document.querySelector('.nav__header');
@@ -17,6 +18,7 @@ export const ctxDecorator = (ctx, next) => {
   ctx.isDesktop = widthMatch;
   ctx.render = renderSection;
   ctx.renderFooter = renderFooter;
+  ctx.renderLoading = renderLoading;
   context = ctx;
 
   next();
@@ -25,6 +27,8 @@ export const ctxDecorator = (ctx, next) => {
 const renderNav = (ctx) => render(nav(ctx), navWrapper);
 const renderSection = (section) => render(section, mainWrapper);
 const renderFooter = () => render(footer(), footerWrapper);
+const renderLoading = () => render(loadingTemplate(), mainWrapper);
+
 
 body.addEventListener('click', onClick);
 
@@ -46,19 +50,18 @@ let resizeTimer = null;
 window.addEventListener('resize', (e) => {
   body.classList.add('resize-animation-stopper');
 
+  clearTimeout(resizeTimer);
+  
+  resizeTimer = setTimeout(() => {
+    body.classList.remove('resize-animation-stopper');
+  }, 400);
+
+
   if (widthMatch.matches) {
     context.renderNav(context);
   }
 
   if (widthMatchMobile.matches) {
     context.renderNav(context);
-
-    
-    clearTimeout(resizeTimer);
-  
-    resizeTimer = setTimeout(() => {
-      body.classList.remove('resize-animation-stopper');
-    }, 400);
-  
   }
 });

@@ -17,14 +17,17 @@ import { showFooter } from './middlewares/showFooter.js';
 import { userSession } from './middlewares/session.js';
 import { getUserData } from './utils/userData.js';
 import { hasUser, isNotGuest } from './middlewares/guards.js';
-
+import { showPageLoading } from './middlewares/loadingTemplate.js';
 
 import '../styles/main.scss';
+import { antiClickSpam } from './middlewares/antiClickSpam.js';
 
+page(antiClickSpam);
 page(ctxDecorator);
 page(showNav);
 page(showFooter);
-page(userSession(getUserData))
+page(showPageLoading);
+page(userSession(getUserData));
 page('/', homePage);
 page('/index.html', '/');
 page('/blog', blogPage);

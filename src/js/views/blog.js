@@ -111,8 +111,6 @@ const blogTemplate = (mainArticle, articles, trendingArticles, paginationArr) =>
         </aside>
   </div>
   </section>
-
-
   </div>
 `;
 
@@ -236,7 +234,6 @@ const latestArticlesTemplate = (article) => html` <article>
 </article>`;
 
 export const paginatorTemplate = (pages) => html`
-${console.log(totalPages)}
   <div class="pages">
     <ul class="pages__nav">
     <li class="pages__page"><a href="/blog?page=${currentPage - 1}" class="${currentPage == 1 ? "disabled" : ""}">Prev</a></li>
