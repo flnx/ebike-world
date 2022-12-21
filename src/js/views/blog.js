@@ -1,23 +1,44 @@
-import { html, nothing } from './lib.js';
+import { html, nothing, repeat } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
 import { getArticles, getArticlesByPage, countAllArticles, getTrendingArticles } from '../api/data.js';
 import { paginator } from '../utils/paginator.js';
 import { hasOneHourPassed } from '../utils/utils.js';
 
-const ARTICLES_CAP = 3;
 
-let _mainArticle = null;
-let currentPage = null;
-let totalPages = null;
+const blog = {
+  ARTICLES_CAP: 3,
+  mainArticle: null,
+  pages: [],
+  totalPages: 0,
+  currentPage: 1,
+  setNewArticleEveryHour(hourHasPassed, articlesData) {
+    if (hourHasPassed && articlesData) {
+      const randomIndex = Math.round(Math.random() * count);
+       this.mainArticle = allArticles.results[randomIndex];
+    }
+  },
+  resetArticleOnRefresh(articles) {
+    // this is not for production. Only for dev mode when browser refreshes
+    if (!this.mainArticle) {
+      this.mainArticle = articles.results[0];
+    }
+  },
+  setPages(count) {
+    this.pages = paginator(this.currentPage, count);
+    this.totalPages = Math.ceil(count / this.ARTICLES_CAP)
+  }
+}
+
 
 export const blogPage = async (ctx) => {
   const query = new URLSearchParams(ctx.querystring);
-  currentPage = +query?.get('page') || 1;
+  blog.currentPage = +query?.get('page') || 1;
+
   const hourHasPassed = hasOneHourPassed();
 
   const data = [
     countAllArticles(),
-    getArticlesByPage(ARTICLES_CAP, currentPage),
+    getArticlesByPage(blog.ARTICLES_CAP, blog.currentPage),
     getTrendingArticles(),
   ];
 
@@ -25,35 +46,24 @@ export const blogPage = async (ctx) => {
     data.push(getArticles());
   }
 
-  const [{ count }, articles, trendingArticles, allArticles] = await Promise.all(data);
+  const [{ count }, articlesByCap, trending, all] = await Promise.all(data);
 
-  // If 1 hour has passed - get all articles and set a random "Top" Article
-  if (hourHasPassed && allArticles != undefined) {
-    const randomIndex = Math.round(Math.random() * count);
+  blog.setNewArticleEveryHour(hourHasPassed, all);
+  blog.resetArticleOnRefresh(trending);
+  blog.setPages(count);
 
-    // setting _mainArticle with random article
-    _mainArticle = allArticles.results[randomIndex];
-  }
-
-  // sets a default article from getArticlesPage (this is for dev mode when browser is refreshed)
-  if (_mainArticle == null) {
-    _mainArticle = articles.results[0];
-  }
-
-  // getting an array with the correct pages
-  const paginationArray = paginator(currentPage, count);
-  totalPages = Math.ceil(count / ARTICLES_CAP);
-
-  ctx.render(blogTemplate(_mainArticle, articles, trendingArticles, paginationArray));
+  ctx.render(blogTemplate(articlesByCap, trending));
 };
 
-const blogTemplate = (mainArticle, articles, trendingArticles, paginationArr) => html`
-
+const blogTemplate = (articles, trendingArticles) => html`
 <div class="container">
+  <!-- Main Article -->
     <main>
-       ${mainArticleTemplate(mainArticle)} 
+       ${mainArticleTemplate(blog.mainArticle)} 
     </main>
     <hr class="linebreak">
+
+    <!-- Trending -->
     <section class="trending">
       <h2>Trending</h2>
       <div class="articles__wrapper">
@@ -61,22 +71,12 @@ const blogTemplate = (mainArticle, articles, trendingArticles, paginationArr) =>
       </div>
     </section>
 
-    <!-- LATEST -->
-
-    <section>
-      <section class="ar-flex-wrap mb">
+    <!-- Latest -->
+    <section class="ar-flex-wrap mb">
         <section class="flex__1 mb">
           <h3 class="mb1">Latest Articles</h3>
-          <div class="categories mb1">
-            <span>Workouts</span>
-            <span>Bikes</span>
-            <span>News</span>
-            <span>Advice</span>
-            <span>Parts</span>
-            <span>Teach Me</span>
-          </div>
-        ${articles.results.map(latestArticlesTemplate)}
-        ${paginatorTemplate(paginationArr)}
+          ${articles.results.map(latestArticlesTemplate)}
+          ${paginatorTemplate()}
         </section>
 
         <!-- Aside -->
@@ -109,9 +109,8 @@ const blogTemplate = (mainArticle, articles, trendingArticles, paginationArr) =>
             <time>November 3, 2021</time>
           </section>
         </aside>
-  </div>
-  </section>
-  </div>
+    </section>
+</div>
 `;
 
 const mainArticleTemplate = (mainArticle) => html`
@@ -187,7 +186,8 @@ const trendingArticlesTemplate = (article) => html`
   </article>
 `;
 
-const latestArticlesTemplate = (article) => html` <article>
+const latestArticlesTemplate = (article) => html` 
+<article>
   <a href="/article/${article.objectId}">
     <div class="latest bs">
       <!-- image -->
@@ -233,15 +233,20 @@ const latestArticlesTemplate = (article) => html` <article>
   </a>
 </article>`;
 
-export const paginatorTemplate = (pages) => html`
+export const paginatorTemplate = () => html`
   <div class="pages">
     <ul class="pages__nav">
-    <li class="pages__page"><a href="/blog?page=${currentPage - 1}" class="${currentPage == 1 ? "disabled" : ""}">Prev</a></li>
-      ${pages.map(
-        (page) =>
-          html`<li class="pages__page ${page == currentPage ? "current-page" : ""}"><a href="/blog?page=${page}">${page}</a></li>`
-      )}
-    <li class="pages__page"><a href="/blog?page=${currentPage + 1}" class="${currentPage >= totalPages ? "disabled" : ""}">Prev</a></li>
+    <li class="pages__page">
+        <a href="/blog?page=${blog.currentPage - 1}" class="${blog.currentPage == 1 ? "disabled" : ""}">Prev</a>
+    </li>
+      ${repeat(blog.pages, (page) =>
+        html`
+        <li class="pages__page ${page == blog.currentPage ? "current-page" : null}">
+            <a href="/blog?page=${page}">${page}</a>
+        </li>`)}
+    <li class="pages__page">
+      <a href="/blog?page=${blog.currentPage + 1}" class="${blog.currentPage >= blog.totalPages ? "disabled" : ""}">Prev</a>
+    </li>
     </ul>
   </div>
 `;
