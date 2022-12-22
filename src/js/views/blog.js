@@ -1,4 +1,4 @@
-import { html, nothing, repeat } from './lib.js';
+import { html, repeat } from './lib.js';
 import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
 import { getArticles, getArticlesByPage, countAllArticles, getTrendingArticles } from '../api/data.js';
 import { paginator } from '../utils/paginator.js';

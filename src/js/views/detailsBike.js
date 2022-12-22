@@ -14,23 +14,41 @@ const detailsPageTemplate = (data) => html`
       <div class="flex">
         <div class="left__img">
           <div>
-            <img src="${images[data.posterUrls.imgName1]}" class="main-img" alt="ebike image" srcset="" />
+            <img src="${
+              data.posterUrls.imgName1.includes('.')
+                ? data.posterUrls.imgName1
+                : images[data.posterUrls.imgName1]}" class="main-img" alt="ebike image" srcset="" />
           </div>
           <div class="left__img__wrapper">
             <div class="left__img__images">
-              <img src="${images[data.posterUrls.imgName2]}" alt="" srcset="" />
+              <img src="${
+              data.posterUrls.imgName1.includes('.')
+                ? data.posterUrls.imgName2
+                : images[data.posterUrls.imgName2]}" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images[data.posterUrls.imgName3]}" alt="" srcset="" />
+              <img src="${
+              data.posterUrls.imgName1.includes('.')
+                ? data.posterUrls.imgName3
+                : images[data.posterUrls.imgName3]}" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images[data.posterUrls.imgName4]}" alt="" srcset="" />
+              <img src="${
+              data.posterUrls.imgName1.includes('.')
+                ? data.posterUrls.imgName4
+                : images[data.posterUrls.imgName4]}" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images[data.posterUrls.imgName5]}" alt="" srcset="" />
+              <img src="${
+              data.posterUrls.imgName1.includes('.')
+                ? data.posterUrls.imgName5
+                : images[data.posterUrls.imgName5]}" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
-              <img src="${images[data.posterUrls.imgName6]}" alt="" srcset="" />
+              <img src="${
+              data.posterUrls.imgName1.includes('.')
+                ? data.posterUrls.imgName6
+                : images[data.posterUrls.imgName6]}" class="main-img" alt="ebike image" srcset="" />
             </div>
           </div>
         </div>

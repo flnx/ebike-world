@@ -1,5 +1,5 @@
 import { getUserData } from '../utils/userData.js';
-import { createPointer, createPointer2, encodeData } from '../utils/utils.js';
+import { createPointer, encodeData } from '../utils/utils.js';
 import * as api from './api.js';
 
 const endpoints = {
@@ -94,7 +94,8 @@ export const createBike = async (data) => {
 
 export const getBikesByPage = async (pageSize, currentPage) => {
   let skip = pageSize * (currentPage - 1);
-  return await api.get(endpoints.getByPage('Bike', 0, pageSize));
+
+  return await api.get(endpoints.getByPage('Bike', skip, pageSize));
 };
 
 export const countAllBikes = async () => {
@@ -103,7 +104,7 @@ export const countAllBikes = async () => {
 
 // ! needs to be changed when buy functionality is finished
 export const getTrendingBikes = async (pageSize, currentPage) => {
-  // let skip = pageSize * (currentPage - 1);
+  let skip = pageSize * (currentPage - 1);
 
-  return await api.get(endpoints.getByPage('Bike', 0, pageSize));
+  return await api.get(endpoints.getByPage('Bike', skip, pageSize));
 };
