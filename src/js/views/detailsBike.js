@@ -2,15 +2,43 @@ import { html } from './lib.js';
 import { BIKE_IMAGES as images } from '../utils/images.js';
 import { getBike } from '../api/data.js';
 
-export const bikeDetailsPage = async (ctx) => {
-  const data = await getBike(ctx.params.id);
+const test = {
+  posterUrls: {
+    imgName1: "https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0"
+  },
+  brand: 'Yee-Claw',
+  model: 'Model X',
+  price: 1999,
+}
 
-  ctx.render(detailsPageTemplate(data));
+export const bikeDetailsPage = async (ctx) => {
+  let cache = {
+    number: 0,
+  };
+
+  // post request
+  const onBasket = async (e) => {
+    e.preventDefault();
+    cache.number++;
+    console.log(cache);
+    // cache data
+    // open cart template
+    // pop up (added to basket) and close it after 3 sec
+  };
+
+  // get request with all items in the cart
+  const showCart = () => {
+    // show all the items stored in cache
+  };
+
+  // request with all the items in the cart
+  const data = await getBike(ctx.params.id);
+  ctx.render(detailsPageTemplate(data, onBasket));
 };
 
-const detailsPageTemplate = (data) => html`
+const detailsPageTemplate = (data, onBasket) => html`
   <div class="container">
-    ${cartOverlay()}
+    <!-- ${cartOverlay()} -->
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -18,43 +46,53 @@ const detailsPageTemplate = (data) => html`
             <img src="${
               data.posterUrls.imgName1.includes('.')
                 ? data.posterUrls.imgName1
-                : images[data.posterUrls.imgName1]}" class="main-img" alt="ebike image" srcset="" />
+                : images[data.posterUrls.imgName1]
+            }" class="main-img" alt="ebike image" srcset="" />
           </div>
           <div class="left__img__wrapper">
             <div class="left__img__images">
               <img src="${
-              data.posterUrls.imgName1.includes('.')
-                ? data.posterUrls.imgName2
-                : images[data.posterUrls.imgName2]}" class="main-img" alt="ebike image" srcset="" />
+                data.posterUrls.imgName1.includes('.')
+                  ? data.posterUrls.imgName2
+                  : images[data.posterUrls.imgName2]
+              }" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
               <img src="${
-              data.posterUrls.imgName1.includes('.')
-                ? data.posterUrls.imgName3
-                : images[data.posterUrls.imgName3]}" class="main-img" alt="ebike image" srcset="" />
+                data.posterUrls.imgName1.includes('.')
+                  ? data.posterUrls.imgName3
+                  : images[data.posterUrls.imgName3]
+              }" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
               <img src="${
-              data.posterUrls.imgName1.includes('.')
-                ? data.posterUrls.imgName4
-                : images[data.posterUrls.imgName4]}" class="main-img" alt="ebike image" srcset="" />
+                data.posterUrls.imgName1.includes('.')
+                  ? data.posterUrls.imgName4
+                  : images[data.posterUrls.imgName4]
+              }" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
               <img src="${
-              data.posterUrls.imgName1.includes('.')
-                ? data.posterUrls.imgName5
-                : images[data.posterUrls.imgName5]}" class="main-img" alt="ebike image" srcset="" />
+                data.posterUrls.imgName1.includes('.')
+                  ? data.posterUrls.imgName5
+                  : images[data.posterUrls.imgName5]
+              }" class="main-img" alt="ebike image" srcset="" />
             </div>
             <div class="left__img__images">
               <img src="${
-              data.posterUrls.imgName1.includes('.')
-                ? data.posterUrls.imgName6
-                : images[data.posterUrls.imgName6]}" class="main-img" alt="ebike image" srcset="" />
+                data.posterUrls.imgName1.includes('.')
+                  ? data.posterUrls.imgName6
+                  : images[data.posterUrls.imgName6]
+              }" class="main-img" alt="ebike image" srcset="" />
             </div>
           </div>
         </div>
         <div class="right__content">
-        <span class="right__content__intro redC">${data.brand}</span>
+          <span class="right__content__intro redC">${data.brand}</span>
+          <div class="shopping-bag">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Your basket</span>
+          </div>
           <h1>${data.model}</h1>
           <span class="bikes__pricetag ar__pricetag">$${data.price}</span>
           <p class="right__content__description">${data.description}</p>
@@ -66,8 +104,8 @@ const detailsPageTemplate = (data) => html`
             <p><span>Weight Limit:  </span>${data.weightLimit}</p>
           </div>
           <div class="right__content__buttons">
-            <button class="btn">Buy</button>
-            <i class="fa-solid fa-cart-arrow-down"></i>
+            <button type="button" class="btn">Buy</button>
+            <i class="fa-solid fa-cart-arrow-down" @click=${onBasket}></i>
           </div>
         </div>
       </div>
@@ -146,56 +184,28 @@ const detailsPageTemplate = (data) => html`
 
 const cartOverlay = () => html`
   <div class="cart-absolute">
-  <section class="cart-overlay">
-    <i class="fa-solid fa-xmark"></i>
-    <h3>Cart Items: </h3>
-    <div class="cart-wrapper">
-      <!-- Item Example -->
-      <section class="cart-wrapper__item">
-        <div class="cart-wrapper__image">
-        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
-        </div>
-        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
-        <span class="cart-wrapper__price">Price: $1999</span>
-      </section>
-
-      <section class="cart-wrapper__item">
-        <div class="cart-wrapper__image">
-        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
-        </div>
-        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
-        <span class="cart-wrapper__price">Price: $1999</span>
-      </section>
-
-      <section class="cart-wrapper__item">
-        <div class="cart-wrapper__image">
-        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
-        </div>
-        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
-        <span class="cart-wrapper__price">Price: $1999</span>
-      </section>
-
-
-      <section class="cart-wrapper__item">
-        <div class="cart-wrapper__image">
-        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
-        </div>
-        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
-        <span class="cart-wrapper__price">Price: $1999</span>
-      </section>
-
-      <section class="cart-wrapper__item">
-        <div class="cart-wrapper__image">
-        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
-        </div>
-        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
-        <span class="cart-wrapper__price">Price: $1999</span>
-      </section>
-    </div>
-    <div class="cart-overlay__footer">
-      <a href="">Finish Order</a>
-      <span>Total Price: $5000</span>
-    </div>
-  </section>
+    <section class="cart-overlay">
+      <h3>Cart Items:</h3>
+      <div class="cart-wrapper">
+        <!-- Item Example -->
+        <section class="cart-wrapper__item">
+          <div class="cart-wrapper__image">
+            <img
+              src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0"
+              alt="product image"
+              srcset=""
+              width="200px"
+              height="100px"
+            />
+          </div>
+          <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
+          <span class="cart-wrapper__price">Price: $1999</span>
+        </section>
+      </div>
+      <div class="cart-overlay__footer">
+        <a href="">Finish Order</a>
+        <span>Total Price: $5000</span>
+      </div>
+    </section>
   </div>
-`
+`;

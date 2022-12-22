@@ -5,7 +5,6 @@ import { generateRandomBike } from '../utils/generateBike.js';
 export const createPage = (ctx) => {
   const onSubmit = async (e) => {
     e.preventDefault();
-    e.stopImmediatePropagation();
 
     const formData = Object.fromEntries(new FormData(e.target));
     const fieldsData = validateData(formData);
@@ -26,7 +25,6 @@ export const createPage = (ctx) => {
 
   const onTextGenerate = (e) => {
     e.preventDefault();
-    e.stopImmediatePropagation();
 
     const randomBike = generateRandomBike();
 

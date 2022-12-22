@@ -13,7 +13,6 @@ export const articleDetailsPage = async (ctx) => {
 
   const onLike = async (e) => {
     e.preventDefault();
-    e.stopPropagation();
 
     if (isAnimating) {
       return;
