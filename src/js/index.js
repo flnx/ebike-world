@@ -21,6 +21,7 @@ import { showPageLoading } from './middlewares/loadingTemplate.js';
 
 import '../styles/main.scss';
 import { antiClickSpam } from './middlewares/antiClickSpam.js';
+import { cartPage } from './views/cart.js';
 
 page(antiClickSpam);
 page(ctxDecorator);
@@ -41,5 +42,6 @@ page('/create', hasUser(), createPage);
 page('/add-post', hasUser(), addPost);
 page('/login', isNotGuest(), loginPage);
 page('/register', isNotGuest(), registerPage);
+page('/cart', hasUser(), cartPage);
 page('/logout', logoutAction);
 page.start();

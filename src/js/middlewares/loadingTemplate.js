@@ -8,7 +8,7 @@ export const loadingTemplate = () => html`
 </div>`;
 
 export const showPageLoading = (ctx, next) => {
-  if (ctx.path.includes('page')) {
+  if (ctx.path.includes('page') && !ctx.path.includes('bikes')) {
     next();
     return;
   }

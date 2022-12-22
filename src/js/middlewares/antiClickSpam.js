@@ -1,11 +1,11 @@
-let prevPath = null;
+let previousPath = null;
 
 export const antiClickSpam = (ctx, next) => {
 
-  if (prevPath == ctx.path) {
+  if (previousPath == ctx.path) {
     return;
   } else {
-    prevPath = ctx.path;
+    previousPath = ctx.path;
     next();
   }
 };

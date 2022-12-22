@@ -10,6 +10,7 @@ export const bikeDetailsPage = async (ctx) => {
 
 const detailsPageTemplate = (data) => html`
   <div class="container">
+    ${cartOverlay()}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -57,7 +58,6 @@ const detailsPageTemplate = (data) => html`
           <h1>${data.model}</h1>
           <span class="bikes__pricetag ar__pricetag">$${data.price}</span>
           <p class="right__content__description">${data.description}</p>
-
           <div class="right__content__specs">
             <p><span>Engine:  </span>${data.enginePower}</p>
             <p><span>Max Speed:  </span>${data.speed}</p>
@@ -67,10 +67,7 @@ const detailsPageTemplate = (data) => html`
           </div>
           <div class="right__content__buttons">
             <button class="btn">Buy</button>
-            <div class="article__icons">
-              <i class="fa-solid fa-heart"></i>
-              <i class="fa-solid fa-share"></i>
-            </div>
+            <i class="fa-solid fa-cart-arrow-down"></i>
           </div>
         </div>
       </div>
@@ -146,3 +143,59 @@ const detailsPageTemplate = (data) => html`
     </section>
   </div>
 `;
+
+const cartOverlay = () => html`
+  <div class="cart-absolute">
+  <section class="cart-overlay">
+    <i class="fa-solid fa-xmark"></i>
+    <h3>Cart Items: </h3>
+    <div class="cart-wrapper">
+      <!-- Item Example -->
+      <section class="cart-wrapper__item">
+        <div class="cart-wrapper__image">
+        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
+        </div>
+        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
+        <span class="cart-wrapper__price">Price: $1999</span>
+      </section>
+
+      <section class="cart-wrapper__item">
+        <div class="cart-wrapper__image">
+        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
+        </div>
+        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
+        <span class="cart-wrapper__price">Price: $1999</span>
+      </section>
+
+      <section class="cart-wrapper__item">
+        <div class="cart-wrapper__image">
+        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
+        </div>
+        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
+        <span class="cart-wrapper__price">Price: $1999</span>
+      </section>
+
+
+      <section class="cart-wrapper__item">
+        <div class="cart-wrapper__image">
+        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
+        </div>
+        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
+        <span class="cart-wrapper__price">Price: $1999</span>
+      </section>
+
+      <section class="cart-wrapper__item">
+        <div class="cart-wrapper__image">
+        <img src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0" alt="product image" srcset="" width="200px" height="100px"/>
+        </div>
+        <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
+        <span class="cart-wrapper__price">Price: $1999</span>
+      </section>
+    </div>
+    <div class="cart-overlay__footer">
+      <a href="">Finish Order</a>
+      <span>Total Price: $5000</span>
+    </div>
+  </section>
+  </div>
+`

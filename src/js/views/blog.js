@@ -23,7 +23,7 @@ const blog = {
     }
   },
   setPages(count) {
-    this.pages = paginator(this.currentPage, count);
+    this.pages = paginator(this.currentPage, count, this.ARTICLES_CAP);
     this.totalPages = Math.ceil(count / this.ARTICLES_CAP)
   }
 }

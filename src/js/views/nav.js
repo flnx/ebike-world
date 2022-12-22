@@ -65,6 +65,9 @@ const mobileDropdown = () => html` <ul class="navbar__dropdown__menu">
     <a href="/add-post">Create Post</a>
   </li>
   <li class="navbar__item on-toggle toggle-item">
+    <a href="/cart">My Cart</a>
+  </li>
+  <li class="navbar__item on-toggle toggle-item">
     <a href="/logout">Logout</a>
   </li>
 </ul>`;
@@ -76,6 +79,9 @@ const desktopDropdown = () => html`
   </li>
   <li class="navbar__item on-toggle toggle-item">
     <a href="/add-post">Create Post</a>
+  </li>
+  <li class="navbar__item on-toggle toggle-item">
+    <a href="/cart">My Cart</a>
   </li>
   <li class="navbar__item on-toggle toggle-item">
     <a href="/logout">Logout</a>
