@@ -1,6 +1,10 @@
-import { html } from './lib.js';
+import { html, nothing } from './lib.js';
 import { BIKE_IMAGES as images } from '../utils/images.js';
-import { getBike } from '../api/data.js';
+import { buyItem, getBike, getCartItems } from '../api/data.js';
+
+const state = {
+  mouseover: true,
+}
 
 const test = {
   posterUrls: {
@@ -12,33 +16,54 @@ const test = {
 }
 
 export const bikeDetailsPage = async (ctx) => {
-  let cache = {
-    number: 0,
-  };
-
-  // post request
   const onBasket = async (e) => {
     e.preventDefault();
-    cache.number++;
-    console.log(cache);
-    // cache data
-    // open cart template
-    // pop up (added to basket) and close it after 3 sec
+
+    const basketData = {
+      title: bikeDetailsData.brand + ' ' + bikeDetailsData.model,
+      price: bikeDetailsData.price,
+      imgUrl: bikeDetailsData.posterUrls.imgName1,
+    }
+
+    const boughtItemData = await buyItem(basketData);
+
+    basketData.objectId = boughtItemData.objectId;
+    userCartItems.results.push(basketData)
+    
+    
+    // [x] POST request
+    // [x] Cache data
+    // [] Render (add the cached data)
+    // [] Show bag
   };
 
-  // get request with all items in the cart
-  const showCart = () => {
-    // show all the items stored in cache
-  };
+  const onBuy = (e) => {
+    e.preventDefault();
+    // 1. POST request
+    // 2. Redirect to cart page
+  } 
+  
+  const onShoppingBag = (e, boolean) => {
+    e.preventDefault();
+    state.mouseover = boolean;
+    ctx.render(detailsPageTemplate(bikeDetailsData, onBasket, onBuy, onShoppingBag));
+    // [x] attach mouseover event
+    // [x] render the cart template
+  }
+  
+  // [x] GET request with all items in the cart
+  const bikeDetailsData = await getBike(ctx.params.id);
+  const userCartItems = await getCartItems();
 
-  // request with all the items in the cart
-  const data = await getBike(ctx.params.id);
-  ctx.render(detailsPageTemplate(data, onBasket));
+
+  ctx.render(detailsPageTemplate(bikeDetailsData, onBasket, onBuy, onShoppingBag));
 };
 
-const detailsPageTemplate = (data, onBasket) => html`
+
+
+const detailsPageTemplate = (data, onBasket, onBuy, onShoppingBag) => html`
   <div class="container">
-    <!-- ${cartOverlay()} -->
+    ${state.mouseover ? cartOverlay(onShoppingBag) : nothing}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -90,7 +115,7 @@ const detailsPageTemplate = (data, onBasket) => html`
         <div class="right__content">
           <span class="right__content__intro redC">${data.brand}</span>
           <div class="shopping-bag">
-            <i class="fa-solid fa-bag-shopping"></i>
+            <i class="fa-solid fa-bag-shopping" @mouseover=${(e) => onShoppingBag(e, true)}></i>
             <span>Your basket</span>
           </div>
           <h1>${data.model}</h1>
@@ -104,7 +129,7 @@ const detailsPageTemplate = (data, onBasket) => html`
             <p><span>Weight Limit:  </span>${data.weightLimit}</p>
           </div>
           <div class="right__content__buttons">
-            <button type="button" class="btn">Buy</button>
+            <button type="button" class="btn" @click=${onBuy}>Buy</button>
             <i class="fa-solid fa-cart-arrow-down" @click=${onBasket}></i>
           </div>
         </div>
@@ -182,9 +207,9 @@ const detailsPageTemplate = (data, onBasket) => html`
   </div>
 `;
 
-const cartOverlay = () => html`
-  <div class="cart-absolute">
-    <section class="cart-overlay">
+const cartOverlay = (onShoppingBag) => html`
+  <div class="cart-absolute"}>
+    <section class="cart-overlay" @mouseleave=${(e) => onShoppingBag(e, false)}>
       <h3>Cart Items:</h3>
       <div class="cart-wrapper">
         <!-- Item Example -->

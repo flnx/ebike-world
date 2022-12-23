@@ -6,8 +6,10 @@ const endpoints = {
   create: 'classes/Bike',
   publish: 'classes/Blog',
   articles: 'classes/Blog',
+  buy: 'classes/Cart',
   trendingArticles: 'classes/Blog?skip=0&limit=3',
   like: "classes/Like",
+  userCart: (owner) => 'classes/Cart?where=' + encodeData({owner: createPointer('_User', owner)}),
   dislike: (id) => `classes/Like/${id}`,
   count: (path) => `classes/${path}?count=1&limit=0`,
   getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}&order=-createdAt`,
@@ -108,3 +110,19 @@ export const getTrendingBikes = async (pageSize, currentPage) => {
 
   return await api.get(endpoints.getByPage('Bike', skip, pageSize));
 };
+
+export const buyItem = async (data) => {
+  const user = getUserData();
+
+  const bikeData = {
+    ...data,
+    owner: createPointer('_User', user.objectId),
+  }
+
+  return await api.post(endpoints.buy, bikeData);
+}
+
+export const getCartItems = async() => { 
+  const user = getUserData();
+  return await api.get(endpoints.userCart(user.objectId))
+}
