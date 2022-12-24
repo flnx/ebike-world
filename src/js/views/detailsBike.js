@@ -34,10 +34,17 @@ export const bikeDetailsPage = async (ctx) => {
     }, 2000);
   };
 
-  const onBuy = (e) => {
+  const onBuy = async(e) => {
     e.preventDefault();
-    // 1. POST request
-    // 2. Redirect to cart page
+    
+    const basketData = {
+      title: bikeDetails.brand + ' ' + bikeDetails.model,
+      price: bikeDetails.price,
+      imgUrl: bikeDetails.posterUrls.imgName1,
+    };
+
+     await buyItem(basketData);
+     ctx.page.redirect('/cart')
   };
 
   const onBag = (e, boolean) => {
