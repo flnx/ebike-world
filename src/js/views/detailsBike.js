@@ -19,13 +19,14 @@ export const bikeDetailsPage = async (ctx) => {
       imgUrl: bikeDetails.posterUrls.imgName1,
     };
 
+    state.bought = true;
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
+
     const boughtItemData = await buyItem(basketData);
 
     basketData.objectId = boughtItemData.objectId;
     cartItems.results.push(basketData);
 
-    state.bought = true;
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
 
     setTimeout(() => {
       state.bought = false;
@@ -73,6 +74,13 @@ export const bikeDetailsPage = async (ctx) => {
 
 const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) => html`
   <div class="container">
+  <div class="shopping-bag">
+    <i class="fa-solid fa-bag-shopping" 
+      @mouseover=${(e) => onBag(e, true)}
+      @click=${(e) => onBag(e, true)}>
+    </i>
+    <span>Your Basket</span>
+  </div>
     ${state.bought ? addedItemTemplate() : nothing}
     ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove) : nothing}
     <section class="mb">
@@ -125,10 +133,6 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) 
         </div>
         <div class="right__content">
           <span class="right__content__intro redC">${data.brand}</span>
-          <div class="shopping-bag">
-            <i class="fa-solid fa-bag-shopping" @mouseover=${(e) => onBag(e, true)}></i>
-            <span>Your basket</span>
-          </div>
           <h1>${data.model}</h1>
           <span class="bikes__pricetag ar__pricetag">$${data.price}</span>
           <p class="right__content__description">${data.description}</p>
@@ -223,8 +227,9 @@ const cartOverlay = (onBag, items, onRemove) => {
 
   return html`
     <div class="cart-absolute">
-      <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false)}>
+      <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false) }>
         <h3>Cart Items:</h3>
+        <i class="fa-solid fa-xmark close" @click=${(e) => onBag(e, false)}></i>
         <div class="cart-wrapper">
           <!-- Item Example -->
           ${items.results.map(x => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}

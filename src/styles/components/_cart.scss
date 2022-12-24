@@ -1,3 +1,5 @@
+@use '../utilities/breakpoints.scss' as brp;
+
 .cart-absolute {
   position: absolute;
   right: 0;
@@ -18,6 +20,15 @@
   border-radius: 5px;
   text-align: center;
 
+  .close {
+    position: absolute;
+    color: #fff;
+    font-size: 2.8rem;
+    top: .25rem;
+    right: 1rem;
+    cursor: pointer;
+  }
+  
   img {
     object-fit: scale-down;
   }
@@ -45,6 +56,14 @@
     &__item {
       display: flex;
       align-items: center;
+
+      .fa-xmark {
+        font-size: 2rem;
+        color: rgb(183, 49, 49);
+        cursor: pointer;
+        margin-left: 1.3rem;
+      }
+      
     }
 
     &__price {
@@ -57,12 +76,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0rem 2rem 1rem 2.5rem;
+    padding: 0rem 2rem 1rem 2rem;
 
     a {
       display: inline-block;
       font-size: 1rem;
-      padding: 0.8rem 1.4rem;
+      padding: 0.5rem 1rem;
       border-radius: 5px;
       font-weight: 700;
       letter-spacing: 1px;
@@ -75,7 +94,7 @@
     }
 
     span {
-      font-size: 1.25rem;
+      font-size: 1.025rem;
       font-weight: 900;
     }
   }
@@ -85,16 +104,28 @@
 
 .shopping-bag {
   position: absolute;
-  top: 1.7rem;
-  right: 1rem;
+  top: -3.7rem;
+  right: 4.5rem;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 
+  @include brp.breakpoint-up(medium) {
+    top: 2rem;
+    right: 1rem;
+  }
+
   span {
     font-weight: 700;
     color: var(--border);
+    font-size: 0rem;
+
+    @include brp.breakpoint-up(medium) {
+      font-size: 1.2rem;
+    }
+
   }
 
   .fa-bag-shopping {
@@ -109,27 +140,25 @@
   }
 }
 
+.popup-message {
+  position: fixed;
+  top: 7rem;
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, -50%);
 
-  .popup-message {
-    position: fixed;
-    top: 7rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  padding: 1rem .5rem;
+  background: rgba(0, 0, 0, 0.928);
+  border-radius: 5px;
+  text-align: center;
 
+  span {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  @include brp.breakpoint-up(medium) {
+    width: auto;
     padding: 1rem 3rem;
-    background: rgba(0, 0, 0, 0.928);
-    border-radius: 5px;
-    text-align: center;
-
-    span {
-      color: #fff;
-      font-weight: 700;
-    }
   }
-
-  .fa-xmark {
-    font-size: 2rem;
-    color: rgb(183, 49, 49);
-    cursor: pointer;
-    margin-left: 1.3rem;
-  }
+}
