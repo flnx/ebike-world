@@ -1,6 +1,11 @@
 import { html, repeat } from './lib.js';
-import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as images } from '../utils/images.js';
-import { getArticles, getArticlesByPage, countAllArticles, getTrendingArticles } from '../api/data.js';
+import { BLOG_IMAGES as images } from '../utils/images.js';
+import {
+  getArticles,
+  getArticlesByPage,
+  countAllArticles,
+  getTrendingArticles,
+} from '../api/data.js';
 import { paginator } from '../utils/paginator.js';
 import { hasOneHourPassed } from '../utils/utils.js';
 
@@ -13,7 +18,7 @@ const blog = {
   setNewArticleEveryHour(hourHasPassed, articlesData) {
     if (hourHasPassed && articlesData) {
       const randomIndex = Math.round(Math.random() * count);
-       this.mainArticle = allArticles.results[randomIndex];
+      this.mainArticle = allArticles.results[randomIndex];
     }
   },
   resetArticleOnRefresh(articles) {
@@ -24,9 +29,9 @@ const blog = {
   },
   setPages(count) {
     this.pages = paginator(this.currentPage, count, this.ARTICLES_CAP);
-    this.totalPages = Math.ceil(count / this.ARTICLES_CAP)
-  }
-}
+    this.totalPages = Math.ceil(count / this.ARTICLES_CAP);
+  },
+};
 
 export const blogPage = async (ctx) => {
   const query = new URLSearchParams(ctx.querystring);
@@ -54,12 +59,10 @@ export const blogPage = async (ctx) => {
 };
 
 const blogTemplate = (articles, trendingArticles) => html`
-<div class="container">
-  <!-- Main Article -->
-    <main>
-       ${mainArticleTemplate(blog.mainArticle)} 
-    </main>
-    <hr class="linebreak">
+  <div class="container">
+    <!-- Main Article -->
+    <main>${mainArticleTemplate(blog.mainArticle)}</main>
+    <hr class="linebreak" />
 
     <!-- Trending -->
     <section class="trending">
@@ -71,44 +74,43 @@ const blogTemplate = (articles, trendingArticles) => html`
 
     <!-- Latest -->
     <section class="ar-flex-wrap mb">
-        <section class="flex__1 mb">
-          <h3 class="mb1">Latest Articles</h3>
-          ${articles.results.map(latestArticlesTemplate)}
-          ${paginatorTemplate()}
+      <section class="flex__1 mb">
+        <h3 class="mb1">Latest Articles</h3>
+        ${articles.results.map(latestArticlesTemplate)} ${paginatorTemplate()}
+      </section>
+
+      <!-- Aside -->
+      <aside class="flex__2">
+        <h3 class="mb1">Most Viewed</h3>
+
+        <div class="categories mb1">
+          <span>This Week</span>
+          <span>This Month</span>
+        </div>
+
+        <section class="box bs">
+          <h4>How to imrpove your stamina and why cycling is one of the best ways</h4>
+          <time>November 3, 2021</time>
         </section>
-
-        <!-- Aside -->
-        <aside class=flex__2>
-          <h3 class="mb1">Most Viewed</h3>
-
-          <div class="categories mb1">
-            <span>This Week</span>
-            <span>This Month</span>
-          </div>
-
-          <section class="box bs">
-            <h4>How to imrpove your stamina and why cycling is one of the best ways</h4>
-            <time>November 3, 2021</time>
-          </section>
-          <section class="box bs">
-            <h4>How to protect yourself from heat (reccommendations)</h4>
-            <time>November 3, 2021</time>
-          </section>
-          <section class="box bs">
-            <h4>How to protect yourself from heat (reccommendations)</h4>
-            <time>November 3, 2021</time>
-          </section>
-          <section class="box bs">
-            <h4>How to protect yourself from heat (reccommendations)</h4>
-            <time>November 3, 2021</time>
-          </section>
-          <section class="box bs">
-            <h4>How to protect yourself from heat (reccommendations)</h4>
-            <time>November 3, 2021</time>
-          </section>
-        </aside>
+        <section class="box bs">
+          <h4>How to protect yourself from heat (reccommendations)</h4>
+          <time>November 3, 2021</time>
+        </section>
+        <section class="box bs">
+          <h4>How to protect yourself from heat (reccommendations)</h4>
+          <time>November 3, 2021</time>
+        </section>
+        <section class="box bs">
+          <h4>How to protect yourself from heat (reccommendations)</h4>
+          <time>November 3, 2021</time>
+        </section>
+        <section class="box bs">
+          <h4>How to protect yourself from heat (reccommendations)</h4>
+          <time>November 3, 2021</time>
+        </section>
+      </aside>
     </section>
-</div>
+  </div>
 `;
 
 const mainArticleTemplate = (mainArticle) => html`
@@ -140,7 +142,7 @@ const mainArticleTemplate = (mainArticle) => html`
             </span>
             <div class="ar__author">
               <img
-                src="${authorImages[mainArticle.author]}"
+                src="${mainArticle.authorImg}"
                 class="author__img"
                 alt="Author Picutre"
                 srcset=""
@@ -184,8 +186,7 @@ const trendingArticlesTemplate = (article) => html`
   </article>
 `;
 
-const latestArticlesTemplate = (article) => html` 
-<article>
+const latestArticlesTemplate = (article) => html` <article>
   <a href="/article/${article.objectId}">
     <div class="latest bs">
       <!-- image -->
@@ -213,7 +214,7 @@ const latestArticlesTemplate = (article) => html`
             </span>
             <section class="ar__author">
               <img
-                src="${authorImages[article.author]}"
+                src="${article.authorImg}"
                 class="author__img"
                 alt="Author Picutre"
                 srcset=""
@@ -234,17 +235,29 @@ const latestArticlesTemplate = (article) => html`
 const paginatorTemplate = () => html`
   <div class="pages">
     <ul class="pages__nav">
-    <li class="pages__page">
-        <a href="/blog?page=${blog.currentPage - 1}" class="${blog.currentPage == 1 ? "disabled" : ""}">Prev</a>
-    </li>
-      ${repeat(blog.pages, (page) =>
-        html`
-        <li class="pages__page ${page == blog.currentPage ? "current-page" : null}">
+      <li class="pages__page">
+        <a
+          href="/blog?page=${blog.currentPage - 1}"
+          class="${blog.currentPage == 1 ? 'disabled' : ''}"
+          >Prev</a
+        >
+      </li>
+      ${repeat(
+        blog.pages,
+        (page) =>
+          html` <li
+            class="pages__page ${page == blog.currentPage ? 'current-page' : null}"
+          >
             <a href="/blog?page=${page}">${page}</a>
-        </li>`)}
-    <li class="pages__page">
-      <a href="/blog?page=${blog.currentPage + 1}" class="${blog.currentPage >= blog.totalPages ? "disabled" : ""}">Prev</a>
-    </li>
+          </li>`
+      )}
+      <li class="pages__page">
+        <a
+          href="/blog?page=${blog.currentPage + 1}"
+          class="${blog.currentPage >= blog.totalPages ? 'disabled' : ''}"
+          >Prev</a
+        >
+      </li>
     </ul>
   </div>
 `;

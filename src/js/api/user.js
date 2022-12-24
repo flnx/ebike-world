@@ -14,6 +14,7 @@ export const register = async (data) => {
   const userData = {
     email: data.email,
     username: data.username,
+    imgUrl: data.imgUrl,
     objectId,
     sessionToken,
   };
@@ -23,10 +24,10 @@ export const register = async (data) => {
 
 // data: email, password
 export const login = async (data) => {
-  const { username, objectId, sessionToken } = await api.post(endpoints.login, data);
-
+  const { username, objectId, sessionToken, imgUrl } = await api.post(endpoints.login, data);
   const userData = {
     email: data.email,
+    imgUrl,
     username,
     objectId,
     sessionToken,

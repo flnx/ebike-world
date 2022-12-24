@@ -1,6 +1,6 @@
 import { html } from './lib.js';
 import { getArticle, getArticleLikes, getArticleUserLike, removeLike, sendLike } from '../api/data.js';
-import { AUTHOR_IMAGES as authorImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
+import { BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 let isAnimating = false;
 
@@ -105,7 +105,7 @@ const articleDetailsTemplate = (article, likes, isLiked, onLike, userSession) =>
           </div>
           <div class="ar__author">
             <img
-              src="${authorImages[article.author]}"
+              src="${article.authorImg}"
               class="author__img"
               alt="Author Picutre"
               srcset=""

@@ -15,7 +15,10 @@ export const registerPage = (ctx) => {
       return alert('error')
     }
 
-    await register({ username, email, password });
+    const randomNum = Math.round(Math.random() * 150);
+    const imgUrl = `https://i.pravatar.cc/150?img=${randomNum}`
+
+    await register({ username, email, password, imgUrl });
     ctx.page.redirect('/');
   };
   

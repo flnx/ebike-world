@@ -59,6 +59,7 @@ export const createBlogPost = async (data) => {
   const blogData = {
     ...data,
     author: user.username,
+    authorImg: user.imgUrl,
     owner: createPointer('_User', user.objectId),
   };
 

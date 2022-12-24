@@ -1,6 +1,6 @@
 import { html } from './lib.js';
 import { getArticlesByPage, getTrendingBikes } from '../api/data.js';
-import { AUTHOR_IMAGES as authorImages, BIKE_IMAGES as bikeImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
+import { BIKE_IMAGES as bikeImages, BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 import showcaseImg from '/src/assets/images/showcase/3.png';
 
@@ -151,7 +151,7 @@ const latestArticlesTemplate = (article) => html`
               </span>
               <section class="ar__author">
                 <img
-                  src="${authorImages[article.author]}"
+                  src="${article.authorImg}"
                   class="author__img"
                   alt="Author Picutre"
                   srcset=""

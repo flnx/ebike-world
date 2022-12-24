@@ -13,7 +13,7 @@ export const loginPage = (ctx) => {
     if (email.length < 6 || password.length < 6) {
       return alert('Email and password must be at least 6 characters');
     }
-  
+    
     await login({ email: email.trim(), password });
   
     ctx.page.redirect('/');

@@ -30,12 +30,12 @@ const navTemplate = (ctx, onClick) => html`
         <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/bikes">Bikes</a></li>
         <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/accessories">accessories</a></li>
         <li class="navbar__item ${ctx.isDesktop.matches ? "" : "on-toggle"}"><a href="/about">About</a></li>
-        ${getUserData()
+        ${ctx.user
           ? html`
               <div class="navbar__dropdown on-toggle">
                 <div class="navbar__dropdown__toggle on-toggle">
                   <img
-                    src="https://i.pravatar.cc/150"
+                    src="${ctx.user.imgUrl}"
                     class="navbar__user-image on-toggle"
                     alt="avatar"
                     srcset=""

@@ -23,12 +23,12 @@ import '../styles/main.scss';
 import { antiClickSpam } from './middlewares/antiClickSpam.js';
 import { cartPage } from './views/cart.js';
 
+page(userSession(getUserData));
 page(antiClickSpam);
 page(ctxDecorator);
 page(showNav);
 page(showFooter);
 page(showPageLoading);
-page(userSession(getUserData));
 page('/', homePage);
 page('/index.html', '/');
 page('/blog', blogPage);

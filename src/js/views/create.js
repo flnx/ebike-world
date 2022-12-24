@@ -19,7 +19,6 @@ export const createPage = (ctx) => {
 
     e.target.reset();
     const data = await createBike(fieldsData);
-    console.log(data.objectId);
     ctx.page.redirect(`/bike-details/${data.objectId}`);
   };
 
