@@ -5,5 +5,5 @@ export const redirect = (ctx, state) => {
     } else {
       ctx.page.redirect('/cart');
     }
-  }, 100);
+  }, 200);
 }
