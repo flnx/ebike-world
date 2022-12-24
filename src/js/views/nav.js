@@ -35,7 +35,7 @@ const navTemplate = (ctx, onClick) => html`
               <div class="navbar__dropdown on-toggle">
                 <div class="navbar__dropdown__toggle on-toggle">
                   <img
-                    src="https://i.pravatar.cc/150?img=48"
+                    src="https://i.pravatar.cc/150"
                     class="navbar__user-image on-toggle"
                     alt="avatar"
                     srcset=""
