@@ -7,6 +7,7 @@ const state = {
   bought: false,
   price: 0,
   removeId: null,
+  isRendering: true,
 };
 
 export const bikeDetailsPage = async (ctx) => {
@@ -24,24 +25,39 @@ export const bikeDetailsPage = async (ctx) => {
     };
 
     state.bought = true;
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
+    state.isRendering = true;
 
     const boughtItemData = await buyItem(basketData);
-
+    
     basketData.objectId = boughtItemData.objectId;
     cartItems.results.push(basketData);
-
+    
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
 
     setTimeout(() => {
       state.bought = false;
       ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
-    }, 2000);
+      state.isRendering = false;
+    }, 1000);
   };
 
-  const onBuy = async(e) => {
+  const onBuy = async(e, redirect) => {
     
     if (!ctx.user) {
       return ctx.page.redirect('/login');
+    }
+    
+
+    if (redirect) {
+      setTimeout(() => {
+        if (state.isRendering) {
+          setTimeout(() => ctx.page.redirect('/cart'), 500);
+        } else {
+          ctx.page.redirect('/cart');
+        }
+      }, 100);
+
+      return;
     }
 
     const basketData = {
@@ -79,8 +95,8 @@ export const bikeDetailsPage = async (ctx) => {
       }
     }
     
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
     await removeCartItem(id)
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
     }
 
   state.mouseover = false;
@@ -98,17 +114,16 @@ export const bikeDetailsPage = async (ctx) => {
   ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
 };
 
-const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) => html`
+const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) => {
+  return html`
   <div class="container">
   <div class="shopping-bag">
-    <i class="fa-solid fa-bag-shopping" 
-      @mouseover=${(e) => onBag(e, true)}
-      @click=${(e) => onBag(e, true)}>
+    <i class="fa-solid fa-bag-shopping" @mouseover=${(e) => onBag(e, true)} @click=${(e) => onBag(e, true)}>
     </i>
     <span>Your Basket</span>
   </div>
     ${state.bought ? addedItemTemplate() : nothing}
-    ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove) : nothing}
+    ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove, onBuy) : nothing}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -247,8 +262,10 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) 
     </section>
   </div>
 `;
+}
 
-const cartOverlay = (onBag, items, onRemove) => {
+
+const cartOverlay = (onBag, items, onRemove, onBuy) => {
   state.price = 0;
 
   return html`
@@ -261,7 +278,7 @@ const cartOverlay = (onBag, items, onRemove) => {
           ${items.results.map(x => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}
         </div>
         <div class="cart-overlay__footer">
-          <a href="/cart" class="btn-finish">Finish Order</a>
+          <a href="" @click=${(e) => onBuy(e, true)} class="btn-finish">Finish Order</a>
           <span>Total Price: $${state.price}</span>
         </div>
       </section>

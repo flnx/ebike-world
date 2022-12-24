@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  mode: mode,
+  mode: "development",
   entry: {
     bundle: path.resolve(__dirname, './src/js/index.js'),
   },
