@@ -47,16 +47,8 @@ export const bikeDetailsPage = async (ctx) => {
       return ctx.page.redirect('/login');
     }
     
-
     if (redirect) {
-      setTimeout(() => {
-        if (state.isRendering) {
-          setTimeout(() => ctx.page.redirect('/cart'), 500);
-        } else {
-          ctx.page.redirect('/cart');
-        }
-      }, 100);
-
+      ctx.redirect(ctx, state);
       return;
     }
 
@@ -65,9 +57,9 @@ export const bikeDetailsPage = async (ctx) => {
       price: bikeDetails.price,
       imgUrl: bikeDetails.posterUrls.imgName1,
     };
-
-     await buyItem(basketData);
-     ctx.page.redirect('/cart');
+     
+    await buyItem(basketData);
+    ctx.redirect(ctx, state);
   };
 
   const onBag = (e, boolean) => {

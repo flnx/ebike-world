@@ -2,6 +2,7 @@ import { render } from './views/lib.js';
 import { footer } from './views/footer.js';
 import { nav, state } from './views/nav.js';
 import { loadingTemplate } from './middlewares/loadingTemplate.js';
+import { redirect } from './middlewares/redirect.js';
 
 const body = document.querySelector('body');
 const navWrapper = document.querySelector('.nav__header');
@@ -20,6 +21,7 @@ export const ctxDecorator = (ctx, next) => {
   ctx.renderFooter = renderFooter;
   ctx.renderLoading = renderLoading;
   context = ctx;
+  ctx.redirect = redirect;
 
   next();
 };
