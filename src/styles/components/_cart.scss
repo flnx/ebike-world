@@ -9,7 +9,7 @@
   z-index: 1;
   overflow-y: scroll;
   overflow-x: hidden;
-  max-width: 35.5rem;
+  max-width: 37.5rem;
   max-height: 20rem;
   position: sticky;
   top: 0;
@@ -18,14 +18,8 @@
   border-radius: 5px;
   text-align: center;
 
-  .fa-xmark {
-    position: absolute;
-    font-size: 2.5rem;
-    right: 25px;
-    top: 5px;
-    color: rgb(183, 49, 49);
-    color: #fff;
-    cursor: pointer;
+  img {
+    object-fit: scale-down;
   }
 
   h3 {
@@ -110,9 +104,32 @@
     cursor: pointer;
 
     &:hover {
-      transform: translateY(-.15rem);
+      transform: translateY(-0.15rem);
     }
   }
 }
 
 
+  .popup-message {
+    position: fixed;
+    top: 7rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem 3rem;
+    background: rgba(0, 0, 0, 0.928);
+    border-radius: 5px;
+    text-align: center;
+
+    span {
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+
+  .fa-xmark {
+    font-size: 2rem;
+    color: rgb(183, 49, 49);
+    cursor: pointer;
+    margin-left: 1.3rem;
+  }

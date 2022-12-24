@@ -4,66 +4,59 @@ import { buyItem, getBike, getCartItems } from '../api/data.js';
 
 const state = {
   mouseover: true,
-}
-
-const test = {
-  posterUrls: {
-    imgName1: "https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0"
-  },
-  brand: 'Yee-Claw',
-  model: 'Model X',
-  price: 1999,
-}
+  bought: false,
+  price: 0,
+};
 
 export const bikeDetailsPage = async (ctx) => {
   const onBasket = async (e) => {
     e.preventDefault();
 
     const basketData = {
-      title: bikeDetailsData.brand + ' ' + bikeDetailsData.model,
-      price: bikeDetailsData.price,
-      imgUrl: bikeDetailsData.posterUrls.imgName1,
-    }
+      title: bikeDetails.brand + ' ' + bikeDetails.model,
+      price: bikeDetails.price,
+      imgUrl: bikeDetails.posterUrls.imgName1,
+    };
 
     const boughtItemData = await buyItem(basketData);
 
     basketData.objectId = boughtItemData.objectId;
-    userCartItems.results.push(basketData)
-    
-    
-    // [x] POST request
-    // [x] Cache data
-    // [] Render (add the cached data)
-    // [] Show bag
+    cartItems.results.push(basketData);
+
+    state.bought = true;
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+
+    setTimeout(() => {
+      state.bought = false;
+      ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+    }, 2000);
   };
 
   const onBuy = (e) => {
     e.preventDefault();
     // 1. POST request
     // 2. Redirect to cart page
-  } 
-  
-  const onShoppingBag = (e, boolean) => {
+  };
+
+  const onBag = (e, boolean) => {
     e.preventDefault();
     state.mouseover = boolean;
-    ctx.render(detailsPageTemplate(bikeDetailsData, onBasket, onBuy, onShoppingBag));
-    // [x] attach mouseover event
-    // [x] render the cart template
-  }
-  
-  // [x] GET request with all items in the cart
-  const bikeDetailsData = await getBike(ctx.params.id);
-  const userCartItems = await getCartItems();
 
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+  };
 
-  ctx.render(detailsPageTemplate(bikeDetailsData, onBasket, onBuy, onShoppingBag));
+  const [bikeDetails, cartItems] = await Promise.all([
+    getBike(ctx.params.id),
+    getCartItems(),
+  ]);
+
+  ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
 };
 
-
-
-const detailsPageTemplate = (data, onBasket, onBuy, onShoppingBag) => html`
+const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems) => html`
   <div class="container">
-    ${state.mouseover ? cartOverlay(onShoppingBag) : nothing}
+    ${state.bought ? addedItemTemplate() : nothing}
+    ${state.mouseover ? cartOverlay(onBag, cartItems) : nothing}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -115,7 +108,7 @@ const detailsPageTemplate = (data, onBasket, onBuy, onShoppingBag) => html`
         <div class="right__content">
           <span class="right__content__intro redC">${data.brand}</span>
           <div class="shopping-bag">
-            <i class="fa-solid fa-bag-shopping" @mouseover=${(e) => onShoppingBag(e, true)}></i>
+            <i class="fa-solid fa-bag-shopping" @mouseover=${(e) => onBag(e, true)}></i>
             <span>Your basket</span>
           </div>
           <h1>${data.model}</h1>
@@ -207,30 +200,49 @@ const detailsPageTemplate = (data, onBasket, onBuy, onShoppingBag) => html`
   </div>
 `;
 
-const cartOverlay = (onShoppingBag) => html`
-  <div class="cart-absolute"}>
-    <section class="cart-overlay" @mouseleave=${(e) => onShoppingBag(e, false)}>
-      <h3>Cart Items:</h3>
-      <div class="cart-wrapper">
-        <!-- Item Example -->
-        <section class="cart-wrapper__item">
-          <div class="cart-wrapper__image">
-            <img
-              src="https://cdn.accentuate.io/6564306976864/1651112509613/Rover6HS_charcoal_angle.png?v=0"
-              alt="product image"
-              srcset=""
-              width="200px"
-              height="100px"
-            />
-          </div>
-          <h4 class="cart-wrapper__title">Yee-Claw Model X</h4>
-          <span class="cart-wrapper__price">Price: $1999</span>
-        </section>
+const cartOverlay = (onBag, items) => {
+  state.price = 0;
+
+  return html`
+    <div class="cart-absolute">
+      <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false)}>
+        <h3>Cart Items:</h3>
+        <div class="cart-wrapper">
+          <!-- Item Example -->
+          ${items.results.map(cartItemTemplate)}
+        </div>
+        <div class="cart-overlay__footer">
+          <a href="">Finish Order</a>
+          <span>Total Price: $${state.price}</span>
+        </div>
+      </section>
+    </div>
+  `;
+};
+
+const cartItemTemplate = (item) => {
+  state.price += item.price;
+
+  return html`
+    <section class="cart-wrapper__item">
+      <div class="cart-wrapper__image">
+        <img
+        src="${item.imgUrl.includes('.') ? item.imgUrl : images[item.imgUrl]}"
+        alt="product image"
+        srcset=""
+        width="200px"
+        height="100px"
+        />
       </div>
-      <div class="cart-overlay__footer">
-        <a href="">Finish Order</a>
-        <span>Total Price: $5000</span>
-      </div>
+      <h4 class="cart-wrapper__title">${item.title}</h4>
+      <span class="cart-wrapper__price">Price: $${item.price}</span>
+      <i class="fa-solid fa-xmark"></i>
     </section>
+  `;
+};
+
+const addedItemTemplate = () => html`
+  <div class="popup-message">
+    <span>The product has been added to your cart!</span>
   </div>
 `;
