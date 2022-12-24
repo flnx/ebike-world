@@ -1,11 +1,12 @@
 import { html, nothing } from './lib.js';
 import { BIKE_IMAGES as images } from '../utils/images.js';
-import { buyItem, getBike, getCartItems } from '../api/data.js';
+import { buyItem, getBike, getCartItems, removeCartItem } from '../api/data.js';
 
 const state = {
-  mouseover: true,
+  mouseover: false,
   bought: false,
   price: 0,
+  removeId: null,
 };
 
 export const bikeDetailsPage = async (ctx) => {
@@ -24,11 +25,11 @@ export const bikeDetailsPage = async (ctx) => {
     cartItems.results.push(basketData);
 
     state.bought = true;
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
 
     setTimeout(() => {
       state.bought = false;
-      ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+      ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
     }, 2000);
   };
 
@@ -42,21 +43,38 @@ export const bikeDetailsPage = async (ctx) => {
     e.preventDefault();
     state.mouseover = boolean;
 
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
   };
+
+  const onRemove = async(e, id) => {
+    e.preventDefault();
+    const cart = cartItems.results;
+    
+    for (let i = 0; i < cart.length; i++) {
+      const product = cart[i];
+
+      if (product.objectId == id) {
+        cartItems.results.splice(i, 1);
+        break;
+      }
+    }
+    
+    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
+    await removeCartItem(id)
+    }
 
   const [bikeDetails, cartItems] = await Promise.all([
     getBike(ctx.params.id),
     getCartItems(),
   ]);
 
-  ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems));
+  ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
 };
 
-const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems) => html`
+const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) => html`
   <div class="container">
     ${state.bought ? addedItemTemplate() : nothing}
-    ${state.mouseover ? cartOverlay(onBag, cartItems) : nothing}
+    ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove) : nothing}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -200,7 +218,7 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems) => html`
   </div>
 `;
 
-const cartOverlay = (onBag, items) => {
+const cartOverlay = (onBag, items, onRemove) => {
   state.price = 0;
 
   return html`
@@ -209,7 +227,7 @@ const cartOverlay = (onBag, items) => {
         <h3>Cart Items:</h3>
         <div class="cart-wrapper">
           <!-- Item Example -->
-          ${items.results.map(cartItemTemplate)}
+          ${items.results.map(x => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}
         </div>
         <div class="cart-overlay__footer">
           <a href="">Finish Order</a>
@@ -220,7 +238,7 @@ const cartOverlay = (onBag, items) => {
   `;
 };
 
-const cartItemTemplate = (item) => {
+const cartItemTemplate = (item, onRemove) => {
   state.price += item.price;
 
   return html`
@@ -236,7 +254,7 @@ const cartItemTemplate = (item) => {
       </div>
       <h4 class="cart-wrapper__title">${item.title}</h4>
       <span class="cart-wrapper__price">Price: $${item.price}</span>
-      <i class="fa-solid fa-xmark"></i>
+      <i class="fa-solid fa-xmark" href=${item.objectId} @click=${onRemove}></i>
     </section>
   `;
 };
