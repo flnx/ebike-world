@@ -11,6 +11,7 @@ const endpoints = {
   like: "classes/Like",
   userCart: (owner) => 'classes/Cart?where=' + encodeData({owner: createPointer('_User', owner)}),
   removeCartItem: (id) => `classes/Cart/${id}`,
+  finishOrder: (id) => `classes/Cart/${id}`,
   dislike: (id) => `classes/Like/${id}`,
   count: (path) => `classes/${path}?count=1&limit=0`,
   getByPage: (path, skip, size) => `classes/${path}?skip=${skip}&limit=${size}&order=-createdAt`,
@@ -130,4 +131,8 @@ export const getCartItems = async() => {
 
 export const removeCartItem = async(id) => {
   return await api.del(endpoints.removeCartItem(id));
+}
+
+export const finishOrder = async(ids) => {
+  return await api.del(endpoints.finishOrder(id));
 }
