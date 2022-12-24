@@ -44,7 +44,7 @@ export const bikeDetailsPage = async (ctx) => {
     };
 
      await buyItem(basketData);
-     ctx.page.redirect('/cart')
+     ctx.page.redirect('/cart');
   };
 
   const onBag = (e, boolean) => {
@@ -70,6 +70,9 @@ export const bikeDetailsPage = async (ctx) => {
     ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
     await removeCartItem(id)
     }
+
+  state.mouseover = false;
+  state.bought = false;
 
   const [bikeDetails, cartItems] = await Promise.all([
     getBike(ctx.params.id),
@@ -242,7 +245,7 @@ const cartOverlay = (onBag, items, onRemove) => {
           ${items.results.map(x => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}
         </div>
         <div class="cart-overlay__footer">
-          <a href="">Finish Order</a>
+          <a href="/cart" class="btn-finish">Finish Order</a>
           <span>Total Price: $${state.price}</span>
         </div>
       </section>

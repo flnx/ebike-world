@@ -1,0 +1,108 @@
+@use '../utilities/breakpoints.scss' as brp;
+
+.cart-page-wrapper {
+  max-width: 60rem;
+  margin: 0 auto;
+
+  &__item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+
+    @include brp.breakpoint-up(medium) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__image {
+      margin: 0 auto;
+      max-width: 25rem;
+      height: 15rem;
+  
+      @include brp.breakpoint-up(medium) {
+        width: 15rem;
+      }
+  
+      @include brp.breakpoint-up(large) {
+        width: 25rem;
+      }
+  
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: scale-down;
+      }
+    }
+  
+    &__body {
+      position: relative;
+      flex: 2;
+      padding: 1rem;
+  
+      h4, p {
+        flex: 1;
+        font-size: 1.5rem;
+      }
+    
+      p {
+        font-weight: 700;
+
+        @include brp.breakpoint-up(large) {
+          text-align: center;
+        }
+
+        span {
+          color: var(--border);
+          margin-left: 0.5rem;
+        }
+      }
+  
+      .fa-xmark {
+        cursor: pointer;
+        position: absolute;
+        bottom: 1.75rem;
+        right: 0;
+  
+        @include brp.breakpoint-up(large) {
+          flex: 0.1;
+          position: static;
+        }
+        
+        color: var(--border);
+        font-size: 2.8rem;
+      }
+  
+      @include brp.breakpoint-up(large) {
+        padding: 0rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+    }
+  }
+
+  &__footer {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+
+    .btn-finish {
+      padding: 1rem 2rem;
+    }
+
+    p {
+      font-size: 2rem;
+      font-weight: 900;
+
+      span {
+        color: var(--border);
+      }
+    }
+  }
+
+}
