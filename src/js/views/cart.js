@@ -53,7 +53,6 @@ export const cartPage = async (ctx) => {
 
 const cartPageTemplate = (data, onRemove, onFinishOrder) => {
   state.price = 0;
-  console.log(state.orderStatus);
 
   return html`
     <div class="container">

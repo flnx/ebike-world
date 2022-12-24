@@ -13,6 +13,10 @@ export const bikeDetailsPage = async (ctx) => {
   const onBasket = async (e) => {
     e.preventDefault();
 
+    if (!ctx.user) {
+      ctx.page.redirect('/login');
+    }
+
     const basketData = {
       title: bikeDetails.brand + ' ' + bikeDetails.model,
       price: bikeDetails.price,
@@ -35,8 +39,11 @@ export const bikeDetailsPage = async (ctx) => {
   };
 
   const onBuy = async(e) => {
-    e.preventDefault();
     
+    if (!ctx.user) {
+      return ctx.page.redirect('/login');
+    }
+
     const basketData = {
       title: bikeDetails.brand + ' ' + bikeDetails.model,
       price: bikeDetails.price,
@@ -49,6 +56,11 @@ export const bikeDetailsPage = async (ctx) => {
 
   const onBag = (e, boolean) => {
     e.preventDefault();
+
+    if (!ctx.user) {
+      return;
+    }
+
     state.mouseover = boolean;
 
     ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
@@ -74,10 +86,14 @@ export const bikeDetailsPage = async (ctx) => {
   state.mouseover = false;
   state.bought = false;
 
-  const [bikeDetails, cartItems] = await Promise.all([
-    getBike(ctx.params.id),
-    getCartItems(),
-  ]);
+  const promises = [getBike(ctx.params.id)]
+
+  if (ctx.user) {
+    promises.push(getCartItems());
+  }
+
+  const [bikeDetails, cartItems] = await Promise.all(promises);
+
 
   ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
 };
