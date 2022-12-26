@@ -7,7 +7,7 @@ const state = {
   mouseover: false,
   bought: false,
   price: 0,
-  isRendering: true,
+  isRendering: false,
   isClicked: false,
 };
 
@@ -49,10 +49,11 @@ export const bikeDetailsPage = async(ctx) => {
     return ctx.page.redirect('/login');
   }
 
+  
   if (state.isClicked) {
     return;
   }
-
+  
   state.bought = true;
   state.isRendering = true;
   state.isClicked = true;
@@ -63,19 +64,20 @@ export const bikeDetailsPage = async(ctx) => {
     imgUrl: cache.bikeDetails.posterUrls.imgName1,
   };
 
+  ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+
   const boughtItemData = await buyItem(basketData);
 
   basketData.objectId = boughtItemData.objectId;
-
   cache.cartItems.results.push(basketData);
 
-  ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+  state.isClicked = false;
 
   setTimeout(() => {
+    state.bought = false;
+
     ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
 
-    state.bought = false;
-    state.isClicked = false;
     state.isRendering = false;
   }, 1000);
 }
