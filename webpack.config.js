@@ -2,21 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-let mode = 'development';
-// let target = 'web';
-
-if (process.env.NODE_ENV === 'production') {
-  mode = 'development';
-  // target = 'browserslist';
-}
-
 module.exports = {
-  mode: "production",
+  mode: 'development',
   entry: {
     bundle: path.resolve(__dirname, './src/js/index.js'),
   },
   output: {
-    publicPath: "/",
+    publicPath: '/',
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     clean: true,
@@ -64,3 +56,4 @@ module.exports = {
     }),
   ],
 };
+

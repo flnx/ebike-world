@@ -3,98 +3,26 @@ import { BIKE_IMAGES as images } from '../utils/images.js';
 import { buyItem, getBike, getCartItems, removeCartItem } from '../api/data.js';
 
 const state = {
+  ctx: null,
   mouseover: false,
   bought: false,
   price: 0,
-  removeId: null,
   isRendering: true,
+  isClicked: false,
 };
 
-export const bikeDetailsPage = async (ctx) => {
-  const onBasket = async (e) => {
-    e.preventDefault();
+const cache = {
+  bikeDetails: null,
+  cartItems: null,
+};
 
-    if (!ctx.user) {
-      ctx.page.redirect('/login');
-    }
-
-    const basketData = {
-      title: bikeDetails.brand + ' ' + bikeDetails.model,
-      price: bikeDetails.price,
-      imgUrl: bikeDetails.posterUrls.imgName1,
-    };
-
-    state.bought = true;
-    state.isRendering = true;
-
-    const boughtItemData = await buyItem(basketData);
-    
-    basketData.objectId = boughtItemData.objectId;
-    cartItems.results.push(basketData);
-    
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
-
-    setTimeout(() => {
-      state.bought = false;
-      ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
-      state.isRendering = false;
-    }, 1000);
-  };
-
-  const onBuy = async(e, redirect) => {
-    
-    if (!ctx.user) {
-      return ctx.page.redirect('/login');
-    }
-    
-    if (redirect) {
-      ctx.redirect(ctx, state);
-      return;
-    }
-
-    const basketData = {
-      title: bikeDetails.brand + ' ' + bikeDetails.model,
-      price: bikeDetails.price,
-      imgUrl: bikeDetails.posterUrls.imgName1,
-    };
-     
-    await buyItem(basketData);
-    ctx.redirect(ctx, state);
-  };
-
-  const onBag = (e, boolean) => {
-    e.preventDefault();
-
-    if (!ctx.user) {
-      return;
-    }
-
-    state.mouseover = boolean;
-
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
-  };
-
-  const onRemove = async(e, id) => {
-    e.preventDefault();
-    const cart = cartItems.results;
-    
-    for (let i = 0; i < cart.length; i++) {
-      const product = cart[i];
-
-      if (product.objectId == id) {
-        cartItems.results.splice(i, 1);
-        break;
-      }
-    }
-    
-    await removeCartItem(id)
-    ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
-    }
-
+export async function bikeDetailsPage(ctx) {
   state.mouseover = false;
   state.bought = false;
+  state.isClicked = false;
+  state.ctx = ctx;
 
-  const promises = [getBike(ctx.params.id)]
+  const promises = [getBike(ctx.params.id)];
 
   if (ctx.user) {
     promises.push(getCartItems());
@@ -102,11 +30,130 @@ export const bikeDetailsPage = async (ctx) => {
 
   const [bikeDetails, cartItems] = await Promise.all(promises);
 
+  cache.bikeDetails = bikeDetails;
+  cache.cartItems = cartItems;
 
-  ctx.render(detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove));
-};
+  ctx.render(
+    detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove, onFinishOrder)
+  );
+}
 
-const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) => {
+
+async function onBasket(e) {
+  e.preventDefault();
+
+  const ctx = state.ctx;
+
+  if (!ctx.user) {
+    return ctx.page.redirect('/login');
+  }
+
+  if (state.isClicked) {
+    return;
+  }
+
+  state.bought = true;
+  state.isRendering = true;
+  state.isClicked = true;
+
+  const basketData = {
+    title: cache.bikeDetails.brand + ' ' + cache.bikeDetails.model,
+    price: cache.bikeDetails.price,
+    imgUrl: cache.bikeDetails.posterUrls.imgName1,
+  };
+
+  const boughtItemData = await buyItem(basketData);
+
+  basketData.objectId = boughtItemData.objectId;
+
+  cache.cartItems.results.push(basketData);
+
+  ctx.render(detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder));
+
+  setTimeout(() => {
+    ctx.render(detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder));
+
+    state.bought = false;
+    state.isClicked = false;
+    state.isRendering = false;
+  }, 1000);
+}
+
+const onFinishOrder = (e) => {
+  e.preventDefault();
+
+  if (state.isClicked) {
+    return;
+  }
+
+  state.isClicked = true;
+
+  state.ctx.redirect(state);
+}
+
+async function onBuy(e) {
+  e.preventDefault();
+
+  const ctx = state.ctx;
+
+  if (!ctx.user) {
+    return ctx.page.redirect('/login');
+  }
+
+  if (state.isClicked) {
+    return;
+  }
+
+  state.isClicked = true;
+
+  const basketData = {
+    title: cache.bikeDetails.brand + ' ' + cache.bikeDetails.model,
+    price: cache.bikeDetails.price,
+    imgUrl: cache.bikeDetails.posterUrls.imgName1,
+  };
+
+  await buyItem(basketData);
+  ctx.redirect(state);
+}
+
+function onBag(e, boolean) {
+  e.preventDefault();
+
+  const ctx = state.ctx;
+
+  if (!ctx.user) {
+    return;
+  }
+
+  state.mouseover = boolean;
+
+  ctx.render(
+    detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder)
+  );
+}
+
+const onRemove = async (e, id) => {
+  e.preventDefault();
+
+  const cart = cache.cartItems.results;
+
+  for (let i = 0; i < cart.length; i++) {
+    const product = cart[i];
+
+    if (product.objectId == id) {
+      cache.cartItems.results.splice(i, 1);
+      break;
+    }
+  }
+
+  state.ctx.render(
+    detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder)
+    );
+
+    await removeCartItem(id);
+}
+
+const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove, onFinishOrder) => {
   return html`
   <div class="container">
   <div class="shopping-bag">
@@ -115,7 +162,7 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) 
     <span>Your Basket</span>
   </div>
     ${state.bought ? addedItemTemplate() : nothing}
-    ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove, onBuy) : nothing}
+    ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove, onFinishOrder) : nothing}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
@@ -254,23 +301,22 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove) 
     </section>
   </div>
 `;
-}
+};
 
-
-const cartOverlay = (onBag, items, onRemove, onBuy) => {
+const cartOverlay = (onBag, items, onRemove, onFinishOrder) => {
   state.price = 0;
 
   return html`
     <div class="cart-absolute">
-      <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false) }>
+      <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false)}>
         <h3>Cart Items:</h3>
         <i class="fa-solid fa-xmark close" @click=${(e) => onBag(e, false)}></i>
         <div class="cart-wrapper">
           <!-- Item Example -->
-          ${items.results.map(x => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}
+          ${items.results.map((x) => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}
         </div>
         <div class="cart-overlay__footer">
-          <a href="" @click=${(e) => onBuy(e, true)} class="btn-finish">Finish Order</a>
+          <a href="" @click=${onFinishOrder} class="btn-finish">Finish Order</a>
           <span>Total Price: $${state.price}</span>
         </div>
       </section>
@@ -285,11 +331,11 @@ const cartItemTemplate = (item, onRemove) => {
     <section class="cart-wrapper__item">
       <div class="cart-wrapper__image">
         <img
-        src="${item.imgUrl.includes('.') ? item.imgUrl : images[item.imgUrl]}"
-        alt="product image"
-        srcset=""
-        width="200px"
-        height="100px"
+          src="${item.imgUrl.includes('.') ? item.imgUrl : images[item.imgUrl]}"
+          alt="product image"
+          srcset=""
+          width="200px"
+          height="100px"
         />
       </div>
       <h4 class="cart-wrapper__title">${item.title}</h4>

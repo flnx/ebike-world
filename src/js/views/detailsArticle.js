@@ -4,42 +4,20 @@ import { BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 let isAnimating = false;
 
+const cache = {
+  ctx: null,
+  articleData: null,
+  likesData: null,
+  userLikeId: null,
+  totalLikes: null,
+  isLiked: null,
+}
+
 export const articleDetailsPage = async (ctx) => {
   const articleId = ctx.params.id;
   const userSession = ctx.user;
-
-  let isLiked = null;
-  let totalLikes = null;
-
-  const onLike = async (e) => {
-    e.preventDefault();
-
-    if (isAnimating) {
-      return;
-    }
-
-    isAnimating = true;
-    // prevents spam clicks
-    setTimeout(() => {
-      isAnimating = false;
-    }, 750);
-
-    instantLike(articleData, totalLikes, isLiked, onLike, ctx);
-
-    const user_like = await getArticleUserLike(articleId);
-
-    isLiked = user_like.results.length > 0 ? true : false;
-
-    if (isLiked) {
-      isLiked = false;
-      totalLikes--;
-      await removeLike(user_like.results[0].objectId);
-    } else {
-      isLiked = true;
-      totalLikes++;
-      await sendLike(articleId);
-    }
-  };
+  
+  cache.ctx = ctx;
 
   const data = [
     getArticle(articleId),
@@ -53,24 +31,46 @@ export const articleDetailsPage = async (ctx) => {
   
   const [articleData, likesData, userLike] = await Promise.all(data);
 
-  totalLikes = likesData.results.length;
-  isLiked = userLike?.results.length > 0 ? true : false || null;
+  cache.totalLikes = likesData.results.length;
+  cache.userLikeId = userLike?.results[0]?.objectId;
+  cache.isLiked = userLike?.results.length != 0 ? true : false || null;
+  cache.articleData = articleData;
+  cache.likesData = likesData;
 
-  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike, userSession));
+  ctx.render(articleDetailsTemplate(articleData, cache.totalLikes, cache.isLiked, onLike, userSession));
 };
 
-const instantLike = (articleData, totalLikes, isLiked, onLike, ctx) => {
-  if (isLiked) {
-    isLiked = false;
-    totalLikes--;
-  } else {
-    isLiked = true;
-    totalLikes++;
+const onLike = async (e) => {
+  e.preventDefault();
+
+  const ctx = cache.ctx;
+  const articleId = ctx.params.id;
+
+  if (isAnimating) {
+    return;
   }
 
-  ctx.render(articleDetailsTemplate(articleData, totalLikes, isLiked, onLike, ctx.user));
-};
+  isAnimating = true;
+  // prevents spam clicks
+  setTimeout(() => {
+    isAnimating = false;
+  }, 750);
 
+
+  if (cache.isLiked) {
+    cache.isLiked = false;
+    cache.totalLikes--;
+    ctx.render(articleDetailsTemplate(cache.articleData, cache.totalLikes, cache.isLiked, onLike, ctx.user));
+    await removeLike(cache.userLikeId);
+  } else {
+    cache.isLiked = true;
+    cache.totalLikes++;
+    ctx.render(articleDetailsTemplate(cache.articleData, cache.totalLikes, cache.isLiked, onLike, ctx.user));
+    const userLike = await sendLike(articleId);
+    cache.userLikeId = userLike.objectId;
+  }
+
+};
 
 const articleDetailsTemplate = (article, likes, isLiked, onLike, userSession) => html`
   <div class="container article-wrapper">

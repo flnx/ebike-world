@@ -1,4 +1,6 @@
-export const redirect = (ctx, state) => {
+export const redirect = (state) => {
+  const ctx = state.ctx;
+
   setTimeout(() => {
     if (state.isRendering) {
       setTimeout(() => ctx.page.redirect('/cart'), 500);
