@@ -4,7 +4,7 @@ import { BLOG_IMAGES as blogImages } from '../utils/images.js';
 
 let isAnimating = false;
 
-const cache = {
+const article = {
   ctx: null,
   articleData: null,
   likesData: null,
@@ -13,11 +13,12 @@ const cache = {
   isLiked: null,
 }
 
+
 export const articleDetailsPage = async (ctx) => {
   const articleId = ctx.params.id;
   const userSession = ctx.user;
   
-  cache.ctx = ctx;
+  article.ctx = ctx;
 
   const data = [
     getArticle(articleId),
@@ -31,63 +32,68 @@ export const articleDetailsPage = async (ctx) => {
   
   const [articleData, likesData, userLike] = await Promise.all(data);
 
-  cache.totalLikes = likesData.results.length;
-  cache.userLikeId = userLike?.results[0]?.objectId;
-  cache.isLiked = userLike?.results.length != 0 ? true : false || null;
-  cache.articleData = articleData;
-  cache.likesData = likesData;
+  article.totalLikes = likesData.results.length;
+  article.userLikeId = userLike?.results[0]?.objectId;
+  article.isLiked = userLike?.results.length != 0 ? true : false || null;
+  article.articleData = articleData;
+  article.likesData = likesData;
 
-  ctx.render(articleDetailsTemplate(articleData, cache.totalLikes, cache.isLiked, onLike, userSession));
+  ctx.render(articleDetailsTemplate(articleData, article.totalLikes, article.isLiked, onLike, userSession));
 };
+
 
 const onLike = async (e) => {
   e.preventDefault();
 
-  const ctx = cache.ctx;
+  const ctx = article.ctx;
   const articleId = ctx.params.id;
 
+  // prevents spam clicks
   if (isAnimating) {
     return;
   }
 
   isAnimating = true;
-  // prevents spam clicks
+
   setTimeout(() => {
     isAnimating = false;
   }, 750);
 
 
-  if (cache.isLiked) {
-    cache.isLiked = false;
-    cache.totalLikes--;
-    ctx.render(articleDetailsTemplate(cache.articleData, cache.totalLikes, cache.isLiked, onLike, ctx.user));
-    await removeLike(cache.userLikeId);
+  if (article.isLiked) {
+    article.isLiked = false;
+    article.totalLikes--;
+    ctx.render(articleDetailsTemplate(article.articleData, article.totalLikes, article.isLiked, onLike, ctx.user));
+
+    await removeLike(article.userLikeId);
   } else {
-    cache.isLiked = true;
-    cache.totalLikes++;
-    ctx.render(articleDetailsTemplate(cache.articleData, cache.totalLikes, cache.isLiked, onLike, ctx.user));
+    article.isLiked = true;
+    article.totalLikes++;
+    ctx.render(articleDetailsTemplate(article.articleData, article.totalLikes, article.isLiked, onLike, ctx.user));
+
     const userLike = await sendLike(articleId);
-    cache.userLikeId = userLike.objectId;
+    article.userLikeId = userLike.objectId;
   }
 
 };
 
-const articleDetailsTemplate = (article, likes, isLiked, onLike, userSession) => html`
+
+const articleDetailsTemplate = (data, likes, isLiked, onLike, userSession) => html`
   <div class="container article-wrapper">
     <article class="flex__blog__1">
       <div class="rm__wrapper flow">
-        <h1>${article.title}</h1>
+        <h1>${data.title}</h1>
         <img
-          src="${article.imageUrl.includes('.')
-            ? article.imageUrl
-            : blogImages[article.imageUrl]}"
+          src="${data.imageUrl.includes('.')
+            ? data.imageUrl
+            : blogImages[data.imageUrl]}"
           alt=""
           srcset=""
         />
         <div class="ar__footer">
           <span>
-            <time>${article.createdAt.substring(0, 10)}</time>
-            <p>${article.readTime} min read</p>
+            <time>${data.createdAt.substring(0, 10)}</time>
+            <p>${data.readTime} min read</p>
           </span>
           <div class="like">
             ${userSession 
@@ -105,20 +111,20 @@ const articleDetailsTemplate = (article, likes, isLiked, onLike, userSession) =>
           </div>
           <div class="ar__author">
             <img
-              src="${article.authorImg}"
+              src="${data.authorImg}"
               class="author__img"
               alt="Author Picutre"
               srcset=""
             />
             <div class="author__info">
-              <span>${article.author}</span>
+              <span>${data.author}</span>
               <hr />
               <span class="author__info__name">Author</span>
             </div>
           </div>
         </div>
         <div class="rm__text flow">
-          <p>${article.content}</p>
+          <p>${data.content}</p>
         </div>
       </div>
     </article>

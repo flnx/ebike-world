@@ -12,11 +12,12 @@ const state = {
 };
 
 const cache = {
+  mainImage: null,
   bikeDetails: null,
   cartItems: null,
 };
 
-export async function bikeDetailsPage(ctx) {
+export const bikeDetailsPage = async(ctx) => {
   state.mouseover = false;
   state.bought = false;
   state.isClicked = false;
@@ -30,16 +31,16 @@ export async function bikeDetailsPage(ctx) {
 
   const [bikeDetails, cartItems] = await Promise.all(promises);
 
+  cache.mainImage = bikeDetails.posterUrls.imgName1;
   cache.bikeDetails = bikeDetails;
   cache.cartItems = cartItems;
+  
 
-  ctx.render(
-    detailsPageTemplate(bikeDetails, onBasket, onBuy, onBag, cartItems, onRemove, onFinishOrder)
-  );
+  ctx.render(detailsPageTemplate(bikeDetails, cartItems));
 }
 
 
-async function onBasket(e) {
+ const onBasket = async(e) => {
   e.preventDefault();
 
   const ctx = state.ctx;
@@ -68,10 +69,10 @@ async function onBasket(e) {
 
   cache.cartItems.results.push(basketData);
 
-  ctx.render(detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder));
+  ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
 
   setTimeout(() => {
-    ctx.render(detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder));
+    ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
 
     state.bought = false;
     state.isClicked = false;
@@ -91,7 +92,7 @@ const onFinishOrder = (e) => {
   state.ctx.redirect(state);
 }
 
-async function onBuy(e) {
+const onBuy = async(e) => {
   e.preventDefault();
 
   const ctx = state.ctx;
@@ -116,7 +117,7 @@ async function onBuy(e) {
   ctx.redirect(state);
 }
 
-function onBag(e, boolean) {
+const onBag = (e, boolean) => {
   e.preventDefault();
 
   const ctx = state.ctx;
@@ -127,9 +128,7 @@ function onBag(e, boolean) {
 
   state.mouseover = boolean;
 
-  ctx.render(
-    detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder)
-  );
+  ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
 }
 
 const onRemove = async (e, id) => {
@@ -146,14 +145,23 @@ const onRemove = async (e, id) => {
     }
   }
 
-  state.ctx.render(
-    detailsPageTemplate(cache.bikeDetails, onBasket, onBuy, onBag, cache.cartItems, onRemove, onFinishOrder)
-    );
-
-    await removeCartItem(id);
+  state.ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+  await removeCartItem(id);
 }
 
-const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove, onFinishOrder) => {
+const onImage = (e) => {
+  e.preventDefault();
+
+  if (e.target.tagName != 'IMG') {
+    return;
+  }
+
+  cache.mainImage = e.target.src;
+  state.ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+
+}
+
+const detailsPageTemplate = (data, cartItems) => {
   return html`
   <div class="container">
   <div class="shopping-bag">
@@ -162,18 +170,18 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove, 
     <span>Your Basket</span>
   </div>
     ${state.bought ? addedItemTemplate() : nothing}
-    ${state.mouseover ? cartOverlay(onBag, cartItems, onRemove, onFinishOrder) : nothing}
+    ${state.mouseover ? cartOverlay(cartItems) : nothing}
     <section class="mb">
       <div class="flex">
         <div class="left__img">
           <div>
             <img src="${
-              data.posterUrls.imgName1.includes('.')
-                ? data.posterUrls.imgName1
-                : images[data.posterUrls.imgName1]
+              cache.mainImage.includes('.')
+                ? cache.mainImage
+                : images[cache.mainImage]
             }" class="main-img" alt="ebike image" srcset="" />
           </div>
-          <div class="left__img__wrapper">
+          <div class="left__img__wrapper" @click=${onImage}>
             <div class="left__img__images">
               <img src="${
                 data.posterUrls.imgName1.includes('.')
@@ -303,7 +311,7 @@ const detailsPageTemplate = (data, onBasket, onBuy, onBag, cartItems, onRemove, 
 `;
 };
 
-const cartOverlay = (onBag, items, onRemove, onFinishOrder) => {
+const cartOverlay = (items) => {
   state.price = 0;
 
   return html`
@@ -313,7 +321,7 @@ const cartOverlay = (onBag, items, onRemove, onFinishOrder) => {
         <i class="fa-solid fa-xmark close" @click=${(e) => onBag(e, false)}></i>
         <div class="cart-wrapper">
           <!-- Item Example -->
-          ${items.results.map((x) => cartItemTemplate(x, (e) => onRemove(e, x.objectId)))}
+          ${items.results.map(cartItemTemplate)}
         </div>
         <div class="cart-overlay__footer">
           <a href="" @click=${onFinishOrder} class="btn-finish">Finish Order</a>
@@ -324,7 +332,7 @@ const cartOverlay = (onBag, items, onRemove, onFinishOrder) => {
   `;
 };
 
-const cartItemTemplate = (item, onRemove) => {
+const cartItemTemplate = (item) => {
   state.price += item.price;
 
   return html`
@@ -340,7 +348,7 @@ const cartItemTemplate = (item, onRemove) => {
       </div>
       <h4 class="cart-wrapper__title">${item.title}</h4>
       <span class="cart-wrapper__price">Price: $${item.price}</span>
-      <i class="fa-solid fa-xmark" href=${item.objectId} @click=${onRemove}></i>
+      <i class="fa-solid fa-xmark" href=${item.objectId} @click=${(e) => onRemove(e, item.objectId)}></i>
     </section>
   `;
 };
