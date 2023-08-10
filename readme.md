@@ -1,35 +1,20 @@
-# ebike-world project
+## [E Bike World](https://ebike-world.web.app)
 
-## https://ebike-world.web.app/
+## About
 
-Includes the following features...
+### Main Technologies:
 
-- Sass Loader With Dart Sass
-- HTMLWebpackPlugin
-- WebpackDevServer
-- MiniCssExtractPlugin
-- Asset Resource Loader
-- Source Maps
-- Caching
-- LitHtml
+#### FrontEnd
+
+- VanillaJS
+- LitHTML
 - PageJS
+- SCSS
 
-## Usage
+#### BackEnd
 
-Run Dev Server (Port 3000)
+- [Back4App (BaaS)](https://www.back4app.com/)
 
-```
-  npm run dev
-```
 
-## Build for production
+Project Screenshots & Implementation (May take a few seconds to load the GIFS)
 
-```
-npm run build
-```
-
-## Demo App
-
-- index.js (main javascript)
-- template.html (template)
-- styles/main.scss (styles)

@@ -22,13 +22,10 @@
 .rm__wrapper {
   margin: 0 auto;
   margin-bottom: 2rem;
-  // max-width: 800px;
 
   img {
-    height: 550px;
     width: 100%;
-    object-fit: cover;
-    object-position: 30% 30%;
+    object-fit: contain;
   }
 
   .ar__footer {
