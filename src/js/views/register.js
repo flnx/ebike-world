@@ -32,7 +32,7 @@ const registerPageTemplate = (onRegisterFn) => html`
       <input type="text" name="username" placeholder="username" required />
       <input type="password" name="password" placeholder="password" required />
       <input type="password" name="repass" placeholder="repeat password" required />
-      <button class="btn login-btn">Login</button>
+      <button class="btn login-btn">Sign Up</button>
     </form>
   </div>
 `;
