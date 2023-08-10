@@ -1,5 +1,4 @@
 import { html, nothing } from './lib.js';
-import { BIKE_IMAGES as images } from '../utils/images.js';
 import { getCartItems, removeCartItem } from '../api/data.js';
 
 const state = {
@@ -88,7 +87,7 @@ const cartItemTemplate = (item, onRemove) => {
     <section class="cart-page-wrapper__item">
       <div class="cart-page-wrapper__item__image">
         <img
-          src="${item.imgUrl.includes('.') ? item.imgUrl : images[item.imgUrl]}"
+          src=${item.imgUrl}
           alt="product image"
           srcset=""
         />

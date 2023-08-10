@@ -1,226 +1,198 @@
 import { html, nothing } from './lib.js';
-import { BIKE_IMAGES as images } from '../utils/images.js';
 import { buyItem, getBike, getCartItems, removeCartItem } from '../api/data.js';
 
 const state = {
-  ctx: null,
-  mouseover: false,
-  bought: false,
-  price: 0,
-  isRendering: false,
-  isClicked: false,
+    ctx: null,
+    mouseover: false,
+    bought: false,
+    price: 0,
+    isRendering: false,
+    isClicked: false,
 };
 
 const cache = {
-  mainImage: null,
-  bikeDetails: null,
-  cartItems: null,
+    mainImage: null,
+    bikeDetails: null,
+    cartItems: null,
 };
 
-export const bikeDetailsPage = async(ctx) => {
-  state.mouseover = false;
-  state.bought = false;
-  state.isClicked = false;
-  state.ctx = ctx;
-
-  const promises = [getBike(ctx.params.id)];
-
-  if (ctx.user) {
-    promises.push(getCartItems());
-  }
-
-  const [bikeDetails, cartItems] = await Promise.all(promises);
-
-  cache.mainImage = bikeDetails.posterUrls.imgName1;
-  cache.bikeDetails = bikeDetails;
-  cache.cartItems = cartItems;
-  
-
-  ctx.render(detailsPageTemplate(bikeDetails, cartItems));
-}
-
-
- const onBasket = async(e) => {
-  e.preventDefault();
-
-  const ctx = state.ctx;
-
-  if (!ctx.user) {
-    return ctx.page.redirect('/login');
-  }
-
-  
-  if (state.isClicked) {
-    return;
-  }
-  
-  state.bought = true;
-  state.isRendering = true;
-  state.isClicked = true;
-
-  const basketData = {
-    title: cache.bikeDetails.brand + ' ' + cache.bikeDetails.model,
-    price: cache.bikeDetails.price,
-    imgUrl: cache.bikeDetails.posterUrls.imgName1,
-  };
-
-  ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
-
-  const boughtItemData = await buyItem(basketData);
-
-  basketData.objectId = boughtItemData.objectId;
-  cache.cartItems.results.push(basketData);
-
-  state.isClicked = false;
-
-  setTimeout(() => {
+export const bikeDetailsPage = async (ctx) => {
+    state.mouseover = false;
     state.bought = false;
+    state.isClicked = false;
+    state.ctx = ctx;
+
+    const promises = [getBike(ctx.params.id)];
+
+    if (ctx.user) {
+        promises.push(getCartItems());
+    }
+
+    const [bikeDetails, cartItems] = await Promise.all(promises);
+
+    cache.mainImage = bikeDetails.posterUrls.imgName1;
+    cache.bikeDetails = bikeDetails;
+    cache.cartItems = cartItems;
+
+    ctx.render(detailsPageTemplate(bikeDetails, cartItems));
+};
+
+const onBasket = async (e) => {
+    e.preventDefault();
+
+    const ctx = state.ctx;
+
+    if (!ctx.user) {
+        return ctx.page.redirect('/login');
+    }
+
+    if (state.isClicked) {
+        return;
+    }
+
+    state.bought = true;
+    state.isRendering = true;
+    state.isClicked = true;
+
+    const basketData = {
+        title: cache.bikeDetails.brand + ' ' + cache.bikeDetails.model,
+        price: cache.bikeDetails.price,
+        imgUrl: cache.bikeDetails.posterUrls.imgName1,
+    };
 
     ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
 
-    state.isRendering = false;
-  }, 1000);
-}
+    const boughtItemData = await buyItem(basketData);
+
+    basketData.objectId = boughtItemData.objectId;
+    cache.cartItems.results.push(basketData);
+
+    state.isClicked = false;
+
+    setTimeout(() => {
+        state.bought = false;
+
+        ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+
+        state.isRendering = false;
+    }, 1000);
+};
 
 const onFinishOrder = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (state.isClicked) {
-    return;
-  }
+    if (state.isClicked) {
+        return;
+    }
 
-  state.isClicked = true;
+    state.isClicked = true;
 
-  state.ctx.redirect(state);
-}
+    state.ctx.redirect(state);
+};
 
-const onBuy = async(e) => {
-  e.preventDefault();
+const onBuy = async (e) => {
+    e.preventDefault();
 
-  const ctx = state.ctx;
+    const ctx = state.ctx;
 
-  if (!ctx.user) {
-    return ctx.page.redirect('/login');
-  }
+    if (!ctx.user) {
+        return ctx.page.redirect('/login');
+    }
 
-  if (state.isClicked) {
-    return;
-  }
+    if (state.isClicked) {
+        return;
+    }
 
-  state.isClicked = true;
+    state.isClicked = true;
 
-  const basketData = {
-    title: cache.bikeDetails.brand + ' ' + cache.bikeDetails.model,
-    price: cache.bikeDetails.price,
-    imgUrl: cache.bikeDetails.posterUrls.imgName1,
-  };
+    const basketData = {
+        title: cache.bikeDetails.brand + ' ' + cache.bikeDetails.model,
+        price: cache.bikeDetails.price,
+        imgUrl: cache.bikeDetails.posterUrls.imgName1,
+    };
 
-  await buyItem(basketData);
-  ctx.redirect(state);
-}
+    await buyItem(basketData);
+    ctx.redirect(state);
+};
 
 const onBag = (e, boolean) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const ctx = state.ctx;
+    const ctx = state.ctx;
 
-  if (!ctx.user) {
-    return;
-  }
+    if (!ctx.user) {
+        return;
+    }
 
-  state.mouseover = boolean;
+    state.mouseover = boolean;
 
-  ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
-}
+    ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+};
 
 const onRemove = async (e, id) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const cart = cache.cartItems.results;
+    const cart = cache.cartItems.results;
 
-  for (let i = 0; i < cart.length; i++) {
-    const product = cart[i];
+    for (let i = 0; i < cart.length; i++) {
+        const product = cart[i];
 
-    if (product.objectId == id) {
-      cache.cartItems.results.splice(i, 1);
-      break;
+        if (product.objectId == id) {
+            cache.cartItems.results.splice(i, 1);
+            break;
+        }
     }
-  }
 
-  state.ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
-  await removeCartItem(id);
-}
+    state.ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+    await removeCartItem(id);
+};
 
 const onImage = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (e.target.tagName != 'IMG') {
-    return;
-  }
+    if (e.target.tagName != 'IMG') {
+        return;
+    }
 
-  cache.mainImage = e.target.src;
-  state.ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
-
-}
+    cache.mainImage = e.target.src;
+    state.ctx.render(detailsPageTemplate(cache.bikeDetails, cache.cartItems));
+};
 
 const detailsPageTemplate = (data, cartItems) => {
-  return html`
+    const imgUrls = Object.values(data.posterUrls);
+
+    return html`
   <div class="container">
-  <div class="shopping-bag">
-    <i class="fa-solid fa-bag-shopping" @mouseover=${(e) => onBag(e, true)} @click=${(e) => onBag(e, true)}>
-    </i>
-    <span>Your Basket</span>
-  </div>
+
+    <!-- Shopping BAG -->
+     <div class="shopping-bag">
+        <i class="fa-solid fa-bag-shopping" @mouseover=${(e) =>
+            onBag(e, true)} @click=${(e) => onBag(e, true)}></i>
+          <span>Your Basket</span>
+     </div>
     ${state.bought ? addedItemTemplate() : nothing}
     ${state.mouseover ? cartOverlay(cartItems) : nothing}
+
     <section class="mb">
+    <!-- Gallery -->
       <div class="flex">
-        <div class="left__img">
-          <div>
-            <img src="${
-              cache.mainImage.includes('.')
-                ? cache.mainImage
-                : images[cache.mainImage]
-            }" class="main-img" alt="ebike image" srcset="" />
+        <!-- Main Image -->
+        <div class="left__content">
+          <div class="main-img-wrapper">
+            <img src=${cache.mainImage}  class="main-img" alt="ebike image" />
           </div>
-          <div class="left__img__wrapper" @click=${onImage}>
-            <div class="left__img__images">
-              <img src="${
-                data.posterUrls.imgName1.includes('.')
-                  ? data.posterUrls.imgName2
-                  : images[data.posterUrls.imgName2]
-              }" class="main-img" alt="ebike image" srcset="" />
-            </div>
-            <div class="left__img__images">
-              <img src="${
-                data.posterUrls.imgName1.includes('.')
-                  ? data.posterUrls.imgName3
-                  : images[data.posterUrls.imgName3]
-              }" class="main-img" alt="ebike image" srcset="" />
-            </div>
-            <div class="left__img__images">
-              <img src="${
-                data.posterUrls.imgName1.includes('.')
-                  ? data.posterUrls.imgName4
-                  : images[data.posterUrls.imgName4]
-              }" class="main-img" alt="ebike image" srcset="" />
-            </div>
-            <div class="left__img__images">
-              <img src="${
-                data.posterUrls.imgName1.includes('.')
-                  ? data.posterUrls.imgName5
-                  : images[data.posterUrls.imgName5]
-              }" class="main-img" alt="ebike image" srcset="" />
-            </div>
-            <div class="left__img__images">
-              <img src="${
-                data.posterUrls.imgName1.includes('.')
-                  ? data.posterUrls.imgName6
-                  : images[data.posterUrls.imgName6]
-              }" class="main-img" alt="ebike image" srcset="" />
-            </div>
+          
+          <!-- Secondary Images -->
+          <div class="left__content__wrapper" @click=${onImage}>
+            ${imgUrls.map(
+                (imageUrl) => html`<div class="left__content__images">
+                    <img src=${imageUrl} alt="ebike image" />
+                </div>`
+            )}
           </div>
         </div>
+
+    <!-- Right Side -->
         <div class="right__content">
           <span class="right__content__intro redC">${data.brand}</span>
           <h1>${data.model}</h1>
@@ -240,6 +212,9 @@ const detailsPageTemplate = (data, cartItems) => {
         </div>
       </div>
     </section>
+
+    <!-- Specifications -->
+
     <section>
       <div>
         <h2>Bike Specifications</h2>
@@ -314,49 +289,58 @@ const detailsPageTemplate = (data, cartItems) => {
 };
 
 const cartOverlay = (items) => {
-  state.price = 0;
+    state.price = 0;
 
-  return html`
-    <div class="cart-absolute">
-      <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false)}>
-        <h3>Cart Items:</h3>
-        <i class="fa-solid fa-xmark close" @click=${(e) => onBag(e, false)}></i>
-        <div class="cart-wrapper">
-          <!-- Item Example -->
-          ${items.results.map(cartItemTemplate)}
+    return html`
+        <div class="cart-absolute">
+            <section class="cart-overlay" @mouseleave=${(e) => onBag(e, false)}>
+                <h3>Cart Items:</h3>
+                <i
+                    class="fa-solid fa-xmark close"
+                    @click=${(e) => onBag(e, false)}
+                ></i>
+                <div class="cart-wrapper">
+                    <!-- Item Example -->
+                    ${items.results.map(cartItemTemplate)}
+                </div>
+                <div class="cart-overlay__footer">
+                    <a href="" @click=${onFinishOrder} class="btn-finish"
+                        >Finish Order</a
+                    >
+                    <span>Total Price: $${state.price}</span>
+                </div>
+            </section>
         </div>
-        <div class="cart-overlay__footer">
-          <a href="" @click=${onFinishOrder} class="btn-finish">Finish Order</a>
-          <span>Total Price: $${state.price}</span>
-        </div>
-      </section>
-    </div>
-  `;
+    `;
 };
 
 const cartItemTemplate = (item) => {
-  state.price += item.price;
+    state.price += item.price;
 
-  return html`
-    <section class="cart-wrapper__item">
-      <div class="cart-wrapper__image">
-        <img
-          src="${item.imgUrl.includes('.') ? item.imgUrl : images[item.imgUrl]}"
-          alt="product image"
-          srcset=""
-          width="200px"
-          height="100px"
-        />
-      </div>
-      <h4 class="cart-wrapper__title">${item.title}</h4>
-      <span class="cart-wrapper__price">Price: $${item.price}</span>
-      <i class="fa-solid fa-xmark" href=${item.objectId} @click=${(e) => onRemove(e, item.objectId)}></i>
-    </section>
-  `;
+    return html`
+        <section class="cart-wrapper__item">
+            <div class="cart-wrapper__image">
+                <img
+                    src=${item.imgUrl}
+                    alt="product image"
+                    srcset=""
+                    width="200px"
+                    height="100px"
+                />
+            </div>
+            <h4 class="cart-wrapper__title">${item.title}</h4>
+            <span class="cart-wrapper__price">Price: $${item.price}</span>
+            <i
+                class="fa-solid fa-xmark"
+                href=${item.objectId}
+                @click=${(e) => onRemove(e, item.objectId)}
+            ></i>
+        </section>
+    `;
 };
 
 const addedItemTemplate = () => html`
-  <div class="popup-message">
-    <span>The product has been added to your cart!</span>
-  </div>
+    <div class="popup-message">
+        <span>The product has been added to your cart!</span>
+    </div>
 `;

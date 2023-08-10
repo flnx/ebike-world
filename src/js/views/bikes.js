@@ -1,7 +1,6 @@
 import { getBikesByPage, countAllBikes } from '../api/data.js';
 import { html, repeat } from './lib.js';
 import { paginator } from '../utils/paginator.js';
-import { BIKE_IMAGES as images } from '../utils/images.js';
 
 const bikes = {
   PAGE_SIZE: 9,
@@ -42,9 +41,7 @@ const bikeCardTemplate = (bike) => html`
     <div class="bikes">
       <div class="bikes__header">
         <img
-          src="${bike.posterUrls.imgName1.includes('.')
-            ? bike.posterUrls.imgName1
-            : images[bike.posterUrls.imgName1]}"
+          src=${bike.posterUrls.imgName1}
           alt="ebike image"
           srcset=""
         />
