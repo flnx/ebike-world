@@ -3,6 +3,7 @@
 .cart-page-wrapper {
   max-width: 60rem;
   margin: 0 auto;
+  padding: 2rem 0;
 
   &__item {
     padding: 1rem;
@@ -75,7 +76,6 @@
       }
   
       @include brp.breakpoint-up(large) {
-        padding: 0rem;
         display: flex;
         align-items: center;
         justify-content: space-around;

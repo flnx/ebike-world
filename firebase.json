@@ -4,6 +4,7 @@
     "ignore": [
       "firebase.json",
       "screenshots",
+      "readme.md",
       "**/.*",
       "**/node_modules/**"
     ],
