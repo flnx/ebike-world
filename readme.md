@@ -73,7 +73,7 @@
 
 |             About page - Desktop              |              About page - Mobile              |
 | :-------------------------------------------: | :-------------------------------------------: |
-| ![](./screenshots/about%20page%20desktop.gif) | ![](./screenshots/about%20page%20desktop.gif) |
+| ![](./screenshots/about%20page%20desktop.gif) | ![](./screenshots/about%20mobile.gif) |
 
 ---
 
