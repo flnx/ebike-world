@@ -18,6 +18,8 @@ import { userSession } from './middlewares/session.js';
 import { getUserData } from './utils/userData.js';
 import { hasUser, isNotGuest } from './middlewares/guards.js';
 import { showPageLoading } from './middlewares/loadingTemplate.js';
+import { helmetsPage } from './views/helmets.js';
+import { notFoundPage } from './views/notFound.js';
 
 import '../styles/main.scss';
 import { antiClickSpam } from './middlewares/antiClickSpam.js';
@@ -34,6 +36,7 @@ page('/index.html', '/');
 page('/blog', blogPage);
 page('/bikes', bikesPage);
 page('/accessories', accessoriesPage);
+page('/accessories/helmets', helmetsPage);
 page('/about', aboutPage);
 page('/article', articleDetailsPage);
 page('/article/:id', articleDetailsPage);
@@ -43,5 +46,7 @@ page('/add-post', hasUser(), addPost);
 page('/login', isNotGuest(), loginPage);
 page('/register', isNotGuest(), registerPage);
 page('/cart', hasUser(), cartPage);
-page('/logout', logoutAction);
+page('/logout', notFoundPage);
+page('*', notFoundPage);
+
 page.start();
