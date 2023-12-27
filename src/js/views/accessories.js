@@ -8,7 +8,7 @@ const accessoriesPageTemplate = () => html`
 <div class="container">
     <section>
       <ul class="accessories bikesWrapper">
-        <li class="acc acc__1"><a href="#">Helmets</a></li>
+        <li class="acc acc__1"><a href="/accessories/helmets">Helmets</a></li>
         <li class="acc acc__2"><a href="#">Jackets</a></li>
         <li class="acc acc__3"><a href="#">Cameras & Mounts</a></li>
         <li class="acc acc__4"><a href="#">Lightning</a></li>
