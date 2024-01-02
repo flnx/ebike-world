@@ -1,91 +1,88 @@
 @use '../utilities/breakpoints.scss' as brp;
 
 body {
-  background: var(--main-c);
-  line-height: 1.5;
+    background: var(--main-c);
+    line-height: 1.5;
 }
 
 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 a {
-  color: #fff;
+    color: #fff;
 }
 
 a,
 a:visited,
 a:active {
-  text-decoration: none;
+    text-decoration: none;
 }
 
-// h1 {
-//   color: var(--heading-c);
-//   font-size: clamp(1.3rem, 1.4rem + 1.7vw, 3rem);
-// }
 h1 {
-  color: var(--heading-c);
-  font-size: clamp(1.5rem, 1.5rem + 2vw, 3.5rem);
+    font-size: clamp(1.5rem, 1.5rem + 2vw, 3.5rem);
 }
 
 h2 {
-  color: var(--heading-c);
-  font-size: clamp(1.5rem, 1.4rem + 2vw, 1.45rem);
-  font-weight: 700;
+    font-size: clamp(1.5rem, 1.4rem + 2vw, 1.45rem);
+    font-weight: 700;
 }
 
 h3 {
-  color: var(--heading-c);
-  font-size: clamp(1rem, 1rem + 1.8vw, 1.2rem);
-  font-weight: 600;
+    font-size: clamp(1rem, 1rem + 1.8vw, 1.2rem);
+    font-weight: 600;
 }
 
+h4 {
+    font-size: clamp(1rem, 1rem + 0.1vw, 1.1rem);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--heading-c);
+}
 
 p {
-  color: var(--letter-c);
-  font-size: clamp(.95rem, .95rem + 0.6vw, 1.125rem);
-  // font-size: clamp(1rem, 1rem + 0.5vw, 1.085rem);
-
-  @include brp.breakpoint-down(small) {
-    // font-size: 1.2rem;
-  }
+    color: var(--letter-c);
+    font-size: clamp(0.95rem, 0.95rem + 0.6vw, 1.125rem);
 }
 
 time {
-  color: var(--letter-c);
-  // font-size: clamp(1rem, 1rem + 0.5vw, 1.085rem);
+    color: var(--letter-c);
 }
 
 header {
-  a {
-    color: var(--heading-c);
-    font-weight: bold;
-  }
+    a {
+        color: var(--heading-c);
+        font-weight: bold;
+    }
 }
 
 header,
 nav {
-  background: var(--navbar);
+    background: var(--navbar);
 }
 
 .text-center {
-  text-align: center;
+    text-align: center;
 }
 
 .bold {
-  font-weight: 900;
+    font-weight: 900;
 }
 
 .italic {
-  font-style: italic;
+    font-style: italic;
 }
 
 .redC {
-  color: var(--border);
+    color: var(--border);
 }
 
 .yellowC {
-  color: var(--yellowColor);
+    color: var(--yellowColor);
 }

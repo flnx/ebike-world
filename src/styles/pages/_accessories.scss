@@ -1,75 +1,141 @@
 .accessories {
-  .acc {
-    overflow: hidden;
-    color: #fff;
-    font-size: 1.6rem;
-    letter-spacing: 1.5px;
-    height: 18rem;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out 200ms;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    .acc {
+        overflow: hidden;
+        color: #fff;
+        font-size: 1.6rem;
+        letter-spacing: 1.5px;
+        height: 18rem;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out 200ms;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+            0 6px 6px rgba(0, 0, 0, 0.23);
 
-    &:hover {
-      transform: scale(1.1);
+        &:hover {
+            transform: scale(1.1);
+        }
     }
-  }
 
-  .acc__1 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/helmet.jpg') no-repeat 50% 20% / cover;
-  }
+    .acc__1 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/helmet.jpg') no-repeat 50% 20% /
+                cover;
+    }
 
-  .acc__2 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/jacket.jpg') no-repeat 50% 95% / cover;
-  }
+    .acc__2 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/jacket.jpg') no-repeat 50% 95% /
+                cover;
+    }
 
-  .acc__3 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/mount.jpg') no-repeat 40% 50% / cover;
-  }
+    .acc__3 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/mount.jpg') no-repeat 40% 50% /
+                cover;
+    }
 
-  .acc__4 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/light.jpg') no-repeat 50% 50% / cover;
-  }
+    .acc__4 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/light.jpg') no-repeat 50% 50% /
+                cover;
+    }
 
-  .acc__5 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/bag.jpg') no-repeat 50% 50% / cover;
-  }
+    .acc__5 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/bag.jpg') no-repeat 50% 50% /
+                cover;
+    }
 
-  .acc__6 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/transport.jpg') no-repeat 50% 75% / cover;
-  }
+    .acc__6 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/transport.jpg') no-repeat 50%
+                75% / cover;
+    }
 
-  .acc__7 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/lock.jpg') no-repeat 50% 75% / cover;
-  }
+    .acc__7 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/lock.jpg') no-repeat 50% 75% /
+                cover;
+    }
 
-  .acc__8 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/gadget.jpg') no-repeat 50% 30% / cover;
-  }
+    .acc__8 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/gadget.jpg') no-repeat 50% 30% /
+                cover;
+    }
 
-  .acc__9 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/bottle.webp') no-repeat 50% 75% / cover;
-  }
+    .acc__9 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/bottle.webp') no-repeat 50% 75% /
+                cover;
+    }
 
-  .acc__10 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/gear.jpg') no-repeat 50% 75% / cover;
-  }
+    .acc__10 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/gear.jpg') no-repeat 50% 75% /
+                cover;
+    }
 
-  .acc__11 {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) border-box,
-      url('/src/assets/images/accessories/holder.jpg') no-repeat 50% 75% / cover;
-  }
+    .acc__11 {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))
+                border-box,
+            url('/src/assets/images/accessories/holder.jpg') no-repeat 50% 75% /
+                cover;
+    }
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    // max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.product-image {
+    padding: 0.35rem;
+    margin: 0 auto;
+}
+
+.product-info {
+    border-top: 1px solid #ddd;
+    padding: 0.985rem;
+}
+
+.product-name {
+    height: 4.9575rem;
+    margin-bottom: 0.25rem;
+}
+
+.product-price {
+    color: #333;
+    font-size: 1.05rem;
+    color: var(--)
 }
