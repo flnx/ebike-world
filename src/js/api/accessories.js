@@ -4,8 +4,8 @@ const endpoints = {
     url: (path) => `classes/${path}`,
 };
 
-export const getHelmets = async () => {
-    const result = await api.get(endpoints.url('Helmet'));
+export const getAccessories = async (path) => {
+    const result = await api.get(endpoints.url(path));
 
     return result;
 };

@@ -11,7 +11,10 @@ const accessoriesPageTemplate = () => html`
                 <a href="/accessories/helmets">
                     <li class="acc acc__1">Helmets</li>
                 </a>
-                <li class="acc acc__2"><a href="#">Jackets</a></li>
+
+                <a href="/accessories/jackets">
+                    <li class="acc acc__2">Jackets</li>
+                </a>
                 <li class="acc acc__3"><a href="#">Cameras & Mounts</a></li>
                 <li class="acc acc__4"><a href="#">Lightning</a></li>
                 <li class="acc acc__5"><a href="#">Backpacks & Bags</a></li>

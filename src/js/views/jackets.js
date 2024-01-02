@@ -1,22 +1,22 @@
-import { getAccessories } from '../api/accessories.js';
-import { html } from './lib.js';
+import { html } from 'lit-html';
+import { getAccessories } from '../api/accessories';
 
-export const helmetsPage = async (ctx) => {
-    const { results } = await getAccessories('Helmet');
+export const jacketsPage = async (ctx) => {
+    const { results } = await getAccessories('Jacket');
 
-    ctx.render(helmetsPageTemplate(results));
+    ctx.render(jacketsPageTemplate(results));
 };
 
-const helmetsPageTemplate = (data) => {
+const jacketsPageTemplate = (data) => {
     return html`
         <section>
             <div class="container">
-                <h1 class="mb1">Helmets</h1>
+                <h1 class="mb1">Jackets</h1>
                 <div class="product-container">
                     ${data.map(
                         (helmet) => html` <div class="product-card">
                             <img
-                                src=${helmet.imageUrl.url}
+                                src=${helmet.imgUrl.url}
                                 alt=${helmet.name}
                                 class="product-image"
                             />

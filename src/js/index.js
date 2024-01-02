@@ -24,6 +24,7 @@ import { notFoundPage } from './views/notFound.js';
 import '../styles/main.scss';
 import { antiClickSpam } from './middlewares/antiClickSpam.js';
 import { cartPage } from './views/cart.js';
+import { jacketsPage } from './views/jackets.js';
 
 page(userSession(getUserData));
 page(antiClickSpam);
@@ -37,6 +38,7 @@ page('/blog', blogPage);
 page('/bikes', bikesPage);
 page('/accessories', accessoriesPage);
 page('/accessories/helmets', helmetsPage);
+page('/accessories/jackets', jacketsPage);
 page('/about', aboutPage);
 page('/article', articleDetailsPage);
 page('/article/:id', articleDetailsPage);
