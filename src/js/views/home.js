@@ -26,11 +26,11 @@ const homePageTemplate = (bikesData, articlesData) => html`
         <section class="mb">
             <ul class="navcat">
                 <li class="navcat__1"><a href="/bikes">e-Bikes</a></li>
-                <li class="navcat__2"><a href="/bikes">Clothing</a></li>
-                <li class="navcat__3"><a href="/bikes">Accessories</a></li>
-                <li class="navcat__4"><a href="/bikes">Tips & Tricks</a></li>
-                <li class="navcat__5"><a href="/bikes">Why e-Cycling</a></li>
-                <li class="navcat__6"><a href="/bikes">Our Blog</a></li>
+                <li class="navcat__2"><a href="/jackets/jackets">Clothing</a></li>
+                <li class="navcat__3"><a href="/accessories">Accessories</a></li>
+                <li class="navcat__4"><a href="/article/iuTaaCFEXG">Tips & Tricks</a></li>
+                <li class="navcat__5"><a href="/article/mVfTXQh08I">Why e-Cycling</a></li>
+                <li class="navcat__6"><a href="/blog">Our Blog</a></li>
             </ul>
         </section>
 
