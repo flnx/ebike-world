@@ -2,6 +2,8 @@
 
 ## About
 
+E-Bike Shop / Blog. You can add bikes, create blogs, rate them and more.
+
 ### Main Technologies:
 
 #### FrontEnd
